@@ -1,7 +1,7 @@
-import './App.css';
+import styles from './scss/app.module.scss';
 
 function App() {
-  return <div className="App">app</div>;
+  return <div className={styles.app}>app</div>;
 }
 
 export default App;
