@@ -1,0 +1,10 @@
+@import '../../scss/main';
+
+.header {
+    @include flex-center-center;
+    width: 100%;
+
+    nav {
+        flex-grow: 1;
+    }
+}
