@@ -3,8 +3,14 @@
 .header {
     @include flex-center-center;
     width: 100%;
+    height: 80px;
 
-    nav {
+    .logo {
+        width: 100px;
+        @include flex-center-center;
+    }
+    
+    .content {
         flex-grow: 1;
     }
 }
