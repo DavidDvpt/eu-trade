@@ -1,21 +1,18 @@
-import cors from 'cors';
-import express from 'express';
-import helmet from 'helmet';
-import morgan from 'morgan';
+import express, { Express, Request, Response } from "express";
+import helmet from "helmet";
+import morgan from "morgan";
 
-require('dotenv').config()
+import routes from "./routes";
 
-const app = express();
+const app: Express = express();
 
-app.use(morgan('dev'));
-app.use(helmet())
+app.use(morgan("dev"));
+app.use(helmet());
 
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-  })
-);
+app.use("/api", routes);
 
-app.use(express.json());
+app.get("/", (req: Request, res: Response) => {
+  res.send("Express + TypeScript Server");
+});
 
 export default app;

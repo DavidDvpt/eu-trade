@@ -1,9 +1,10 @@
-import app from './app';
+import dotenv from "dotenv";
+import app from "./app";
 
-const port = process.env.PORT || 5000;
+dotenv.config();
+
+const port = process.env.PORT;
 
 app.listen(port, () => {
-  /* eslint-disable no-console */
-  console.log(`Listening: http://localhost:${port}`);
-  /* eslint-enable no-console */
+  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });
