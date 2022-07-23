@@ -1,0 +1,11 @@
+@import '../scss/main';
+
+.layout {
+    @include flex-center-center;
+    flex-direction: column;
+    height: 100%;
+
+    .main {
+        flex-grow: 1;
+    }
+}
