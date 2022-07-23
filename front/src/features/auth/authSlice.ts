@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface ICounterState {
+interface IAuthState {
   isLogged: boolean;
-  token: string;
+  token: string | null;
 }
 
-const initialState: ICounterState = { isLogged: false, token: null };
+const initialState: IAuthState = { isLogged: false, token: null };
 
 const authSlice = createSlice({
   name: 'auth',
@@ -14,7 +14,17 @@ const authSlice = createSlice({
     setToken(state, action: PayloadAction<string>) {
       state.token = action.payload;
     },
+    resetToken(state, action: PayloadAction<null>) {
+      state.token = action.payload;
+    },
+    setIsLogged(state, action: PayloadAction<boolean>) {
+      state.isLogged = action.payload;
+    },
+    setIsLoggedAuto(state) {
+      state.isLogged = !state.isLogged;
+    },
   },
 });
 
-export const { setToken } = authSlice.actions;
+export const { setToken, resetToken, setIsLoggedAuto } = authSlice.actions;
+export default authSlice.reducer;

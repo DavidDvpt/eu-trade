@@ -1,8 +1,9 @@
 @import '../../scss/main';
 
 .authHeader {
-    background-color: grey;
-    @include flex-center-center;
-    width: 200px;
-    height: 100%;
+  background-color: grey;
+  @include flex-center-center;
+  width: 200px;
+  height: 100%;
+  cursor: pointer;
 }
