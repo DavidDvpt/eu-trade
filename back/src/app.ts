@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 
@@ -9,10 +9,6 @@ const app: Express = express();
 app.use(morgan("dev"));
 app.use(helmet());
 
-app.use("/api", routes);
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
+app.use("/api/v1", routes);
 
 export default app;
