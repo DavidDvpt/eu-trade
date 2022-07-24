@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import routes from './routes';
 
 const app: Express = express();
-
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(express.json());

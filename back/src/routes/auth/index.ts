@@ -1,9 +1,7 @@
 import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
 import express from 'express';
 import { genToken } from '../../lib/authTools';
 const router = express.Router();
-dotenv.config();
 
 interface LoginRequest {
     email: string;

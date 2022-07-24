@@ -5,10 +5,15 @@
     "main": "src/server.ts",
     "scripts": {
         "build": "npx tsc",
-        "start": "node dist/server.js",
-        "dev": "env-cmd -f config/.env.dev concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
+        "start": "node dist/src/server.js",
+        "dev": "env-cmd -f ./config/.env.dev concurrently \"npx tsc --watch\" \"nodemon -q dist/src/server.js\"",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "prepare": "husky install"
+        "prisma:generate": "npx prisma generate",
+        "prisma:reset": "npx prisma migrate reset --force",
+        "prisma:migrate": "npx prisma migrate dev"
+    },
+    "prisma": {
+        "seed": "ts-node prisma/seed.ts"
     },
     "keywords": [],
     "author": "",
@@ -18,6 +23,7 @@
         "bcrypt": "^5.0.1",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
+        "env-cmd": "^10.1.0",
         "express": "^4.18.1",
         "express-jwt": "^7.7.5",
         "helmet": "^5.1.0",
@@ -42,6 +48,7 @@
         "nodemon": "^2.0.19",
         "prettier": "2.7.1",
         "prisma": "^4.1.0",
+        "ts-node": "^10.9.1",
         "typescript": "^4.7.4"
     },
     "husky": {
