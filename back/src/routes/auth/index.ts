@@ -3,7 +3,7 @@ import express from 'express';
 import { genToken } from '../../lib/authTools';
 const router = express.Router();
 
-interface LoginRequest {
+export interface LoginRequest {
     email: string;
     password: string;
 }
