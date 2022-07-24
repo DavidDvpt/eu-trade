@@ -1,4 +1,3 @@
-import assert from 'assert';
 import supertest from 'supertest';
 import app from '../src/app';
 import { LoginRequest } from '../src/routes/auth';
@@ -6,7 +5,7 @@ import { LoginRequest } from '../src/routes/auth';
 describe('auth', () => {
     describe('get login route', () => {
         // describe('login does  exist', () => {
-        it('shoud return a 200 and user', () => {
+        it('shoud return a 200 (user)', () => {
             const payload: LoginRequest = {
                 email: 'david.mosca69@gmail.com',
                 password: 'pwd',
@@ -16,13 +15,13 @@ describe('auth', () => {
                 .send(payload)
                 .expect(200)
                 .then((response) => {
-                    console.log(response.body.token);
-                    assert(typeof response.body.token, 'string');
+                    console.log(response.body.access_token);
+                    // assert(typeof response.body.token, 'string');
                 });
             // });
         });
 
-        it('user does not exist shoud return a 400', async () => {
+        it('shoud return a 400 (user does not exist)', async () => {
             const payload: LoginRequest = {
                 email: 'david.mosca69@gmail.co',
                 password: 'pwd',
@@ -32,7 +31,7 @@ describe('auth', () => {
             });
         });
 
-        it('bad paswword shoud return a 400', async () => {
+        it('shoud return a 400 (bad paswword)', async () => {
             const payload: LoginRequest = {
                 email: 'david.mosca69@gmail.com',
                 password: 'pwddd',
