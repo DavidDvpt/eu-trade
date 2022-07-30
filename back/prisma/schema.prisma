@@ -25,9 +25,20 @@ model user {
   isActif   Boolean  @default(true)
 }
 
-model family {
+model category {
   id        Int      @id
   name      String   @unique
   createdAt DateTime @default(now()) @db.Timestamp(6)
   isActif   Boolean  @default(true)
+
+  family   family @relation(fields: [familyId], references: [id])
+  familyId Int
+}
+
+model family {
+  id         Int        @id
+  name       String     @unique
+  createdAt  DateTime   @default(now()) @db.Timestamp(6)
+  isActif    Boolean    @default(true)
+  categories category[]
 }

@@ -1,3 +1,4 @@
+import { categoriesSeed, familiesSeed } from './datasForSeed';
 import prismaClient from './prismaClient';
 
 async function createAdminUser() {
@@ -13,18 +14,25 @@ async function createAdminUser() {
     console.log(user);
 }
 
-async function CreateFamilies() {
-    const families = [
-        { id: 1, name: 'resources' },
-        { id: 2, name: 'tool' },
-    ];
+function CreateFamiliesAndCategories() {
+    const familiesMap = familiesSeed.map((f) =>
+        prismaClient.family.create({
+            data: {
+                id: f.id,
+                name: f.name,
+                categories: {
+                    create: categoriesSeed
+                        .filter((c) => c.family === f.name)
+                        .map((m) => ({ id: m.id, name: m.name })),
+                },
+            },
+        })
+    );
 
-    const result = await prismaClient.family.createMany({
-        data: families,
-    });
+    const promise = Promise.all(familiesMap);
 
-    console.log(result);
+    return promise.then((response) => console.log(response)).catch((error) => console.log(error));
 }
 
 createAdminUser();
-CreateFamilies();
+CreateFamiliesAndCategories();
