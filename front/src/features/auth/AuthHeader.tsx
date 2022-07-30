@@ -5,6 +5,7 @@ import styles from './authHeader.module.scss';
 function AuthHeader() {
   const { isLogged } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+
   const handleClick = () => {
     dispatch(setIsLoggedAuto());
   };
