@@ -15,10 +15,8 @@ describe('auth', () => {
                 .send(payload)
                 .expect(200)
                 .then((response) => {
-                    console.log(response.body.access_token);
-                    // assert(typeof response.body.token, 'string');
+                    // console.log(response.body.access_token);
                 });
-            // });
         });
 
         it('shoud return a 400 (user does not exist)', async () => {

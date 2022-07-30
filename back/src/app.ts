@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import errorHandler from './middlewares/errorHandler';
 
 import routes from './routes';
 
@@ -10,5 +11,7 @@ app.use(helmet());
 app.use(express.json());
 
 app.use('/api/v1', routes);
+
+app.use(errorHandler);
 
 export default app;

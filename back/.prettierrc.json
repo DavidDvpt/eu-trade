@@ -1,6 +1,6 @@
 {
-  "singleQuote": true,
-  "semicolons": false,
-  "tabWidth": 4,
-  "printWidth": 100
+    "singleQuote": true,
+    "semicolons": true,
+    "tabWidth": 4,
+    "printWidth": 100
 }
