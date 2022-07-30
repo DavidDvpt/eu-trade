@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import app from '../src/app';
-import { LoginRequest } from '../src/routes/auth';
+import { LoginRequest } from '../src/routes/login';
 
 describe('auth', () => {
     describe('get login route', () => {
@@ -11,7 +11,7 @@ describe('auth', () => {
                 password: 'pwd',
             };
             supertest(app)
-                .post('/api/v1/auth/login')
+                .post('/api/v1/login')
                 .send(payload)
                 .expect(200)
                 .then((response) => {
@@ -24,7 +24,7 @@ describe('auth', () => {
                 email: 'david.mosca69@gmail.co',
                 password: 'pwd',
             };
-            await supertest(app).post('/api/v1/auth/login').send(payload).expect(400, {
+            await supertest(app).post('/api/v1/login').send(payload).expect(400, {
                 message: 'Error. user don t exist',
             });
         });
@@ -34,7 +34,7 @@ describe('auth', () => {
                 email: 'david.mosca69@gmail.com',
                 password: 'pwddd',
             };
-            await supertest(app).post('/api/v1/auth/login').send(payload).expect(400, {
+            await supertest(app).post('/api/v1/login').send(payload).expect(400, {
                 message: 'Error. bad password',
             });
         });

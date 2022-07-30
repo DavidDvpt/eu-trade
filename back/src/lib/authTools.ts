@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import { User } from '../routes/auth';
+import { User } from '../routes/login';
 dotenv.config();
 const SECRET = process.env.JWT_SECRET || '';
 const saltRounds = 10;

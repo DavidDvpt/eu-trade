@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import express from 'express';
-import { genToken } from '../../lib/authTools';
+import { genToken } from '../lib/authTools';
 const router = express.Router();
 
 export interface LoginRequest {
@@ -20,7 +20,7 @@ const users = [
     },
 ];
 
-router.post('/login', (req, res) => {
+router.post('/', (req, res) => {
     const body: LoginRequest = req.body;
     const user = users.find((f) => f.email === body.email);
 
@@ -38,10 +38,6 @@ router.post('/login', (req, res) => {
             return res.status(400).json({ message: 'Error. bad password' });
         }
     }
-});
-
-router.get('/', (req, res) => {
-    res.status(200).json('Hello Word auth!!!');
 });
 
 export default router;

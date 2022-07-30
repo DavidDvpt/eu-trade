@@ -1,13 +1,15 @@
 import express from 'express';
-import authRoutes from './auth';
 import categoriesRoutes from './categories';
 import familiesRoutes from './families';
+import LoginRoute from './login';
+import usersRoutes from './user';
 
 const router = express.Router();
 
-router.use('/auth', authRoutes);
+router.use('/login', LoginRoute);
 router.use('/families', familiesRoutes);
 router.use('/categories', categoriesRoutes);
+router.use('/users', usersRoutes);
 
 router.get('/', (req, res) => {
     console.log('db', process.env.DATABASE_URL);
