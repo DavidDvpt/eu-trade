@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import app from '../src/app';
 import { LoginRequest } from '../src/routes/login';
 
-describe('auth', () => {
+describe('login', () => {
     describe('get login route', () => {
         // describe('login does  exist', () => {
         it('shoud return a 200 (user)', () => {

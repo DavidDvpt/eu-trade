@@ -2,7 +2,7 @@ import express from 'express';
 import categoriesRoutes from './categories';
 import familiesRoutes from './families';
 import LoginRoute from './login';
-import usersRoutes from './user';
+import usersRoutes from './users';
 
 const router = express.Router();
 
