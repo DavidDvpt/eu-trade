@@ -11,12 +11,16 @@ interface UserAuthResult {
 
 export const appApi = createApi({
   reducerPath: 'appApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://localhost:8000/api/v1' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/api/v1' }),
   endpoints: (builder) => ({
     userAuth: builder.mutation<UserAuthResult, LoginRequest>({
       query: (params) => ({ url: '/login', method: 'POST', body: params }),
     }),
+    // eslint-disable-next-line no-undef
+    getCategories: builder.query<Category[], string>({
+      query: () => '/categories',
+    }),
   }),
 });
 
-export const { endpoints } = appApi;
+export const { useGetCategoriesQuery } = appApi;
