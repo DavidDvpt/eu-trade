@@ -1,0 +1,26 @@
+@import '../../scss/main';
+
+.loginForm {
+  padding: 0 20px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      margin: 10px 0;
+
+      label {
+        margin-bottom: 5px;
+      }
+    }
+    button {
+      @include button-base;
+      margin-top: 10px;
+      background-color: $form-submit-button-background-color;
+      color: $form-submit-button-color;
+    }
+  }
+}

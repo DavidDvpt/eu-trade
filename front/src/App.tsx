@@ -1,4 +1,4 @@
-import { useGetCategoriesQuery } from './app/appApi';
+import { useGetCategoriesQuery } from './features/appApi';
 import styles from './scss/app.module.scss';
 
 function App() {

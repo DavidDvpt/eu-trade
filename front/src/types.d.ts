@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 interface Category {
   id: number;
   name: string;
