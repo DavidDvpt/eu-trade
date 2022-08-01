@@ -1,0 +1,37 @@
+@import '../../scss/main';
+
+.managePage {
+    @include flex-center-center;
+    width: 100%;
+
+    .navigation {
+        width: 200px;
+
+        ul {
+            li {
+                line-height: 45px;
+                background-color: $form-fielset-background;
+                box-shadow: 0px 0px 2px $form-fielset-border-color;
+                margin: 5px;
+                border: 1px solid $form-fielset-border-color;
+                border-radius: 6px;
+                text-align: center;
+                cursor: pointer;
+
+                &:hover {
+                    font-weight: 700;
+                    box-shadow: 0px 0px 8px $form-fielset-border-color;
+                }
+
+                &:active {
+                    background-color: $form-fielset-background-active;
+                    box-shadow: 0px 0px 4px $color-black;
+                }
+            }
+        }
+    }
+
+    .manageContainer {
+        flex-grow: 1;
+    }
+}

@@ -1,5 +1,33 @@
 @import '../../scss/main';
 
 .nav {
-    
+    ul {
+        list-style: none;
+        @include flex-center-center;
+
+        li {
+            position: relative;
+            flex-grow: 1;
+            text-align: center;
+            cursor: pointer;
+
+            ul {
+                width: 100%;
+                position: absolute;
+                display: none;
+                li {
+                    text-align: left;
+                }
+            }
+
+            &:hover {
+                font-weight: 700;
+
+                ul {
+                    display: block;
+                    text-align: left;
+                }
+            }
+        }
+    }
 }
