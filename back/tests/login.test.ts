@@ -15,7 +15,7 @@ describe('login', () => {
                 .send(payload)
                 .expect(200)
                 .then((response) => {
-                    // console.log(response.body.access_token);
+                    expect(typeof response.body.access_token).toBe('string');
                 });
         });
 

@@ -5,7 +5,7 @@ async function createAdminUser() {
     const user = await prismaClient.user.create({
         data: {
             email: 'david.mosca69@gmail.com',
-            password: 'pwd',
+            password: '$2b$10$p753hUkr/wfM.plQPbLweemJQaxeykFgNb4Wd9bkIfjnbKSRg6JGa',
             pseudo: 'admin',
             role: 'ADMIN',
         },

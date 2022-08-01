@@ -16,8 +16,9 @@ export const encodeFnc = (value: string) => {
 export const genToken = (user: User) => {
     return jwt.sign(
         {
-            user_id: user.id,
-            user_email: user.email,
+            userId: user.id,
+            userPseudo: user.pseudo,
+            role: user.role,
         },
         SECRET,
         { expiresIn: '3 hours' }
