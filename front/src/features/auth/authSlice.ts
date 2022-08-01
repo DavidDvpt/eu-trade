@@ -1,23 +1,49 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import jwt_decode from 'jwt-decode';
+
+import { RootState } from '../../app/store';
+import { AxiosPublicInstance } from '../../services/AxiosService';
 
 interface IAuthState {
   isLogged: boolean;
   token: string | null;
+  isAdmin: boolean;
+  userId: number | null;
+  userPseudo: string | null;
 }
 
-// interface IloginRequest {
-//   email: string;
-//   password: string;
-// }
+const initialState: IAuthState = {
+  token: null,
+  isLogged: false,
+  isAdmin: false,
+  userId: null,
+  userPseudo: null,
+};
 
-const initialState: IAuthState = { isLogged: false, token: null };
+export const loginRequest = createAsyncThunk(
+  'auth/login',
+  async (params: LoginRequest) => {
+    const request = AxiosPublicInstance().post<{ access_token: string }>(
+      '/login',
+      params,
+    );
+    return request
+      .then((response) => {
+        console.log(response.data);
+        const decode: any = jwt_decode(response.data.access_token);
 
-// const loginRequest = createAsyncThunk(
-//   'user/getAuth',
-//   async((params: IloginRequest) => {
-//     const response = await endpoints.userAuth
-//   }),
-// );
+        return {
+          token: response.data.access_token,
+          userId: decode.userId,
+          userPseudo: decode.userPseudo,
+        };
+      })
+      .catch((error) => {
+        console.log(error);
+        return null;
+      });
+  },
+);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -26,20 +52,23 @@ const authSlice = createSlice({
     setToken(state, action: PayloadAction<string>) {
       state.token = action.payload;
     },
-    resetToken(state, action: PayloadAction<null>) {
-      state.token = action.payload;
-    },
-    setIsLogged(state, action: PayloadAction<boolean>) {
-      state.isLogged = action.payload;
-    },
-    setIsLoggedAuto(state) {
-      state.isLogged = !state.isLogged;
+    resetToken(state) {
+      state.token = null;
+      state.isLogged = false;
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addCase();
-  // },
+  extraReducers: (builder) => {
+    builder.addCase(loginRequest.fulfilled, (state, action) => {
+      state.isAdmin = true;
+      state.isLogged = true;
+      state.userId = action.payload?.userId;
+      state.token = action.payload?.token ?? null;
+      state.userPseudo = action.payload?.userPseudo;
+    });
+  },
 });
 
-export const { setToken, resetToken, setIsLoggedAuto } = authSlice.actions;
+export const { setToken, resetToken } = authSlice.actions;
 export default authSlice.reducer;
+
+export const getAuthState = (state: RootState) => state.auth;

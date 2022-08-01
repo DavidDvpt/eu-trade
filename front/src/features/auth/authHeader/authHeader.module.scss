@@ -1,0 +1,22 @@
+@import '../../../scss/main';
+
+.authHeader {
+  width: 150px;
+
+  > div {
+    @include flex-center-center;
+    flex-direction: column;
+
+    span {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1em;
+      line-height: 50px;
+    }
+
+    a {
+      font-style: italic;
+      font-size: 0.9em;
+    }
+  }
+}

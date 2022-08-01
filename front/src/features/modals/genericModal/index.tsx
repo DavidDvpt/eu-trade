@@ -1,20 +1,14 @@
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useAppDispatch } from '../../../App/reduxHooks';
-import { loginModalClose } from '../../../redux/modalReducer';
 import styles from './genericModal.module.scss';
 
-interface IModalDefaultLayerProps {
+interface IGenericModalProps {
   children: React.ReactNode;
   title: string;
 }
-function ModalDefaultLayer({ title, children }: IModalDefaultLayerProps) {
-  const dispatch = useAppDispatch();
-
-  const handleCloseClick = () => {
-    dispatch(loginModalClose());
-  };
+function GenericModal({ title, children }: IGenericModalProps) {
+  const handleCloseClick = () => {};
 
   return (
     <div className={styles.backgroundLayer}>
@@ -23,10 +17,11 @@ function ModalDefaultLayer({ title, children }: IModalDefaultLayerProps) {
           <h2 onClick={handleCloseClick}>{title}</h2>
           <FontAwesomeIcon icon={faXmark} />
         </div>
-        {children}
+        <div className={styles.modalContentContainer}>{children}</div>
+        <div className={styles.modalButtonsContainer}></div>
       </div>
     </div>
   );
 }
 
-export default ModalDefaultLayer;
+export default GenericModal;

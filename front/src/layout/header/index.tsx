@@ -1,4 +1,4 @@
-import AuthHeader from '../../features/auth/AuthHeader';
+import AuthHeader from '../../features/auth/authHeader';
 import Nav from '../../features/nav';
 import styles from './header.module.scss';
 function Header() {

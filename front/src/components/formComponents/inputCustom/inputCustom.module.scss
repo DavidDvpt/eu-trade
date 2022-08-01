@@ -1,0 +1,61 @@
+@import '../../../scss/main';
+
+.inputCustom {
+  &.customBorderRadius {
+    input {
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+    }
+  }
+
+  fieldset {
+    position: relative;
+    z-index: 0;
+    border: none;
+    padding: 5px;
+
+    @include flex-center-center;
+
+    input {
+      z-index: 2;
+      flex-grow: 1;
+      padding-left: 10px;
+      border-radius: 5px;
+      height: 40px;
+      border: none;
+
+      &:focus {
+        outline: none;
+
+        ~ div {
+          border-color: $form-fielset-border-color-focus;
+          box-shadow: 0px 0px 2px $form-fielset-border-color-focus;
+        }
+      }
+    }
+
+    svg {
+      z-index: 2;
+      background-color: $form-input-background;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      padding-right: 5px;
+      height: 40px;
+      width: 25px;
+      cursor: pointer;
+    }
+
+    & > div {
+      z-index: 1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      border: 1px solid $form-fielset-border-color;
+      box-shadow: 0px 0px 2px $form-fielset-border-color;
+      background-color: $form-fielset-background;
+    }
+  }
+}

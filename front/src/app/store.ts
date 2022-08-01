@@ -2,9 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { appApi } from '../features/appApi';
 import authReducer from '../features/auth/authSlice';
+import modalsReducer from '../features/modals/modalSlice';
 
 export const store = configureStore({
-  reducer: { auth: authReducer, [appApi.reducerPath]: appApi.reducer },
+  reducer: {
+    auth: authReducer,
+    modals: modalsReducer,
+    [appApi.reducerPath]: appApi.reducer,
+  },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
