@@ -16,7 +16,6 @@ function LoginForm() {
   const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<LoginRequest> = (data) => {
     // if (dirtyFields.email && dirtyFields.password) {
-    console.log(data);
     dispatch(loginRequest(data));
     // }
   };

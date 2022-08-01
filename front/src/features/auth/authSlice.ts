@@ -10,6 +10,7 @@ interface IAuthState {
   isAdmin: boolean;
   userId: number | null;
   userPseudo: string | null;
+  loginModal: boolean;
 }
 
 const initialState: IAuthState = {
@@ -18,6 +19,7 @@ const initialState: IAuthState = {
   isAdmin: false,
   userId: null,
   userPseudo: null,
+  loginModal: false,
 };
 
 export const loginRequest = createAsyncThunk(
@@ -29,7 +31,6 @@ export const loginRequest = createAsyncThunk(
     );
     return request
       .then((response) => {
-        console.log(response.data);
         const decode: any = jwt_decode(response.data.access_token);
 
         return {
@@ -52,6 +53,9 @@ const authSlice = createSlice({
     setToken(state, action: PayloadAction<string>) {
       state.token = action.payload;
     },
+    setLoginModal(state, action: PayloadAction<boolean>) {
+      state.loginModal = action.payload;
+    },
     resetToken(state) {
       state.token = null;
       state.isLogged = false;
@@ -64,11 +68,12 @@ const authSlice = createSlice({
       state.userId = action.payload?.userId;
       state.token = action.payload?.token ?? null;
       state.userPseudo = action.payload?.userPseudo;
+      state.loginModal = false;
     });
   },
 });
 
-export const { setToken, resetToken } = authSlice.actions;
+export const { setToken, resetToken, setLoginModal } = authSlice.actions;
 export default authSlice.reducer;
 
 export const getAuthState = (state: RootState) => state.auth;

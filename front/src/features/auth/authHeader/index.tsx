@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { setLoginModal } from '../../modals/modalSlice';
-import { getAuthState } from '../authSlice';
+import { getAuthState, setLoginModal } from '../authSlice';
 import styles from './authHeader.module.scss';
 
 function AuthHeader() {

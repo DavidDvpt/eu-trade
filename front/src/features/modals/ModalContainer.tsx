@@ -1,9 +1,9 @@
 import { useAppSelector } from '../../app/hooks';
+import { getAuthState } from '../auth/authSlice';
 import LoginModal from '../auth/login/loginModal';
-import { getModalsState } from './modalSlice';
 
 function ModalContainer() {
-  const { loginModal } = useAppSelector(getModalsState);
+  const { loginModal } = useAppSelector(getAuthState);
 
   return <>{loginModal && <LoginModal />}</>;
 }
