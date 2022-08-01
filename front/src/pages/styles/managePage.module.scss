@@ -1,8 +1,9 @@
 @import '../../scss/main';
 
 .managePage {
-    @include flex-center-center;
+    display: flex;
     width: 100%;
+    height: 100%;
 
     .navigation {
         width: 200px;
@@ -33,5 +34,24 @@
 
     .manageContainer {
         flex-grow: 1;
+
+        > div {
+            @include flex-center-center;
+        }
+
+        table {
+            margin: auto;
+            margin-top: 40px;
+            border: 1px solid $form-fielset-border-color;
+            border-collapse: collapse;
+
+            th,
+            td {
+                width: 100px;
+                border: 1px solid $form-fielset-border-color;
+                border-collapse: collapse;
+                padding: 5px 10px;
+            }
+        }
     }
 }

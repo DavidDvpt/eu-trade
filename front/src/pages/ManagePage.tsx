@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import Families from '../features/manage/families';
+import CategoriesManage from '../features/manage/categoriesManage';
+import FamiliesManage from '../features/manage/familiesManage';
 import styles from './styles/managePage.module.scss';
 
 enum manageEnum {
@@ -31,7 +32,10 @@ function ManagePage() {
                 </ul>
             </div>
             <div className={styles.manageContainer}>
-                {manageSelected === manageEnum.FAMILIES && <Families />}
+                {manageSelected === manageEnum.FAMILIES && <FamiliesManage />}
+                {manageSelected === manageEnum.CATEGORIES && (
+                    <CategoriesManage />
+                )}
             </div>
         </div>
     );
