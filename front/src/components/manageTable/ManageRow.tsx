@@ -1,10 +1,15 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { ChangeEvent, useState } from 'react';
 
+import createManageRowContext from './manageContext';
+
 interface ManageRowProps<T> {
     datas: T;
     displayed: string[];
 }
+
+const [ctx, RowContext] = createManageRowContext();
+export const RowCtx = ctx;
 function ManageRow<T>({ datas, displayed }: ManageRowProps<T>) {
     const [disabled, setDisabled] = useState(true);
     const [updated, setUpdated] = useState<T>(datas);
@@ -19,14 +24,6 @@ function ManageRow<T>({ datas, displayed }: ManageRowProps<T>) {
 
     const handleSave = () => {
         console.log(updated);
-    };
-
-    const handleUpdate = () => {
-        setDisabled(false);
-    };
-
-    const handleCancel = () => {
-        setDisabled(true);
     };
 
     return (
