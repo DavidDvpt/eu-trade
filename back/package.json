@@ -7,8 +7,8 @@
         "build": "npx tsc",
         "start": "node dist/src/server.js",
         "dev": "env-cmd -f ./config/.env.dev concurrently \"npx tsc --watch\" \"nodemon -q dist/src/server.js\"",
-        "test": "jest",
-        "test:watchAll": "jest --watchAll",
+        "test": "npm run prisma:reset && jest",
+        "test:watchAll": "npm run prisma:reset && jest --watchAll",
         "prisma:generate": "npx prisma generate",
         "prisma:reset": "npx prisma migrate reset --force",
         "prisma:migrate": "npx prisma migrate dev"

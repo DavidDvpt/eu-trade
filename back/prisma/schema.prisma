@@ -26,7 +26,7 @@ model user {
 }
 
 model category {
-  id        Int      @id
+  id        Int      @id @default(autoincrement())
   name      String   @unique
   createdAt DateTime @default(now()) @db.Timestamp(6)
   isActif   Boolean  @default(true)
@@ -36,7 +36,7 @@ model category {
 }
 
 model family {
-  id         Int        @id
+  id         Int        @id @default(autoincrement())
   name       String     @unique
   createdAt  DateTime   @default(now()) @db.Timestamp(6)
   isActif    Boolean    @default(true)
