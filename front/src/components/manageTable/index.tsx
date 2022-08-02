@@ -2,11 +2,6 @@ import { nanoid } from '@reduxjs/toolkit';
 
 import ManageRow from './ManageRow';
 
-export interface TitleDisplay {
-    label: string;
-    display: string;
-}
-
 interface ManageTableProps<T> {
     titles: TitleDisplay[];
     rows: T[];
