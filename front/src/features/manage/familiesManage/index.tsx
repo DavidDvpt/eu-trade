@@ -1,14 +1,11 @@
 import ManageTable from '../../../components/manageTable';
-import createManageRowContext from '../../../components/manageTable/manageContext';
 import { useGetFamiliesQuery } from '../../appApi';
+import FamilyRowProvider from './FamilyRowProvider';
 
 const titles: TitleDisplay[] = [
     { label: 'Name', display: 'name' },
     { label: 'is actif', display: 'isActif' },
 ];
-
-const [ctx, RowContext] = createManageRowContext<Family>();
-export const RowCtx = ctx;
 
 function FamiliesManage() {
     const { data } = useGetFamiliesQuery(null);
@@ -16,7 +13,9 @@ function FamiliesManage() {
         <>
             <h1>Families Manager</h1>
 
-            <ManageTable titles={titles} rows={data ?? []} />
+            <ManageTable titles={titles} rows={data ?? []}>
+                <FamilyRowProvider />
+            </ManageTable>
         </>
     );
 }

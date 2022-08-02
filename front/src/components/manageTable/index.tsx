@@ -1,13 +1,13 @@
 import { nanoid } from '@reduxjs/toolkit';
-
-import ManageRow from './ManageRow';
+import { cloneElement } from 'react';
 
 interface ManageTableProps<T> {
     titles: TitleDisplay[];
     rows: T[];
+    children: React.ReactElement;
 }
 
-function ManageTable<T>({ titles, rows }: ManageTableProps<T>) {
+function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
     return (
         <table>
             <thead>
@@ -19,13 +19,9 @@ function ManageTable<T>({ titles, rows }: ManageTableProps<T>) {
                 </tr>
             </thead>
             <tbody>
-                {rows.map((r) => (
-                    <ManageRow
-                        key={nanoid()}
-                        datas={r}
-                        displayed={titles.map((t) => t.display)}
-                    />
-                ))}
+                {rows.map((r) =>
+                    cloneElement(children, { datas: r, key: nanoid() }),
+                )}
             </tbody>
         </table>
     );

@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { ChangeEvent, createContext, useState } from 'react';
 
 export default function createManageRowContext<A>() {
     const defaultDisabledValue = true;
@@ -6,12 +6,24 @@ export default function createManageRowContext<A>() {
     type UpdateDisabledType = React.Dispatch<React.SetStateAction<boolean>>;
     type UpdateDataType = React.Dispatch<React.SetStateAction<A>>;
     type HandleType = () => void;
+    type HandleSaveType = (func: () => void) => void;
+    type ChangeType = (
+        name: string,
+        e: ChangeEvent<HTMLInputElement>,
+        isCheckbox?: boolean,
+    ) => void;
 
     const setDisabled: UpdateDisabledType = () => defaultDisabledValue;
     const setDataType: UpdateDataType = () => defaultDataValue;
 
     const handleUpdate: HandleType = () => {};
     const handleCancel: HandleType = () => {};
+    const handleSave: HandleSaveType = (func: () => void) => {};
+    const handleDataChange: ChangeType = (
+        name: string,
+        e: ChangeEvent<HTMLInputElement>,
+        isCheckbox = false,
+    ) => {};
 
     const ctx = createContext({
         disabled: defaultDisabledValue,
@@ -20,6 +32,8 @@ export default function createManageRowContext<A>() {
         setData: setDataType,
         handleUpdate,
         handleCancel,
+        handleDataChange,
+        handleSave,
     });
 
     const Provider = (
@@ -36,6 +50,15 @@ export default function createManageRowContext<A>() {
             setDisabled(true);
         };
 
+        const handleDataChange = (
+            name: string,
+            e: ChangeEvent<HTMLInputElement>,
+            isCheckbox = false,
+        ) => {
+            const value = isCheckbox ? e.target.checked : e.target.value;
+            setData({ ...data, [name]: value });
+        };
+
         return (
             <ctx.Provider
                 value={{
@@ -45,6 +68,8 @@ export default function createManageRowContext<A>() {
                     setData,
                     handleUpdate,
                     handleCancel,
+                    handleDataChange,
+                    handleSave,
                 }}
                 {...props}
             />
