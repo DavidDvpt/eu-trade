@@ -9,9 +9,9 @@ import usersRoutes from './users';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    console.log('db', process.env.DATABASE_URL);
     res.status(200).json('Hello Word index !!!');
 });
+
 router.use('/login', LoginRoute);
 
 router.use(jwtVerify());

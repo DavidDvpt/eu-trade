@@ -64,8 +64,8 @@ model item {
   value       Int      @default(0)
   ttMax       Int      @default(0)
   imageUrlId  String?
-  isStackable Boolean
-  isLimited   Boolean
+  isStackable Boolean  @default(false)
+  isLimited   Boolean  @default(false)
 
   itemOnFoundOn itemOnFoundOn[]
 }

@@ -22,7 +22,7 @@ export function jwtVerify(role?: string) {
                     next();
                 } else {
                     res.status(403);
-                    throw new Error('forbiden');
+                    next(new Error());
                 }
             }
         });

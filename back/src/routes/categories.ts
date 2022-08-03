@@ -42,6 +42,35 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+router.get('/:id/items', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const category = await prisma.category.findUnique({
+            where: {
+                id: parseInt(id, 10),
+            },
+            select: {
+                items: true,
+            },
+        });
+
+        if (category) {
+            return res.status(200).json(category);
+        } else {
+            res.status(404);
+            next(new Error());
+        }
+    } catch (error: any) {
+        switch (error.meta.cause) {
+            case 'Record to delete does not exist.':
+                res.status(404);
+                break;
+            default:
+                res.status(500);
+        }
+    }
+});
+
 router.use(jwtVerify(Role.MANAGER));
 
 router.post('/', async (req, res, next) => {

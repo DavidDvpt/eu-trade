@@ -61,16 +61,12 @@ async function createResources() {
         tab: { name: string; value: number; imageUrlId: string }[],
         catId: number
     ) => {
-        const isStackable = true;
-        const isLimited = false;
-
         await prisma.item.createMany({
             data: tab.map((item) => ({
                 ...item,
                 value: item?.value * 10000,
                 categoryId: catId,
-                isStackable,
-                isLimited,
+                isStackable: true,
             })),
         });
     };

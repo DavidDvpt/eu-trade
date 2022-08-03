@@ -104,7 +104,7 @@ describe('CATEGORY TESTS', () => {
             });
         });
 
-        describe('get all categories', () => {
+        describe('Get all categories', () => {
             it('should return 200', async () => {
                 await supertest(app)
                     .get('/api/v1/categories')
@@ -116,7 +116,19 @@ describe('CATEGORY TESTS', () => {
             });
         });
 
-        describe('get category by id', () => {
+        describe('Get items by categoryId', () => {
+            it('should return 200', async () => {
+                await supertest(app)
+                    .get('/api/v1/categories/1/items')
+                    .set({ Authorization: 'Bearer ' + token })
+                    .expect(200)
+                    .then((response) => {
+                        expect(response.body.items.length).toBeGreaterThan(0);
+                    });
+            });
+        });
+
+        describe('Get category by id', () => {
             it('should return 200 (category tab)', async () => {
                 await supertest(app)
                     .get(`/api/v1/categories/${createdId}`)
@@ -147,7 +159,7 @@ describe('CATEGORY TESTS', () => {
                 pseudo: 'dudulAdmin',
                 email: 'fgdsgf@dsf.sdf',
                 password: 'ddd',
-                role: 'ADMIN',
+                role: Role.ADMIN,
             });
         });
 

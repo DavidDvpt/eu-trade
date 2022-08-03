@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import errorHandler from './middlewares/errorHandler';
+import notFound from './middlewares/notFound';
 
 import routes from './routes';
 
@@ -20,6 +21,7 @@ app.use(cors(corsOptions));
 
 app.use('/api/v1', routes);
 
+app.use(notFound);
 app.use(errorHandler);
 
 export default app;
