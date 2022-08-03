@@ -1,5 +1,6 @@
 import { family, Role } from '@prisma/client';
 import express from 'express';
+import { isEmpty } from 'lodash';
 import prisma from '../../prisma/prismaClient';
 import { jwtVerify } from '../middlewares/jwtVerify';
 const router = express.Router();
@@ -25,7 +26,6 @@ router.get('/:id', async (req, res, next) => {
         if (family) {
             return res.status(200).json(family);
         } else {
-            console.log(id, family);
             res.status(404);
             next(new Error());
         }
@@ -68,18 +68,23 @@ router.put('/:id', async (req, res, next) => {
         const id = req.params.id;
         const body = req.body;
 
-        const family = await prisma.family.update({
-            where: {
-                id: parseInt(id, 10),
-            },
-            data: body,
-        });
-
-        if (family) {
-            return res.status(200).json(family);
-        } else {
-            res.status(404);
+        if (isEmpty(body)) {
+            res.status(422);
             next(new Error());
+        } else {
+            const family = await prisma.family.update({
+                where: {
+                    id: parseInt(id, 10),
+                },
+                data: body,
+            });
+
+            if (family) {
+                return res.status(200).json(family);
+            } else {
+                res.status(404);
+                next(new Error());
+            }
         }
     } catch (error) {
         res.status(500);
@@ -90,19 +95,23 @@ router.put('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     try {
         const body = req.body;
-
-        const family = await prisma.family.create({
-            data: body,
-        });
-
-        if (family) {
-            return res.status(201).json(family);
+        if (isEmpty(body)) {
+            res.status(422);
+            next(new Error());
         } else {
-            return res.status(404).json({ message: 'not found' });
+            const family = await prisma.family.create({
+                data: body,
+            });
+
+            if (family) {
+                return res.status(201).json(family);
+            } else {
+                return res.status(404).json({ message: 'not found' });
+            }
         }
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: 'entity not updated' });
+        res.status(500);
+        next(new Error());
     }
 });
 
@@ -120,8 +129,17 @@ router.delete('/:id', async (req, res, next) => {
         if (deleted) {
             return res.status(204).json();
         }
-    } catch (error) {
-        return res.status(500).json({ message: 'entity not deleted' });
+    } catch (error: any) {
+        if (error.meta?.cause) {
+            switch (error.meta.cause) {
+                case 'Record to delete does not exist.':
+                    res.status(404);
+                    break;
+                default:
+                    res.status(500);
+            }
+        }
+        next(error);
     }
 });
 
