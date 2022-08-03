@@ -2,6 +2,7 @@ import express from 'express';
 import { jwtVerify } from '../middlewares/jwtVerify';
 import categoriesRoutes from './categories';
 import familiesRoutes from './families';
+import itemsRoutes from './items';
 import LoginRoute from './login';
 import usersRoutes from './users';
 
@@ -18,5 +19,6 @@ router.use(jwtVerify());
 router.use('/families', familiesRoutes);
 router.use('/categories', categoriesRoutes);
 router.use('/users', usersRoutes);
+router.use('/items', itemsRoutes);
 
 export default router;
