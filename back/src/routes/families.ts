@@ -5,18 +5,19 @@ import prisma from '../../prisma/prismaClient';
 import { jwtVerify } from '../middlewares/jwtVerify';
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     try {
         const families = await prisma.family.findMany();
         return res.status(200).json(families);
     } catch (error) {
-        return res.status(500).json({ message: 'no data' });
+        res.status(500);
+        next(new Error());
     }
 });
 
 router.get('/:id', async (req, res, next) => {
-    const id: string = req.params.id;
     try {
+        const id: string = req.params.id;
         const family: family | null = await prisma.family.findUnique({
             where: {
                 id: parseInt(id, 10),
@@ -86,8 +87,17 @@ router.put('/:id', async (req, res, next) => {
                 next(new Error());
             }
         }
-    } catch (error) {
-        res.status(500);
+    } catch (error: any) {
+        if (error.meta?.cause) {
+            switch (error.meta.cause) {
+                case 'Record to delete does not exist.':
+                case 'Record to update not found.':
+                    res.status(404);
+                    break;
+                default:
+                    res.status(500);
+            }
+        }
         next(new Error());
     }
 });
@@ -133,6 +143,7 @@ router.delete('/:id', async (req, res, next) => {
         if (error.meta?.cause) {
             switch (error.meta.cause) {
                 case 'Record to delete does not exist.':
+                case 'Record to update not found.':
                     res.status(404);
                     break;
                 default:
