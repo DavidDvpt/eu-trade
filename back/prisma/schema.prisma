@@ -31,6 +31,7 @@ model category {
   name      String   @unique
   createdAt DateTime @default(now()) @db.Timestamp(6)
   isActif   Boolean  @default(true)
+  items     item[]
 
   family   family @relation(fields: [familyId], references: [id])
   familyId Int
@@ -42,4 +43,35 @@ model family {
   createdAt  DateTime   @default(now()) @db.Timestamp(6)
   isActif    Boolean    @default(true)
   categories category[]
+}
+
+model foundOn {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  isActif   Boolean  @default(true)
+
+  itemOnFoundOn itemOnFoundOn[]
+}
+
+model item {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  createdAt  DateTime @default(now()) @db.Timestamp(6)
+  isActif    Boolean  @default(true)
+  category   category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  value      Int      @default(0)
+  ttMax      Int      @default(0)
+
+  itemOnFoundOn itemOnFoundOn[]
+}
+
+model itemOnFoundOn {
+  item      item    @relation(fields: [itemId], references: [id])
+  itemId    Int
+  foundOn   foundOn @relation(fields: [foundOnId], references: [id])
+  foundOnId Int
+
+  @@id([itemId, foundOnId])
 }
