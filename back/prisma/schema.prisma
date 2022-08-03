@@ -55,14 +55,17 @@ model foundOn {
 }
 
 model item {
-  id         Int      @id @default(autoincrement())
-  name       String   @unique
-  createdAt  DateTime @default(now()) @db.Timestamp(6)
-  isActif    Boolean  @default(true)
-  category   category @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  value      Int      @default(0)
-  ttMax      Int      @default(0)
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  isActif     Boolean  @default(true)
+  category    category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  value       Int      @default(0)
+  ttMax       Int      @default(0)
+  imageUrlId  String?
+  isStackable Boolean
+  isLimited   Boolean
 
   itemOnFoundOn itemOnFoundOn[]
 }
