@@ -1,10 +1,10 @@
-import { family } from '@prisma/client';
+import { family, Role } from '@prisma/client';
 import express from 'express';
 import prisma from '../../prisma/prismaClient';
 import { jwtVerify } from '../middlewares/jwtVerify';
 const router = express.Router();
 
-router.get('/', jwtVerify('USER'), async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const families = await prisma.family.findMany();
         return res.status(200).json(families);
@@ -13,9 +13,8 @@ router.get('/', jwtVerify('USER'), async (req, res) => {
     }
 });
 
-router.get('/:id', jwtVerify('USER'), async (req, res, next) => {
-    const id = req.params.id;
-
+router.get('/:id', async (req, res, next) => {
+    const id: string = req.params.id;
     try {
         const family: family | null = await prisma.family.findUnique({
             where: {
@@ -26,16 +25,17 @@ router.get('/:id', jwtVerify('USER'), async (req, res, next) => {
         if (family) {
             return res.status(200).json(family);
         } else {
+            console.log(id, family);
             res.status(404);
-            next();
+            next(new Error());
         }
     } catch (error) {
         res.status(500);
-        next();
+        next(error);
     }
 });
 
-router.get('/:id/categories', jwtVerify('USER'), async (req, res, next) => {
+router.get('/:id/categories', async (req, res, next) => {
     const id = req.params.id;
 
     try {
@@ -52,16 +52,18 @@ router.get('/:id/categories', jwtVerify('USER'), async (req, res, next) => {
             return res.status(200).json(family.categories);
         } else {
             res.status(404);
-            next();
+            next(new Error());
         }
     } catch (error) {
         console.log(error);
         res.status(500);
-        next();
+        next(error);
     }
 });
 
-router.put('/:id', jwtVerify('ADMIN'), async (req, res, next) => {
+router.use(jwtVerify(Role.MANAGER));
+
+router.put('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
         const body = req.body;
@@ -76,14 +78,16 @@ router.put('/:id', jwtVerify('ADMIN'), async (req, res, next) => {
         if (family) {
             return res.status(200).json(family);
         } else {
-            return res.status(404).json({ message: 'not found' });
+            res.status(404);
+            next(new Error());
         }
     } catch (error) {
-        return res.status(500).json({ message: 'entity not updated' });
+        res.status(500);
+        next(new Error());
     }
 });
 
-router.post('/', jwtVerify('ADMIN'), async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const body = req.body;
 
@@ -102,7 +106,9 @@ router.post('/', jwtVerify('ADMIN'), async (req, res, next) => {
     }
 });
 
-router.delete('/:id', jwtVerify('ADMIN'), async (req, res, next) => {
+router.use(jwtVerify(Role.ADMIN));
+
+router.delete('/:id', async (req, res, next) => {
     const id = req.params.id;
     try {
         const deleted = await prisma.family.delete({

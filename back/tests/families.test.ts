@@ -3,161 +3,150 @@ import app from '../src/app';
 import { genToken } from '../src/lib/authTools';
 
 describe('FAMILY TESTS', () => {
-    let createdId = 0;
-    describe('CREATE FAMILY', () => {
-        describe('create without token', () => {
-            it('should return 401 (no token)', async () => {
-                const payload = {
-                    name: 'trop fort',
-                    isActif: false,
-                };
+    const createdId = 0;
 
-                await supertest(app)
-                    .put('/api/v1/families/1')
-                    .send(payload)
-                    .expect(401)
-                    .then((response) => {});
-            });
-        });
+    // describe('CREATE FAMILY', () => {
+    //     // describe('create without token', () => {
+    //     //     it('should return 401 (no token)', async () => {
+    //     //         const payload = {
+    //     //             name: 'trop fort',
+    //     //             isActif: false,
+    //     //         };
 
-        describe('Create with token but not good role', () => {
-            let token = '';
-            beforeAll(() => {
-                token = genToken({
-                    id: 1,
-                    pseudo: 'dudul',
-                    email: 'fgdsgf@dsf.sdf',
-                    password: 'ddd',
-                    role: 'USER',
-                });
-            });
+    //     //         await supertest(app)
+    //     //             .put('/api/v1/families/1')
+    //     //             .send(payload)
+    //     //             .expect(401)
+    //     //             .then((response) => {});
+    //     //     });
+    //     // });
 
-            it('Should return 401 (no token)', async () => {
-                const payload = {
-                    name: 'trop fort',
-                    isActif: false,
-                };
+    //     // describe('Create with token but not good role', () => {
+    //     //     let token = '';
+    //     //     beforeAll(() => {
+    //     //         const generatedToken = genToken({
+    //     //             id: 1,
+    //     //             pseudo: 'dudul',
+    //     //             email: 'fgdsgf@dsf.sdf',
+    //     //             password: 'ddd',
+    //     //             role: 'USER',
+    //     //         });
 
-                await supertest(app)
-                    .post('/api/v1/families')
-                    .send(payload)
-                    .expect(401)
-                    .then((response) => {});
-            });
+    //     //         token = generatedToken;
+    //     //     });
 
-            it('Should return 403 (not good role)', async () => {
-                const payload = {
-                    name: 'trop fort',
-                    isActif: false,
-                };
+    //     //     it('Should return 403 (not good role)', async () => {
+    //     //         const payload = {
+    //     //             name: 'trop fort',
+    //     //             isActif: false,
+    //     //         };
 
-                await supertest(app)
-                    .post('/api/v1/families')
-                    .set({ Authorization: 'Bearer ' + token })
-                    .send(payload)
-                    .expect(403)
-                    .then((response) => {});
-            });
-        });
+    //     //         await supertest(app)
+    //     //             .post('/api/v1/families')
+    //     //             .set({ Authorization: 'Bearer ' + token })
+    //     //             .send(payload)
+    //     //             .expect(403)
+    //     //             .then((response) => {});
+    //     //     });
+    //     // });
 
-        describe('create with token and good role', () => {
-            let token = '';
-            beforeAll(() => {
-                token = genToken({
-                    id: 1,
-                    pseudo: 'dudulAdmin',
-                    email: 'fgdsgf@dsf.sdf',
-                    password: 'ddd',
-                    role: 'ADMIN',
-                });
-            });
+    //     describe('create with token and good role', () => {
+    //         let token = '';
+    //         beforeAll(() => {
+    //             token = genToken({
+    //                 id: 1,
+    //                 pseudo: 'dudulAdmin',
+    //                 email: 'fgdsgf@dsf.sdf',
+    //                 password: 'ddd',
+    //                 role: 'ADMIN',
+    //             });
+    //         });
+    //         it('should return 201 (ok)', async () => {
+    //             const payload = {
+    //                 name: 'familyTest',
+    //                 isActif: false,
+    //             };
+    //             console.log('201', token);
+    //             await supertest(app)
+    //                 .post('/api/v1/families')
+    //                 .set({ Authorization: 'Bearer ' + token })
+    //                 .send(payload)
+    //                 .expect(201)
+    //                 .then((response) => {
+    //                     const body = response.body;
+    //                     createdId = body.id;
+    //                     expect(body.name).toBe('familyTest');
+    //                     expect(body.isActif).toBe(false);
+    //                 });
+    //         });
+    //     });
+    // });
 
-            it('should return 201 (ok)', async () => {
-                const payload = {
-                    name: 'familyTest',
-                    isActif: false,
-                };
+    // describe('UPDATE FAMILY', () => {
+    //     describe('uptdate without token', () => {
+    //         it('should return 401 (no token)', async () => {
+    //             const payload = {
+    //                 name: 'trop fort',
+    //                 isActif: false,
+    //             };
 
-                await supertest(app)
-                    .post('/api/v1/families')
-                    .set({ Authorization: 'Bearer ' + token })
-                    .send(payload)
-                    .expect(201)
-                    .then((response) => {
-                        const body = response.body;
-                        createdId = body.id;
-                        expect(body.name).toBe('familyTest');
-                        expect(body.isActif).toBe(false);
-                    });
-            });
-        });
-    });
+    //             await supertest(app)
+    //                 .put('/api/v1/families/1')
+    //                 .send(payload)
+    //                 .expect(401)
+    //                 .then((response) => {});
+    //         });
+    //     });
 
-    describe('UPDATE FAMILY', () => {
-        describe('uptdate without token', () => {
-            it('should return 401 (no token)', async () => {
-                const payload = {
-                    name: 'trop fort',
-                    isActif: false,
-                };
+    //     describe('update with token but not good role', () => {
+    //         let token = '';
+    //         beforeAll(() => {
+    //             token = genToken({
+    //                 id: 1,
+    //                 pseudo: 'dudul',
+    //                 email: 'fgdsgf@dsf.sdf',
+    //                 password: 'ddd',
+    //                 role: 'USER',
+    //             });
+    //         });
 
-                await supertest(app)
-                    .put('/api/v1/families/1')
-                    .send(payload)
-                    .expect(401)
-                    .then((response) => {});
-            });
-        });
+    //         it('should return 403 (not good role)', async () => {
+    //             const payload = {
+    //                 name: 'entityUpdated',
+    //                 isActif: true,
+    //             };
 
-        describe('update with token but not good role', () => {
-            let token = '';
-            beforeAll(() => {
-                token = genToken({
-                    id: 1,
-                    pseudo: 'dudul',
-                    email: 'fgdsgf@dsf.sdf',
-                    password: 'ddd',
-                    role: 'USER',
-                });
-            });
+    //             await supertest(app)
+    //                 .put('/api/v1/families/1')
+    //                 .set({ Authorization: 'Bearer ' + token })
+    //                 .send(payload)
+    //                 .expect(403)
+    //                 .then((response) => {});
+    //         });
+    //     });
+    // });
 
-            it('should return 403 (not good role)', async () => {
-                const payload = {
-                    name: 'entityUpdated',
-                    isActif: true,
-                };
+    // describe('DELETE FAMILY', () => {
+    //     let token = '';
+    //     beforeAll(() => {
+    //         token = genToken({
+    //             id: 1,
+    //             pseudo: 'dudulAdmin',
+    //             email: 'fgdsgf@dsf.sdf',
+    //             password: 'ddd',
+    //             role: 'ADMIN',
+    //         });
+    //     });
 
-                await supertest(app)
-                    .put('/api/v1/families/1')
-                    .set({ Authorization: 'Bearer ' + token })
-                    .send(payload)
-                    .expect(403)
-                    .then((response) => {});
-            });
-        });
-    });
+    //     it('should return 204 (ok)', async () => {
+    //         await supertest(app)
+    //             .delete(`/api/v1/families/${createdId}`)
+    //             .set({ Authorization: 'Bearer ' + token })
 
-    describe('DELETE FAMILY', () => {
-        let token = '';
-        beforeAll(() => {
-            token = genToken({
-                id: 1,
-                pseudo: 'dudulAdmin',
-                email: 'fgdsgf@dsf.sdf',
-                password: 'ddd',
-                role: 'ADMIN',
-            });
-        });
-
-        it('should return 204 (ok)', async () => {
-            await supertest(app)
-                .delete(`/api/v1/families/${createdId}`)
-                .set({ Authorization: 'Bearer ' + token })
-
-                .expect(204)
-                .then((response) => {});
-        });
-    });
+    //             .expect(204)
+    //             .then((response) => {});
+    //     });
+    // });
 
     describe('GET FAMILY', () => {
         let token = '';
@@ -184,17 +173,6 @@ describe('FAMILY TESTS', () => {
         });
 
         describe('get family by id', () => {
-            let token = '';
-            beforeAll(() => {
-                token = genToken({
-                    id: 1,
-                    pseudo: 'dudul',
-                    email: 'fgdsgf@dsf.sdf',
-                    password: 'ddd',
-                    role: 'USER',
-                });
-            });
-
             it('should return 200', async () => {
                 await supertest(app)
                     .get('/api/v1/families/1')
@@ -217,16 +195,6 @@ describe('FAMILY TESTS', () => {
         });
 
         describe('get categories by family id', () => {
-            let token = '';
-            beforeAll(() => {
-                token = genToken({
-                    id: 1,
-                    pseudo: 'dudul',
-                    email: 'fgdsgf@dsf.sdf',
-                    password: 'ddd',
-                    role: 'USER',
-                });
-            });
             it('should return 200 (category tab)', async () => {
                 await supertest(app)
                     .get('/api/v1/families/1/categories')
