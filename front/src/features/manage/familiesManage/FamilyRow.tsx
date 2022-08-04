@@ -1,6 +1,7 @@
 import { memo, useContext, useEffect } from 'react';
 
-import ActionButton from '../../../components/manageTable/ActionButton';
+import ActionButton from '../../../components/manageTable/actionButton';
+import { useUpdateFamilyMutation } from '../../appApi/familyApi';
 import { FamilyRowCtx } from './FamilyRowProvider';
 
 interface IFamilyRowProps {
@@ -8,6 +9,8 @@ interface IFamilyRowProps {
 }
 
 function FamilyRow({ datas }: IFamilyRowProps) {
+    const [updateFamily, result] = useUpdateFamilyMutation();
+
     const {
         setData,
         data,
@@ -23,6 +26,10 @@ function FamilyRow({ datas }: IFamilyRowProps) {
             setData(datas);
         }
     }, []);
+
+    const handleRowSave = () => {
+        updateFamily(data);
+    };
 
     return (
         <tr>
@@ -44,13 +51,14 @@ function FamilyRow({ datas }: IFamilyRowProps) {
                     disabled={disabled}
                 />
             </td>
-
-            <ActionButton
-                disabled={disabled}
-                handleCancel={handleCancel}
-                // handleSave={handleSave}
-                handleUpdate={handleUpdate}
-            />
+            <td>
+                <ActionButton
+                    disabled={disabled}
+                    handleCancel={handleCancel}
+                    handleSave={handleRowSave}
+                    handleUpdate={handleUpdate}
+                />
+            </td>
         </tr>
     );
 }
