@@ -41,7 +41,7 @@ export const loginRequest = createAsyncThunk(
             })
             .catch((error) => {
                 console.log(error);
-                return null;
+                throw new Error();
             });
     },
 );
@@ -70,14 +70,21 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(loginRequest.fulfilled, (state, action) => {
-            state.isAdmin = true;
-            state.isLogged = true;
-            state.userId = action.payload?.userId;
-            state.token = action.payload?.token ?? null;
-            state.userPseudo = action.payload?.userPseudo;
-            state.loginModal = false;
-        });
+        builder
+            .addCase(loginRequest.fulfilled, (state, action) => {
+                state.isAdmin = true;
+                state.isLogged = true;
+                state.userId = action.payload?.userId;
+                state.token = action.payload?.token ?? null;
+                state.userPseudo = action.payload?.userPseudo;
+                state.loginModal = false;
+            })
+            .addCase(loginRequest.pending, (state, action) => {
+                // console.log('pending');
+            })
+            .addCase(loginRequest.rejected, (state, action) => {
+                console.log('rejected');
+            });
     },
 });
 

@@ -1,5 +1,5 @@
 import ManageTable from '../../../components/manageTable';
-import { useGetFamiliesQuery } from '../../appApi';
+import { useGetFamiliesQuery } from '../../appApi/familyApi';
 import FamilyRowProvider from './FamilyRowProvider';
 
 const titles: TitleDisplay[] = [

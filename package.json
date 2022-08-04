@@ -11,5 +11,8 @@
     "dev:back": "npm run --prefix back dev",
     "dev:front": "npm run --prefix front dev",
     "dev": "cross-env FORCE_COLOR=1 npm-run-all -l -p dev:*"
+  },
+  "dependencies": {
+    "env-cmd": "^10.1.0"
   }
 }

@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-export function AxiosPublicInstance() {
-  const request = axios.create({ baseURL: 'http://localhost:8000/api/v1' });
+const API_URL = import.meta.env.VITE_API_URL;
 
-  return request;
+export function AxiosPublicInstance() {
+    const request = axios.create({ baseURL: API_URL });
+
+    return request;
 }

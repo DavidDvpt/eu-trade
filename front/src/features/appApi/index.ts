@@ -1,39 +1,27 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { RootState } from '../../app/store';
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export interface LoginRequest {
     email: string;
     password: string;
 }
 
-interface UserAuthResult {
-    token: string;
-}
-
 export const appApi = createApi({
     reducerPath: 'appApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8000/api/v1',
+        baseUrl: API_URL,
         prepareHeaders: (headers, { getState }) => {
-            console.log('fetState', getState());
-            // token ? { Authorization: 'Bearer ' + token } : {};
+            const auth = (getState() as RootState).auth;
+
+            if (auth.isLogged) {
+                headers.set('Authorization', 'Bearer ' + auth.token);
+            }
+
             return headers;
         },
     }),
-    endpoints: (builder) => ({
-        // userAuth: builder.mutation<UserAuthResult, LoginRequest>({
-        //     query: (params) => ({
-        //         url: '/login',
-        //         method: 'POST',
-        //         body: params,
-        //     }),
-        // }),
-        getFamilies: builder.query<Family[], null>({
-            query: () => '/families',
-        }),
-        getCategories: builder.query<Category[], null>({
-            query: () => '/categories',
-        }),
-    }),
+    endpoints: () => ({}),
 });
-
-export const { useGetCategoriesQuery, useGetFamiliesQuery } = appApi;

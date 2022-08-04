@@ -15,30 +15,38 @@ export interface User extends LoginRequest {
     role: string;
 }
 
-router.post('/', (req, res) => {
-    const body: LoginRequest = req.body;
-    const user = prisma.user.findUnique({
-        where: {
-            email: body.email,
-        },
-    });
+router.post('/', (req, res, next) => {
+    try {
+        const body: LoginRequest = req.body;
+        const user = prisma.user.findUnique({
+            where: {
+                email: body.email,
+            },
+        });
 
-    user.then((response) => {
-        if (!body.email || !response) {
-            return res.status(400).json({ message: 'Error. user don t exist' });
-        }
-
-        if (!body.password) {
-            return res.status(400).json({ message: 'Error. bad password' });
-        } else {
-            if (bcrypt.compareSync(body.password, response.password)) {
-                const token = genToken(response);
-                return res.status(200).json({ access_token: token });
-            } else {
-                return res.status(400).json({ message: 'Error. bad password' });
+        user.then((response) => {
+            if (!body.email || !response) {
+                return res.status(400).json({ message: 'Error. user don t exist' });
             }
-        }
-    });
+
+            if (!body.password) {
+                return res.status(400).json({ message: 'Error. bad password' });
+            } else {
+                if (bcrypt.compareSync(body.password, response.password)) {
+                    const token = genToken(response);
+                    return res.status(200).json({ access_token: token });
+                } else {
+                    return res.status(400).json({ message: 'Error. bad password' });
+                }
+            }
+        }).catch(() => {
+            res.status(500);
+            next(new Error('database error'));
+        });
+    } catch (error) {
+        res.status(500);
+        next(new Error());
+    }
 });
 
 export default router;
