@@ -11,15 +11,22 @@ interface UserAuthResult {
 
 export const appApi = createApi({
     reducerPath: 'appApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/api/v1' }),
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:8000/api/v1',
+        prepareHeaders: (headers, { getState }) => {
+            console.log('fetState', getState());
+            // token ? { Authorization: 'Bearer ' + token } : {};
+            return headers;
+        },
+    }),
     endpoints: (builder) => ({
-        userAuth: builder.mutation<UserAuthResult, LoginRequest>({
-            query: (params) => ({
-                url: '/login',
-                method: 'POST',
-                body: params,
-            }),
-        }),
+        // userAuth: builder.mutation<UserAuthResult, LoginRequest>({
+        //     query: (params) => ({
+        //         url: '/login',
+        //         method: 'POST',
+        //         body: params,
+        //     }),
+        // }),
         getFamilies: builder.query<Family[], null>({
             query: () => '/families',
         }),
