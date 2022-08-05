@@ -39,8 +39,11 @@
 
             td {
                 input {
-                    background-color: inherit;
                     border: none;
+                }
+
+                select {
+                    border-color: $form-fielset-border-color;
                 }
 
                 &:last-child {

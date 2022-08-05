@@ -1,36 +1,35 @@
+import { nanoid } from '@reduxjs/toolkit';
 import { delay } from 'lodash';
 import { ChangeEvent, useContext, useEffect } from 'react';
 
 import styles from '../../../pages/styles/managePage.module.scss';
-import {
-    useAddFamilyMutation,
-    useUpdateFamilyMutation,
-} from '../../appApi/familyApi';
+import { useAddCategoryMutation } from '../../appApi/categoryApi';
+import { useGetFamiliesQuery } from '../../appApi/familyApi';
 import ActionButton from '../manageTable/actionButton';
 
-interface IFamilyRowProps {
-    datas?: Family | Partial<Family>;
+interface ICategoryRowProps {
+    datas?: Category | Partial<Category>;
     ctx: React.Context<{
         disabled: boolean;
         setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-        contextData: Family | Partial<Family>;
-        setData: React.Dispatch<React.SetStateAction<Family | Partial<Family>>>;
+        contextData: Category | Partial<Category>;
+        setData: React.Dispatch<
+            React.SetStateAction<Category | Partial<Category>>
+        >;
         handleUpdate: () => void;
         handleCancel: () => void;
         handleDataChange: (
             name: string,
-            e: ChangeEvent<HTMLInputElement>,
+            e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
             isCheckbox?: boolean,
         ) => void;
         handleSave: () => void;
     }>;
 }
-
-function FamilyRow({ datas, ctx }: IFamilyRowProps) {
-    // console.log('datas', datas);
-    const [updateFamily, resultUpdate] = useUpdateFamilyMutation();
-    const [postFamily, resultPost] = useAddFamilyMutation();
-
+function CategoryRow({ datas, ctx }: ICategoryRowProps) {
+    const { data } = useGetFamiliesQuery();
+    const [addCategory, addResult] = useAddCategoryMutation();
+    const [updateCategory, updateResult] = useAddCategoryMutation();
     const {
         setData,
         contextData,
@@ -44,10 +43,7 @@ function FamilyRow({ datas, ctx }: IFamilyRowProps) {
 
     useEffect(() => {
         if (datas) {
-            // console.log('data ok', datas);
-            // delay(() => {
-            setData(datas as Family);
-            // }, 1000);
+            setData(datas as Category);
         } else {
             setData({ name: '', isActif: false });
             delay(() => {
@@ -58,20 +54,19 @@ function FamilyRow({ datas, ctx }: IFamilyRowProps) {
 
     useEffect(() => {
         handleUpdate();
-    }, [resultUpdate.isSuccess, resultPost.isSuccess]);
+    }, [updateResult.isSuccess, addResult.isSuccess]);
 
     useEffect(() => {
         handleSave();
-    }, [resultUpdate.isSuccess, resultPost.isSuccess]);
+    }, [updateResult.isSuccess, addResult.isSuccess]);
 
     const handleRowSave = () => {
         if (contextData.id) {
-            updateFamily(contextData as Family);
+            updateCategory(contextData as Category);
         } else {
-            postFamily(contextData);
+            addCategory(contextData);
         }
     };
-
     return (
         <tr>
             <td>
@@ -82,6 +77,20 @@ function FamilyRow({ datas, ctx }: IFamilyRowProps) {
                     onChange={(e) => handleDataChange('name', e)}
                     disabled={disabled}
                 />
+            </td>
+            <td>
+                <select
+                    name="familyId"
+                    value={contextData.familyId ?? ''}
+                    onChange={(e) => handleDataChange('name', e)}
+                    disabled={disabled}
+                >
+                    {data?.map((f) => (
+                        <option key={nanoid()} value={f.id}>
+                            {f.name}
+                        </option>
+                    ))}
+                </select>
             </td>
             <td className={styles.checkboxCell}>
                 <div>
@@ -106,4 +115,4 @@ function FamilyRow({ datas, ctx }: IFamilyRowProps) {
     );
 }
 
-export default FamilyRow;
+export default CategoryRow;

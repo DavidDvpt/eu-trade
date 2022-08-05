@@ -3,45 +3,45 @@ import { ChangeEvent, createContext, useState } from 'react';
 export interface ManageRowContext<T> {
     disabled: boolean;
     setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-    data: Family | Partial<Family>;
+    contextData: Family | Partial<Family>;
     setData: React.Dispatch<React.SetStateAction<T | Partial<T>>>;
     handleUpdate: () => void;
     handleCancel: () => void;
     handleSave: () => void;
     handleDataChange: (
         name: string,
-        e: ChangeEvent<HTMLInputElement>,
+        e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
         isCheckbox?: boolean,
     ) => void;
 }
 export default function createManageRowContext<A>() {
     const defaultDisabledValue = true;
-    const defaultDataValue = {} as A | Partial<A>;
+    const defaultContextDataValue = {} as A | Partial<A>;
     type UpdateDisabledType = React.Dispatch<React.SetStateAction<boolean>>;
     type UpdateDataType = React.Dispatch<React.SetStateAction<A | Partial<A>>>;
     type HandleType = () => void;
     type ChangeType = (
         name: string,
-        e: ChangeEvent<HTMLInputElement>,
+        e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
         isCheckbox?: boolean,
     ) => void;
 
     const setDisabled: UpdateDisabledType = () => defaultDisabledValue;
-    const setDataType: UpdateDataType = () => defaultDataValue;
+    const setDataType: UpdateDataType = () => defaultContextDataValue;
 
     const handleUpdate: HandleType = () => {};
     const handleCancel: HandleType = () => {};
     const handleSave: HandleType = () => {};
     const handleDataChange: ChangeType = (
         name: string,
-        e: ChangeEvent<HTMLInputElement>,
+        e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
         isCheckbox = false,
     ) => {};
 
     const ctx = createContext({
         disabled: defaultDisabledValue,
         setDisabled: setDisabled,
-        data: defaultDataValue,
+        contextData: defaultContextDataValue,
         setData: setDataType,
         handleUpdate,
         handleCancel,
@@ -53,7 +53,9 @@ export default function createManageRowContext<A>() {
         props: React.PropsWithChildren<Record<string, unknown>>,
     ) => {
         const [disabled, setDisabled] = useState<boolean>(defaultDisabledValue);
-        const [data, setData] = useState<A | Partial<A>>(defaultDataValue);
+        const [contextData, setData] = useState<A | Partial<A>>(
+            defaultContextDataValue,
+        );
 
         const handleUpdate = () => {
             setDisabled(false);
@@ -69,11 +71,13 @@ export default function createManageRowContext<A>() {
 
         const handleDataChange = (
             name: string,
-            e: ChangeEvent<HTMLInputElement>,
+            e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
             isCheckbox = false,
         ) => {
-            const value = isCheckbox ? e.target.checked : e.target.value;
-            setData({ ...data, [name]: value });
+            const value = isCheckbox
+                ? (e as ChangeEvent<HTMLInputElement>).target.checked
+                : e.target.value;
+            setData({ ...contextData, [name]: value });
         };
 
         return (
@@ -81,7 +85,7 @@ export default function createManageRowContext<A>() {
                 value={{
                     disabled,
                     setDisabled,
-                    data,
+                    contextData,
                     setData,
                     handleUpdate,
                     handleCancel,

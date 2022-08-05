@@ -10,6 +10,8 @@ interface Category {
     name: string;
     createdAt: string;
     isActif: boolean;
+    familyId: number;
+    familyName?: string;
 }
 
 interface Family extends Category {
