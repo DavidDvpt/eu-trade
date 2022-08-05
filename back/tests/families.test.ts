@@ -79,8 +79,7 @@ describe('FAMILY TESTS', () => {
                 .put(`/api/v1/families/1000000`)
                 .set({ Authorization: 'Bearer ' + token })
                 .send(payload)
-                .expect(404)
-                .then((response) => {});
+                .expect(404);
         });
     });
 

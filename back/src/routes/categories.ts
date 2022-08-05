@@ -103,7 +103,7 @@ async function addOne(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-async function update(req: Request, res: Response, next: NextFunction) {
+function update(req: Request, res: Response, next: NextFunction) {
     try {
         const id = req.params.id;
         const body = req.body;
@@ -112,23 +112,33 @@ async function update(req: Request, res: Response, next: NextFunction) {
             res.status(422);
             next(new Error());
         } else {
-            const category = await prisma.category.update({
-                where: {
-                    id: parseInt(id, 10),
-                },
-                data: body,
-            });
-
-            if (category) {
-                return res.status(200).json(category);
-            } else {
-                res.status(404);
-                next(new Error());
-            }
+            return prisma.category
+                .update({
+                    where: {
+                        id: parseInt(id, 10),
+                    },
+                    data: {
+                        name: body.name,
+                        isActif: body.isActif,
+                        familyId: parseInt(body.familyId, 10),
+                    },
+                })
+                .then((result) => {
+                    if (result) {
+                        return res.status(200).json(result);
+                    } else {
+                        res.status(404);
+                        next(new Error());
+                    }
+                })
+                .catch(() => {
+                    res.status(500);
+                    next(new Error('Database Error'));
+                });
         }
     } catch (error) {
         res.status(500);
-        next(new Error());
+        next(new Error('Server error'));
     }
 }
 

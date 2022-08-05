@@ -1,8 +1,9 @@
-import { family, Role } from '@prisma/client';
+import { Role } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import prisma from '../../prisma/prismaClient';
 import { jwtVerify } from '../middlewares/jwtVerify';
+import prismaErrorHandler from '../middlewares/prismaErrorHandler';
 const router = express.Router();
 
 router.get('/', getAll);
@@ -12,146 +13,160 @@ router.post('/', jwtVerify(Role.MANAGER), addOne);
 router.put('/:id', jwtVerify(Role.MANAGER), update);
 router.delete('/:id', jwtVerify(Role.ADMIN), deleteOne);
 
-async function getAll(req: Request, res: Response, next: NextFunction) {
+function getAll(req: Request, res: Response, next: NextFunction) {
     try {
-        const families = await prisma.family.findMany();
-        return res.status(200).json(families);
+        prisma.family
+            .findMany()
+            .then((result) => {
+                res.status(200).json(result);
+            })
+            .catch(() => {
+                res.status(500);
+                next(new Error('Database Error'));
+            });
     } catch (error) {
         res.status(500);
-        next(new Error());
+        next(new Error('Server Error'));
     }
 }
 
-async function getById(req: Request, res: Response, next: NextFunction) {
+function getById(req: Request, res: Response, next: NextFunction) {
     try {
         const id: string = req.params.id;
-        const family: family | null = await prisma.family.findUnique({
-            where: {
-                id: parseInt(id, 10),
-            },
-        });
-
-        if (family) {
-            return res.status(200).json(family);
-        } else {
-            res.status(404);
-            next(new Error());
-        }
-    } catch (error) {
-        res.status(500);
-        next(error);
-    }
-}
-
-async function getCategoriesByFamilyId(req: Request, res: Response, next: NextFunction) {
-    try {
-        const id = req.params.id;
-        const family = await prisma.family.findUnique({
-            where: {
-                id: parseInt(id, 10),
-            },
-            select: {
-                categories: true,
-            },
-        });
-        // console.log('categories', family);
-        if (family) {
-            return res.status(200).json(family.categories);
-        } else {
-            res.status(404);
-            next(new Error());
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500);
-        next(error);
-    }
-}
-
-async function addOne(req: Request, res: Response, next: NextFunction) {
-    try {
-        const body = req.body;
-        if (isEmpty(body)) {
-            res.status(422);
-            next(new Error());
-        } else {
-            const family = await prisma.family.create({
-                data: body,
-            });
-
-            if (family) {
-                return res.status(201).json(family);
-            } else {
-                return res.status(404).json({ message: 'not found' });
-            }
-        }
-    } catch (error) {
-        res.status(500);
-        next(new Error());
-    }
-}
-
-async function update(req: Request, res: Response, next: NextFunction) {
-    try {
-        const id = req.params.id;
-        const body = req.body;
-
-        if (isEmpty(body)) {
-            res.status(422);
-            next(new Error());
-        } else {
-            const family = await prisma.family.update({
+        prisma.family
+            .findUnique({
                 where: {
                     id: parseInt(id, 10),
                 },
-                data: body,
-            });
-
-            if (family) {
-                return res.status(200).json(family);
-            } else {
-                res.status(404);
-                next(new Error());
-            }
-        }
-    } catch (error: any) {
-        if (error.meta?.cause) {
-            switch (error.meta.cause) {
-                case 'Record to delete does not exist.':
-                case 'Record to update not found.':
+            })
+            .then((result) => {
+                if (result) {
+                    res.status(200).json(result);
+                } else {
                     res.status(404);
-                    break;
-                default:
+                    next(new Error());
+                }
+            })
+            .catch(() => {
+                res.status(500);
+                next(new Error('Database Error'));
+            });
+    } catch (error) {
+        res.status(500);
+        next(new Error('Server Error'));
+    }
+}
+
+function getCategoriesByFamilyId(req: Request, res: Response, next: NextFunction) {
+    try {
+        const id = req.params.id;
+        prisma.family
+            .findUnique({
+                where: {
+                    id: parseInt(id, 10),
+                },
+                select: {
+                    categories: true,
+                },
+            })
+            .then((result) => {
+                if (result) {
+                    res.status(200).json(result.categories);
+                } else {
+                    res.status(404);
+                    next(new Error());
+                }
+            })
+            .catch(() => {
+                res.status(500);
+                next(new Error('Database Error'));
+            });
+    } catch (error) {
+        res.status(500);
+        next(error);
+    }
+}
+
+function addOne(req: Request, res: Response, next: NextFunction) {
+    try {
+        const body = req.body;
+        if (isEmpty(body)) {
+            res.status(422);
+            next(new Error());
+        } else {
+            prisma.family
+                .create({
+                    data: body,
+                })
+                .then((result) => {
+                    res.status(201).json(result);
+                })
+                .catch(() => {
                     res.status(500);
-            }
+                    next(new Error('Database Error'));
+                });
         }
+    } catch (error) {
+        res.status(500);
         next(new Error());
     }
 }
 
-async function deleteOne(req: Request, res: Response, next: NextFunction) {
-    const id = req.params.id;
+function update(req: Request, res: Response, next: NextFunction) {
     try {
-        const deleted = await prisma.family.delete({
-            where: {
-                id: parseInt(id, 10),
-            },
-        });
+        const id = req.params.id;
+        const body = req.body;
 
-        if (deleted) {
-            return res.status(204).json();
+        if (isEmpty(body)) {
+            res.status(422);
+            next(new Error());
+        } else {
+            prisma.family
+                .update({
+                    where: {
+                        id: parseInt(id, 10),
+                    },
+                    data: { name: body.name, isActif: body.isActif },
+                })
+                .then((result) => {
+                    if (result) {
+                        res.status(200).json(result);
+                    } else {
+                        res.status(404);
+                        next(new Error());
+                    }
+                })
+                .catch((err) => {
+                    const status = prismaErrorHandler(err.meta?.cause);
+
+                    res.status(status);
+                    next(new Error(err.meta?.cause));
+                });
         }
     } catch (error: any) {
-        if (error.meta?.cause) {
-            switch (error.meta.cause) {
-                case 'Record to delete does not exist.':
-                case 'Record to update not found.':
-                    res.status(404);
-                    break;
-                default:
-                    res.status(500);
-            }
-        }
+        res.status(500);
+        next(new Error());
+    }
+}
+
+function deleteOne(req: Request, res: Response, next: NextFunction) {
+    const id = req.params.id;
+    try {
+        prisma.family
+            .delete({
+                where: {
+                    id: parseInt(id, 10),
+                },
+            })
+            .then((reult) => {
+                return res.status(204).json();
+            })
+            .catch((err) => {
+                res.status(prismaErrorHandler(err.meta?.cause));
+                next(new Error(err.meta?.cause));
+            });
+    } catch (error: any) {
+        res.status(500);
         next(error);
     }
 }
