@@ -3,7 +3,10 @@ import { delay } from 'lodash';
 import { ChangeEvent, useContext, useEffect } from 'react';
 
 import styles from '../../../pages/styles/managePage.module.scss';
-import { useAddCategoryMutation } from '../../appApi/categoryApi';
+import {
+    useAddCategoryMutation,
+    useUpdateCategoryMutation,
+} from '../../appApi/categoryApi';
 import { useGetFamiliesQuery } from '../../appApi/familyApi';
 import ActionButton from '../manageTable/actionButton';
 
@@ -16,30 +19,20 @@ interface ICategoryRowProps {
         setData: React.Dispatch<
             React.SetStateAction<Category | Partial<Category>>
         >;
-        handleUpdate: () => void;
-        handleCancel: () => void;
         handleDataChange: (
             name: string,
             e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
             isCheckbox?: boolean,
         ) => void;
-        handleSave: () => void;
     }>;
 }
 function CategoryRow({ datas, ctx }: ICategoryRowProps) {
     const { data } = useGetFamiliesQuery();
+    const [updateCategory, updateResult] = useUpdateCategoryMutation();
     const [addCategory, addResult] = useAddCategoryMutation();
-    const [updateCategory, updateResult] = useAddCategoryMutation();
-    const {
-        setData,
-        contextData,
-        disabled,
-        setDisabled,
-        handleDataChange,
-        handleCancel,
-        handleUpdate,
-        handleSave,
-    } = useContext(ctx);
+
+    const { setData, contextData, disabled, setDisabled, handleDataChange } =
+        useContext(ctx);
 
     useEffect(() => {
         if (datas) {
@@ -53,12 +46,20 @@ function CategoryRow({ datas, ctx }: ICategoryRowProps) {
     }, [datas]);
 
     useEffect(() => {
-        handleUpdate();
-    }, [updateResult.isSuccess, addResult.isSuccess]);
+        if (updateResult.isSuccess) {
+            setDisabled(true);
+        } else if (updateResult.isError) {
+            alert('ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        }
+    }, [updateResult]);
 
     useEffect(() => {
-        handleSave();
-    }, [updateResult.isSuccess, addResult.isSuccess]);
+        if (addResult.isSuccess) {
+            setDisabled(true);
+        } else if (addResult.isError) {
+            alert('ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        }
+    }, [addResult]);
 
     const handleRowSave = () => {
         if (contextData.id) {
@@ -82,7 +83,7 @@ function CategoryRow({ datas, ctx }: ICategoryRowProps) {
                 <select
                     name="familyId"
                     value={contextData.familyId ?? ''}
-                    onChange={(e) => handleDataChange('name', e)}
+                    onChange={(e) => handleDataChange('familyId', e)}
                     disabled={disabled}
                 >
                     {data?.map((f) => (
@@ -106,9 +107,9 @@ function CategoryRow({ datas, ctx }: ICategoryRowProps) {
             <td>
                 <ActionButton
                     disabled={disabled}
-                    handleCancel={handleCancel}
+                    handleCancel={() => setDisabled(true)}
                     handleSave={handleRowSave}
-                    handleUpdate={handleUpdate}
+                    handleUpdate={() => setDisabled(false)}
                 />
             </td>
         </tr>

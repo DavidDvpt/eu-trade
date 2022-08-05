@@ -5,9 +5,9 @@ export interface ManageRowContext<T> {
     setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
     contextData: Family | Partial<Family>;
     setData: React.Dispatch<React.SetStateAction<T | Partial<T>>>;
-    handleUpdate: () => void;
-    handleCancel: () => void;
-    handleSave: () => void;
+    // handleUpdate: () => void;
+    // handleCancel: () => void;
+    // handleSave: () => void;
     handleDataChange: (
         name: string,
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -19,7 +19,7 @@ export default function createManageRowContext<A>() {
     const defaultContextDataValue = {} as A | Partial<A>;
     type UpdateDisabledType = React.Dispatch<React.SetStateAction<boolean>>;
     type UpdateDataType = React.Dispatch<React.SetStateAction<A | Partial<A>>>;
-    type HandleType = () => void;
+    // type HandleType = () => void;
     type ChangeType = (
         name: string,
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -29,9 +29,9 @@ export default function createManageRowContext<A>() {
     const setDisabled: UpdateDisabledType = () => defaultDisabledValue;
     const setDataType: UpdateDataType = () => defaultContextDataValue;
 
-    const handleUpdate: HandleType = () => {};
-    const handleCancel: HandleType = () => {};
-    const handleSave: HandleType = () => {};
+    // const handleUpdate: HandleType = () => {};
+    // const handleCancel: HandleType = () => {};
+    // const handleSave: HandleType = () => {};
     const handleDataChange: ChangeType = (
         name: string,
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -43,10 +43,10 @@ export default function createManageRowContext<A>() {
         setDisabled: setDisabled,
         contextData: defaultContextDataValue,
         setData: setDataType,
-        handleUpdate,
-        handleCancel,
+        // handleUpdate,
+        // handleCancel,
+        // handleSave,
         handleDataChange,
-        handleSave,
     });
 
     const Provider = (
@@ -57,17 +57,17 @@ export default function createManageRowContext<A>() {
             defaultContextDataValue,
         );
 
-        const handleUpdate = () => {
-            setDisabled(false);
-        };
+        // const handleUpdate = () => {
+        //     setDisabled(false);
+        // };
 
-        const handleCancel = () => {
-            setDisabled(true);
-        };
+        // const handleCancel = () => {
+        //     setDisabled(true);
+        // };
 
-        const handleSave = () => {
-            setDisabled(true);
-        };
+        // const handleSave = () => {
+        //     setDisabled(true);
+        // };
 
         const handleDataChange = (
             name: string,
@@ -87,10 +87,10 @@ export default function createManageRowContext<A>() {
                     setDisabled,
                     contextData,
                     setData,
-                    handleUpdate,
-                    handleCancel,
+                    // handleUpdate,
+                    // handleCancel,
+                    // handleSave,
                     handleDataChange,
-                    handleSave,
                 }}
                 {...props}
             />

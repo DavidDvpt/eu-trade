@@ -15,39 +15,25 @@ interface IFamilyRowProps {
         setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
         contextData: Family | Partial<Family>;
         setData: React.Dispatch<React.SetStateAction<Family | Partial<Family>>>;
-        handleUpdate: () => void;
-        handleCancel: () => void;
+
         handleDataChange: (
             name: string,
             e: ChangeEvent<HTMLInputElement>,
             isCheckbox?: boolean,
         ) => void;
-        handleSave: () => void;
     }>;
 }
 
 function FamilyRow({ datas, ctx }: IFamilyRowProps) {
-    // console.log('datas', datas);
-    const [updateFamily, resultUpdate] = useUpdateFamilyMutation();
-    const [postFamily, resultPost] = useAddFamilyMutation();
+    const [updateFamily, updateResult] = useUpdateFamilyMutation();
+    const [postFamily, addResult] = useAddFamilyMutation();
 
-    const {
-        setData,
-        contextData,
-        disabled,
-        setDisabled,
-        handleDataChange,
-        handleCancel,
-        handleUpdate,
-        handleSave,
-    } = useContext(ctx);
+    const { setData, contextData, disabled, setDisabled, handleDataChange } =
+        useContext(ctx);
 
     useEffect(() => {
         if (datas) {
-            // console.log('data ok', datas);
-            // delay(() => {
             setData(datas as Family);
-            // }, 1000);
         } else {
             setData({ name: '', isActif: false });
             delay(() => {
@@ -57,12 +43,20 @@ function FamilyRow({ datas, ctx }: IFamilyRowProps) {
     }, [datas]);
 
     useEffect(() => {
-        handleUpdate();
-    }, [resultUpdate.isSuccess, resultPost.isSuccess]);
+        if (updateResult.isSuccess) {
+            setDisabled(true);
+        } else if (updateResult.isError) {
+            alert('ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        }
+    }, [updateResult]);
 
     useEffect(() => {
-        handleSave();
-    }, [resultUpdate.isSuccess, resultPost.isSuccess]);
+        if (addResult.isSuccess) {
+            setDisabled(true);
+        } else if (addResult.isError) {
+            alert('ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        }
+    }, [addResult]);
 
     const handleRowSave = () => {
         if (contextData.id) {
@@ -97,9 +91,9 @@ function FamilyRow({ datas, ctx }: IFamilyRowProps) {
             <td>
                 <ActionButton
                     disabled={disabled}
-                    handleCancel={handleCancel}
+                    handleCancel={() => setDisabled(true)}
                     handleSave={handleRowSave}
-                    handleUpdate={handleUpdate}
+                    handleUpdate={() => setDisabled(false)}
                 />
             </td>
         </tr>
