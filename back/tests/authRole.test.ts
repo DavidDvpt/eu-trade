@@ -5,12 +5,32 @@ import { genToken } from '../src/lib/authTools';
 
 describe('AUTH ROLES TESTS', () => {
     describe('No token', () => {
-        it('get all', async () => {
+        it('get all - Should return 401', async () => {
             await supertest(app).get('/api/v1/families').expect(401);
         });
     });
 
-    describe('No role', () => {
+    describe('Bad role - Should return 403', () => {
+        let token = '';
+        beforeAll(() => {
+            token = genToken({
+                id: 1,
+                pseudo: 'dudul',
+                email: 'fgdsgf@dsf.sdf',
+                password: 'ddd',
+                role: 'BAD',
+            });
+        });
+
+        it('Get all should return 403', async () => {
+            await supertest(app)
+                .get('/api/v1/families')
+                .set({ Authorization: 'Bearer ' + token })
+                .expect(403);
+        });
+    });
+
+    describe('Role USER', () => {
         let token = '';
         beforeAll(() => {
             token = genToken({

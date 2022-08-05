@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 router.use('/login', LoginRoute);
 
-router.use(jwtVerify());
+router.use(jwtVerify(Role.USER));
 
 router.use('/families', familiesRoutes);
 router.use('/categories', categoriesRoutes);
