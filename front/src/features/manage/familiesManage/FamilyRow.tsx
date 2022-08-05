@@ -1,34 +1,59 @@
+import { delay } from 'lodash';
 import { memo, useContext, useEffect } from 'react';
 
 import ActionButton from '../../../components/manageTable/actionButton';
-import { useUpdateFamilyMutation } from '../../appApi/familyApi';
+import styles from '../../../pages/styles/managePage.module.scss';
+import {
+    useAddFamilyMutation,
+    useUpdateFamilyMutation,
+} from '../../appApi/familyApi';
 import { FamilyRowCtx } from './FamilyRowProvider';
 
 interface IFamilyRowProps {
-    datas?: Family;
+    datas?: Family | Partial<Family>;
 }
 
 function FamilyRow({ datas }: IFamilyRowProps) {
-    const [updateFamily, result] = useUpdateFamilyMutation();
+    const [updateFamily, resultUpdate] = useUpdateFamilyMutation();
+    const [postFamily, resultPost] = useAddFamilyMutation();
 
     const {
         setData,
         data,
         disabled,
+        setDisabled,
         handleDataChange,
         handleCancel,
         handleUpdate,
         handleSave,
     } = useContext(FamilyRowCtx);
+    console.log(disabled, data);
 
     useEffect(() => {
         if (datas) {
-            setData(datas);
+            setData(datas as Family);
+        } else {
+            setData({ name: '', isActif: false });
+            delay(() => {
+                setDisabled(false);
+            }, 1);
         }
     }, []);
 
+    useEffect(() => {
+        handleUpdate();
+    }, [resultUpdate.isSuccess, resultPost.isSuccess]);
+
+    useEffect(() => {
+        handleSave();
+    }, [resultUpdate.isSuccess, resultPost.isSuccess]);
+
     const handleRowSave = () => {
-        updateFamily(data);
+        if (data.id) {
+            updateFamily(data as Family);
+        } else {
+            postFamily(data);
+        }
     };
 
     return (
@@ -42,14 +67,16 @@ function FamilyRow({ datas }: IFamilyRowProps) {
                     disabled={disabled}
                 />
             </td>
-            <td>
-                <input
-                    type="checkbox"
-                    name="isActif"
-                    checked={data.isActif ?? false}
-                    onChange={(e) => handleDataChange('isActif', e, true)}
-                    disabled={disabled}
-                />
+            <td className={styles.checkboxCell}>
+                <div>
+                    <input
+                        type="checkbox"
+                        name="isActif"
+                        checked={data.isActif ?? false}
+                        onChange={(e) => handleDataChange('isActif', e, true)}
+                        disabled={disabled}
+                    />
+                </div>
             </td>
             <td>
                 <ActionButton

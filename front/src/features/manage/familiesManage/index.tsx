@@ -1,5 +1,4 @@
 import ManageTable from '../../../components/manageTable';
-import AddRowButton from '../../../components/manageTable/addRowButton';
 import { useGetFamiliesQuery } from '../../appApi/familyApi';
 import FamilyRowProvider from './FamilyRowProvider';
 
@@ -19,11 +18,7 @@ function FamiliesManage() {
             <ManageTable
                 titles={titles}
                 rows={data ?? []}
-                addButton={
-                    <AddRowButton>
-                        <FamilyRowProvider />
-                    </AddRowButton>
-                }
+                addButton={<FamilyRowProvider />}
             >
                 <FamilyRowProvider />
             </ManageTable>

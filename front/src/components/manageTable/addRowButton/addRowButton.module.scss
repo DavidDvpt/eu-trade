@@ -1,8 +1,0 @@
-@import '../../../scss/main';
-
-.addRowButton {
-    border: none !important;
-    span {
-        @include button-base;
-    }
-}

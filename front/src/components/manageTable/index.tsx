@@ -32,8 +32,7 @@ function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
                     {rows.map((r) =>
                         cloneElement(children, { datas: r, key: nanoid() }),
                     )}
-                    {onAdd &&
-                        cloneElement(children, { datas: {}, key: nanoid() })}
+                    {onAdd && cloneElement(children, { key: nanoid() })}
                 </tbody>
             </table>
             <div className={styles.addRowButton} onClick={handleAddClick}>
