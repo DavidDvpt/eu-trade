@@ -63,10 +63,13 @@
             }
         }
 
-        .addRowButton {
-            @include button-base;
+        .addRowButtonCell {
+            border: none;
+            .addRowButton {
+                @include button-base;
 
-            line-height: 25px;
+                line-height: 25px;
+            }
         }
     }
 }

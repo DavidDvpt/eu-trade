@@ -1,5 +1,5 @@
 import { delay } from 'lodash';
-import { memo, useContext, useEffect } from 'react';
+import { ChangeEvent, useContext, useEffect } from 'react';
 
 import styles from '../../../pages/styles/managePage.module.scss';
 import {
@@ -7,13 +7,27 @@ import {
     useUpdateFamilyMutation,
 } from '../../appApi/familyApi';
 import ActionButton from '../manageTable/actionButton';
-import { FamilyRowCtx } from './FamilyRowProvider';
 
 interface IFamilyRowProps {
     datas?: Family | Partial<Family>;
+    ctx: React.Context<{
+        disabled: boolean;
+        setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+        data: Family | Partial<Family>;
+        setData: React.Dispatch<React.SetStateAction<Family | Partial<Family>>>;
+        handleUpdate: () => void;
+        handleCancel: () => void;
+        handleDataChange: (
+            name: string,
+            e: ChangeEvent<HTMLInputElement>,
+            isCheckbox?: boolean,
+        ) => void;
+        handleSave: () => void;
+    }>;
 }
 
-function FamilyRow({ datas }: IFamilyRowProps) {
+function FamilyRow({ datas, ctx }: IFamilyRowProps) {
+    // console.log('datas', datas);
     const [updateFamily, resultUpdate] = useUpdateFamilyMutation();
     const [postFamily, resultPost] = useAddFamilyMutation();
 
@@ -26,18 +40,21 @@ function FamilyRow({ datas }: IFamilyRowProps) {
         handleCancel,
         handleUpdate,
         handleSave,
-    } = useContext(FamilyRowCtx);
+    } = useContext(ctx);
 
     useEffect(() => {
         if (datas) {
+            // console.log('data ok', datas);
+            // delay(() => {
             setData(datas as Family);
+            // }, 1000);
         } else {
             setData({ name: '', isActif: false });
             delay(() => {
                 setDisabled(false);
             }, 1);
         }
-    }, []);
+    }, [datas]);
 
     useEffect(() => {
         handleUpdate();
@@ -89,4 +106,4 @@ function FamilyRow({ datas }: IFamilyRowProps) {
     );
 }
 
-export default memo(FamilyRow);
+export default FamilyRow;

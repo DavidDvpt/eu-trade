@@ -1,5 +1,19 @@
 import { ChangeEvent, createContext, useState } from 'react';
 
+export interface ManageRowContext<T> {
+    disabled: boolean;
+    setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+    data: Family | Partial<Family>;
+    setData: React.Dispatch<React.SetStateAction<T | Partial<T>>>;
+    handleUpdate: () => void;
+    handleCancel: () => void;
+    handleSave: () => void;
+    handleDataChange: (
+        name: string,
+        e: ChangeEvent<HTMLInputElement>,
+        isCheckbox?: boolean,
+    ) => void;
+}
 export default function createManageRowContext<A>() {
     const defaultDisabledValue = true;
     const defaultDataValue = {} as A | Partial<A>;

@@ -1,19 +1,20 @@
-import createManageRowContext from '../manageTable/manageContext';
-import FamilyRow from './FamilyRow';
+// import createManageRowContext from '../manageTable/manageContext';
+// import FamilyRow from './FamilyRow';
 
-const [ctx, RowContext] = createManageRowContext<Family>();
-export const FamilyRowCtx = ctx;
+// const [ctx, RowContext] = createManageRowContext<Family>();
+// export const FamilyRowCtx = ctx;
 
-interface IFamilyRowProviderProps {
-    datas?: Family;
-}
+// interface IFamilyRowProviderProps {
+//     datas?: Family;
+// }
 
-function FamilyRowProvider({ datas }: IFamilyRowProviderProps) {
-    return (
-        <RowContext>
-            <FamilyRow datas={datas} />
-        </RowContext>
-    );
-}
+// function FamilyRowProvider({ datas }: IFamilyRowProviderProps) {
+//     return (
+//         <RowContext>
+//             <FamilyRow datas={datas} />
+//         </RowContext>
+//     );
+// }
 
-export default FamilyRowProvider;
+// export default FamilyRowProvider;
+export {};

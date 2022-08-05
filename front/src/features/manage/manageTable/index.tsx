@@ -40,14 +40,16 @@ function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
                         cloneElement(children, { key: nanoid() })}
 
                     <tr>
-                        <div
-                            className={styles.addRowButton}
-                            onClick={handleAddClick}
-                        >
-                            {addRowActionClicked
-                                ? 'Cancel new row'
-                                : 'Add new row'}
-                        </div>
+                        <td className={styles.addRowButtonCell}>
+                            <div
+                                className={styles.addRowButton}
+                                onClick={handleAddClick}
+                            >
+                                {addRowActionClicked
+                                    ? 'Cancel new row'
+                                    : 'Add new row'}
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

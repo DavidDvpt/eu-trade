@@ -1,6 +1,7 @@
 import { useGetFamiliesQuery } from '../../appApi/familyApi';
 import ManageTable from '../manageTable';
-import FamilyRowProvider from './FamilyRowProvider';
+import RowProvider from '../RowProvider';
+import FamilyRow from './FamilyRow';
 
 const titles: TitleDisplay[] = [
     { label: 'Name', display: 'name' },
@@ -11,6 +12,7 @@ function FamiliesManage() {
     const { data } = useGetFamiliesQuery(undefined, {
         refetchOnMountOrArgChange: true,
     });
+
     return (
         <div>
             <h1>Families Manager</h1>
@@ -18,9 +20,11 @@ function FamiliesManage() {
             <ManageTable
                 titles={titles}
                 rows={data ?? []}
-                addButton={<FamilyRowProvider />}
+                addButton={
+                    <RowProvider row={<FamilyRow ctx={undefined as never} />} />
+                }
             >
-                <FamilyRowProvider />
+                <RowProvider row={<FamilyRow ctx={undefined as never} />} />
             </ManageTable>
         </div>
     );
