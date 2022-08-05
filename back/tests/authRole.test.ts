@@ -48,21 +48,21 @@ describe('AUTH ROLES TESTS', () => {
 
         it('Create', async () => {
             await supertest(app)
-                .post('/api/v1/families/1/categories')
+                .post('/api/v1/families')
                 .set({ Authorization: 'Bearer ' + token })
                 .expect(403);
         });
 
         it('Update', async () => {
             await supertest(app)
-                .put('/api/v1/families/1/categories')
+                .put('/api/v1/families/1')
                 .set({ Authorization: 'Bearer ' + token })
                 .expect(403);
         });
 
         it('Delete', async () => {
             await supertest(app)
-                .delete('/api/v1/families/1/categories')
+                .delete('/api/v1/families/1')
                 .set({ Authorization: 'Bearer ' + token })
                 .expect(403);
         });

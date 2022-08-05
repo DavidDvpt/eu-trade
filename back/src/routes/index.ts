@@ -1,3 +1,4 @@
+import { Role } from '@prisma/client';
 import express from 'express';
 import { jwtVerify } from '../middlewares/jwtVerify';
 import categoriesRoutes from './categories';
@@ -18,7 +19,8 @@ router.use(jwtVerify());
 
 router.use('/families', familiesRoutes);
 router.use('/categories', categoriesRoutes);
-router.use('/users', usersRoutes);
 router.use('/items', itemsRoutes);
+
+router.use('/users', jwtVerify(Role.ADMIN), usersRoutes);
 
 export default router;

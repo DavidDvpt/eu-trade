@@ -9,7 +9,6 @@ export function jwtVerify(role?: string) {
         const token = req.headers.authorization?.split(' ')[1] || '';
         jwt.verify(token, SECRET, (err, decoded) => {
             if (err) {
-                // console.log(err);
                 res.status(401);
                 throw new Error(err.message);
             } else {

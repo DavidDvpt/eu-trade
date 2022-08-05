@@ -40,7 +40,7 @@ describe('ITEM TESTS', () => {
                 .expect(201)
                 .then((response) => {
                     const body = response.body;
-                    console.log(body);
+
                     createdId = body.id;
                     expect(body.name).toBe('entityTest');
                     expect(body.isActif).toBe(false);

@@ -1,16 +1,19 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import prisma from '../../prisma/prismaClient';
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', getAll);
+router.get('/:id', getById);
+
+async function getAll(req: Request, res: Response, next: NextFunction) {
     try {
         const categories = await prisma.user.findMany();
 
         return res.status(200).json(categories);
     } catch (error) {}
-});
+}
 
-router.get('/:id', async (req, res) => {
+async function getById(req: Request, res: Response, next: NextFunction) {
     const id = req.params.id;
     try {
         const categories = await prisma.user.findUnique({
@@ -21,6 +24,6 @@ router.get('/:id', async (req, res) => {
 
         return res.status(200).json(categories);
     } catch (error) {}
-});
+}
 
 export default router;

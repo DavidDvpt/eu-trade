@@ -8,8 +8,8 @@ const router = express.Router();
 router.get('/', getAll);
 router.get('/:id', getById);
 router.get('/:id/categories', getCategoriesByFamilyId);
-router.put('/:id', jwtVerify(Role.MANAGER), update);
 router.post('/', jwtVerify(Role.MANAGER), addOne);
+router.put('/:id', jwtVerify(Role.MANAGER), update);
 router.delete('/:id', jwtVerify(Role.ADMIN), deleteOne);
 
 async function getAll(req: Request, res: Response, next: NextFunction) {
