@@ -12,13 +12,11 @@ function AppRouter() {
             <Route path="/" element={<HomePage />} />
             {isLogged && (
                 <>
-                    <>
-                        {isAdmin && (
-                            <Route path="manage" element={<ManagePage />}>
-                                {/* <Route path="families" /> */}
-                            </Route>
-                        )}
-                    </>
+                    {isAdmin && (
+                        <Route path="manage" element={<ManagePage />}>
+                            {/* <Route path="families" /> */}
+                        </Route>
+                    )}
                 </>
             )}
         </Routes>

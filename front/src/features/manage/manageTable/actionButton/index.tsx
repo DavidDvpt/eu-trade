@@ -1,3 +1,5 @@
+import { useAppDispatch } from '../../../../app/hooks';
+import { setAddAction } from '../../manageSlice';
 import styles from './actionButton.module.scss';
 interface ActionButtonProps {
     disabled: boolean;
@@ -12,6 +14,12 @@ function ActionButton({
     handleCancel,
     handleSave,
 }: ActionButtonProps) {
+    const dispatch = useAppDispatch();
+
+    const handleInternalCancel = () => {
+        handleCancel();
+        dispatch(setAddAction(false));
+    };
     return (
         <div className={styles.actionButton}>
             {disabled ? (
@@ -25,7 +33,7 @@ function ActionButton({
                     </span>
                     <span
                         className={styles.cancelButton}
-                        onClick={handleCancel}
+                        onClick={handleInternalCancel}
                     >
                         Cancel
                     </span>

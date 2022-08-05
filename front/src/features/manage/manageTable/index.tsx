@@ -1,7 +1,9 @@
 import { nanoid } from '@reduxjs/toolkit';
-import { cloneElement, useState } from 'react';
+import { cloneElement } from 'react';
 
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import styles from '../../../pages/styles/managePage.module.scss';
+import { getManageState, setAddAction } from '../manageSlice';
 
 interface ManageTableProps<T> {
     titles: TitleDisplay[];
@@ -11,10 +13,11 @@ interface ManageTableProps<T> {
 }
 
 function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
-    const [onAdd, setOnAdd] = useState(false);
+    const { addRowActionClicked } = useAppSelector(getManageState);
+    const dispatch = useAppDispatch();
 
     const handleAddClick = () => {
-        setOnAdd(!onAdd);
+        dispatch(setAddAction(!addRowActionClicked));
     };
 
     return (
@@ -32,12 +35,22 @@ function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
                     {rows.map((r) =>
                         cloneElement(children, { datas: r, key: nanoid() }),
                     )}
-                    {onAdd && cloneElement(children, { key: nanoid() })}
+
+                    {addRowActionClicked &&
+                        cloneElement(children, { key: nanoid() })}
+
+                    <tr>
+                        <div
+                            className={styles.addRowButton}
+                            onClick={handleAddClick}
+                        >
+                            {addRowActionClicked
+                                ? 'Cancel new row'
+                                : 'Add new row'}
+                        </div>
+                    </tr>
                 </tbody>
             </table>
-            <div className={styles.addRowButton} onClick={handleAddClick}>
-                {onAdd ? 'Cancel new row' : 'Add new row'}
-            </div>
         </>
     );
 }

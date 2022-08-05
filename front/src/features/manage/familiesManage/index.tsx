@@ -12,7 +12,7 @@ function FamiliesManage() {
         refetchOnMountOrArgChange: true,
     });
     return (
-        <>
+        <div>
             <h1>Families Manager</h1>
 
             <ManageTable
@@ -22,7 +22,7 @@ function FamiliesManage() {
             >
                 <FamilyRowProvider />
             </ManageTable>
-        </>
+        </div>
     );
 }
 

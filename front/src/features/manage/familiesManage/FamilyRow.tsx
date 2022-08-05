@@ -27,7 +27,6 @@ function FamilyRow({ datas }: IFamilyRowProps) {
         handleUpdate,
         handleSave,
     } = useContext(FamilyRowCtx);
-    console.log(disabled, data);
 
     useEffect(() => {
         if (datas) {

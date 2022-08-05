@@ -20,12 +20,13 @@
 
         > div {
             @include flex-center-center;
+            flex-direction: column;
         }
 
         table {
             margin: auto;
             margin-top: 40px;
-            border: 1px solid $form-fielset-border-color;
+            // border: 1px solid $form-fielset-border-color;
             border-collapse: collapse;
 
             th,
@@ -64,7 +65,7 @@
 
         .addRowButton {
             @include button-base;
-            width: 200px;
+
             line-height: 25px;
         }
     }
