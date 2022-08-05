@@ -1,7 +1,7 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { cloneElement, useState } from 'react';
 
-import styles from '../../pages/styles/managePage.module.scss';
+import styles from '../../../pages/styles/managePage.module.scss';
 
 interface ManageTableProps<T> {
     titles: TitleDisplay[];

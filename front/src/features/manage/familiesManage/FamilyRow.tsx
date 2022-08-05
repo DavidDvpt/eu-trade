@@ -1,12 +1,12 @@
 import { delay } from 'lodash';
 import { memo, useContext, useEffect } from 'react';
 
-import ActionButton from '../../../components/manageTable/actionButton';
 import styles from '../../../pages/styles/managePage.module.scss';
 import {
     useAddFamilyMutation,
     useUpdateFamilyMutation,
 } from '../../appApi/familyApi';
+import ActionButton from '../manageTable/actionButton';
 import { FamilyRowCtx } from './FamilyRowProvider';
 
 interface IFamilyRowProps {

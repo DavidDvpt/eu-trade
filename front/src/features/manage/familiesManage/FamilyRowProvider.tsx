@@ -1,4 +1,4 @@
-import createManageRowContext from '../../../components/manageTable/manageContext';
+import createManageRowContext from '../manageTable/manageContext';
 import FamilyRow from './FamilyRow';
 
 const [ctx, RowContext] = createManageRowContext<Family>();
