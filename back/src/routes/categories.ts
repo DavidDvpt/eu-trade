@@ -1,11 +1,19 @@
 import { Role } from '@prisma/client';
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import prisma from '../../prisma/prismaClient';
 import { jwtVerify } from '../middlewares/jwtVerify';
+
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', getAll);
+router.get('/:id', getById);
+router.get('/:id/items', getItemsByCategoryId);
+router.put('/:id', jwtVerify(Role.MANAGER), update);
+router.post('/', jwtVerify(Role.MANAGER), addOne);
+router.delete('/:id', jwtVerify(Role.ADMIN), deleteOne);
+
+async function getAll(req: Request, res: Response, next: NextFunction) {
     try {
         const categories = await prisma.category.findMany();
 
@@ -14,9 +22,9 @@ router.get('/', async (req, res, next) => {
         res.status(500);
         next(new Error());
     }
-});
+}
 
-router.get('/:id', async (req, res, next) => {
+async function getById(req: Request, res: Response, next: NextFunction) {
     try {
         const id = req.params.id;
         const category = await prisma.category.findUnique({
@@ -40,9 +48,9 @@ router.get('/:id', async (req, res, next) => {
                 res.status(500);
         }
     }
-});
+}
 
-router.get('/:id/items', async (req, res, next) => {
+async function getItemsByCategoryId(req: Request, res: Response, next: NextFunction) {
     try {
         const id = req.params.id;
         const category = await prisma.category.findUnique({
@@ -69,11 +77,9 @@ router.get('/:id/items', async (req, res, next) => {
                 res.status(500);
         }
     }
-});
+}
 
-router.use(jwtVerify(Role.MANAGER));
-
-router.post('/', async (req, res, next) => {
+async function addOne(req: Request, res: Response, next: NextFunction) {
     try {
         const body = req.body;
         if (isEmpty(body)) {
@@ -95,9 +101,9 @@ router.post('/', async (req, res, next) => {
         res.status(500);
         next(new Error());
     }
-});
+}
 
-router.put('/:id', async (req, res, next) => {
+async function update(req: Request, res: Response, next: NextFunction) {
     try {
         const id = req.params.id;
         const body = req.body;
@@ -124,11 +130,9 @@ router.put('/:id', async (req, res, next) => {
         res.status(500);
         next(new Error());
     }
-});
+}
 
-router.use(jwtVerify(Role.ADMIN));
-
-router.delete('/:id', async (req, res, next) => {
+async function deleteOne(req: Request, res: Response, next: NextFunction) {
     try {
         const id = req.params.id;
         const deleted = await prisma.category.delete({
@@ -152,6 +156,6 @@ router.delete('/:id', async (req, res, next) => {
         }
         next(error);
     }
-});
+}
 
 export default router;

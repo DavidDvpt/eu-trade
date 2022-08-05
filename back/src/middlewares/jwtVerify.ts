@@ -13,8 +13,8 @@ export function jwtVerify(role?: string) {
                 res.status(401);
                 throw new Error(err.message);
             } else {
-                console.log(decoded);
                 const decodedRole: string | undefined = (decoded as jwt.JwtPayload)?.role;
+
                 if (!role) {
                     next();
                 } else if (decodedRole === Role.ADMIN) {
