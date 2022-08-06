@@ -20,7 +20,7 @@ function ItemsManage() {
     });
     return (
         <div>
-            <h1>Families Manager</h1>
+            <h1>Items Manager</h1>
 
             <ManageTable titles={titles} rows={data ?? []}>
                 <RowProvider
