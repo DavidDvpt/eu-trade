@@ -81,7 +81,7 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
     };
     return (
         <tr>
-            <td>
+            <td className={styles.nameCell}>
                 <TabInput
                     name="name"
                     value={contextData.name ?? ''}
@@ -89,7 +89,7 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
                     disabled={disabled}
                 />
             </td>
-            <td>
+            <td className={styles.selectCell}>
                 <TabSelect
                     name="familyId"
                     value={contextData.familyId ?? ''}

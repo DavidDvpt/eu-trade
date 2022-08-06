@@ -24,14 +24,16 @@
         }
 
         table {
-            margin: 40px 20px 0 20px;
             margin-top: 40px;
             border-collapse: collapse;
+            overflow: hidden;
+            width: 90%;
 
             th,
             td {
                 border: 1px solid $form-fielset-border-color;
                 border-collapse: collapse;
+                vertical-align: middle;
                 height: 30px;
             }
 
@@ -41,14 +43,10 @@
             }
 
             td {
-                input {
+                input,
+                select {
                     width: 100%;
                     border: none;
-                    padding: 0;
-                }
-
-                select {
-                    border-color: $form-fielset-border-color;
                 }
 
                 &:last-child {
@@ -72,6 +70,10 @@
                 }
             }
 
+            .selectCell {
+                width: 20%;
+            }
+
             .actionCell {
                 width: 30%;
             }
@@ -84,6 +86,7 @@
                 @include button-base;
                 line-height: 25px;
                 width: 50%;
+                margin-left: 0;
             }
         }
     }

@@ -14,7 +14,6 @@ function TabCheckbox({
     className,
 }: TabCheckboxProps) {
     return (
-        // <div>
         <input
             type="checkbox"
             className={className}
@@ -23,7 +22,6 @@ function TabCheckbox({
             onChange={(e) => onChange('isActif', e.target.checked)}
             disabled={disabled}
         />
-        // </div>
     );
 }
 
