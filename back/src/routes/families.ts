@@ -20,9 +20,9 @@ function getAll(req: Request, res: Response, next: NextFunction) {
             .then((result) => {
                 res.status(200).json(result);
             })
-            .catch(() => {
-                res.status(500);
-                next(new Error('Database Error'));
+            .catch((err) => {
+                res.status(prismaErrorHandler(err.meta?.cause));
+                next(new Error(err.meta?.cause));
             });
     } catch (error) {
         res.status(500);
@@ -33,6 +33,7 @@ function getAll(req: Request, res: Response, next: NextFunction) {
 function getById(req: Request, res: Response, next: NextFunction) {
     try {
         const id: string = req.params.id;
+
         prisma.family
             .findUnique({
                 where: {
@@ -47,9 +48,9 @@ function getById(req: Request, res: Response, next: NextFunction) {
                     next(new Error());
                 }
             })
-            .catch(() => {
-                res.status(500);
-                next(new Error('Database Error'));
+            .catch((err) => {
+                res.status(prismaErrorHandler(err.meta?.cause));
+                next(new Error(err.meta?.cause));
             });
     } catch (error) {
         res.status(500);
@@ -60,6 +61,7 @@ function getById(req: Request, res: Response, next: NextFunction) {
 function getCategoriesByFamilyId(req: Request, res: Response, next: NextFunction) {
     try {
         const id = req.params.id;
+
         prisma.family
             .findUnique({
                 where: {
@@ -77,9 +79,9 @@ function getCategoriesByFamilyId(req: Request, res: Response, next: NextFunction
                     next(new Error());
                 }
             })
-            .catch(() => {
-                res.status(500);
-                next(new Error('Database Error'));
+            .catch((err) => {
+                res.status(prismaErrorHandler(err.meta?.cause));
+                next(new Error(err.meta?.cause));
             });
     } catch (error) {
         res.status(500);
@@ -90,6 +92,7 @@ function getCategoriesByFamilyId(req: Request, res: Response, next: NextFunction
 function addOne(req: Request, res: Response, next: NextFunction) {
     try {
         const body = req.body;
+
         if (isEmpty(body)) {
             res.status(422);
             next(new Error());
@@ -101,9 +104,9 @@ function addOne(req: Request, res: Response, next: NextFunction) {
                 .then((result) => {
                     res.status(201).json(result);
                 })
-                .catch(() => {
-                    res.status(500);
-                    next(new Error('Database Error'));
+                .catch((err) => {
+                    res.status(prismaErrorHandler(err.meta?.cause));
+                    next(new Error(err.meta?.cause));
                 });
         }
     } catch (error) {
@@ -137,9 +140,7 @@ function update(req: Request, res: Response, next: NextFunction) {
                     }
                 })
                 .catch((err) => {
-                    const status = prismaErrorHandler(err.meta?.cause);
-
-                    res.status(status);
+                    res.status(prismaErrorHandler(err.meta?.cause));
                     next(new Error(err.meta?.cause));
                 });
         }
@@ -150,8 +151,9 @@ function update(req: Request, res: Response, next: NextFunction) {
 }
 
 function deleteOne(req: Request, res: Response, next: NextFunction) {
-    const id = req.params.id;
     try {
+        const id = req.params.id;
+
         prisma.family
             .delete({
                 where: {
