@@ -3,6 +3,8 @@ import { nanoid } from '@reduxjs/toolkit';
 interface TabSelectProps {
     name: string;
     value: number | string;
+    noValue?: boolean;
+    noValueText?: string;
     onChange: (name: string, value: string) => void;
     disabled: boolean;
     className?: string;
@@ -16,6 +18,8 @@ function TabSelect({
     disabled,
     className,
     options,
+    noValue = true,
+    noValueText = 'None',
 }: TabSelectProps) {
     return (
         <select
@@ -25,7 +29,7 @@ function TabSelect({
             onChange={(e) => onChange(name, e.target.value)}
             disabled={disabled}
         >
-            <option value="0">None</option>
+            {noValue && <option value="0">{noValueText}</option>}
             {options?.map((f) => (
                 <option key={nanoid()} value={f.id}>
                     {f.name}

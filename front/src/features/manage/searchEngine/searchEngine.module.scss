@@ -1,0 +1,27 @@
+@import '../../../scss/main';
+
+.searchEngine {
+    margin-top: 20px;
+    padding: 20px 10px;
+    border: 1px solid $form-fielset-border-color;
+    box-shadow: 0px 0px 2px $form-fielset-border-color;
+    background-color: $form-fielset-border-color;
+    border-radius: 6px;
+    width: 90%;
+    display: flex;
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+
+    select {
+        border: $form-fielset-border-color 1px solid;
+        background-color: $color-white;
+        border-radius: 6px;
+        width: 200px;
+        height: 40px;
+        margin-right: 20px;
+
+        &:focus {
+            outline: $form-fielset-border-color-focus 1px solid;
+        }
+    }
+}

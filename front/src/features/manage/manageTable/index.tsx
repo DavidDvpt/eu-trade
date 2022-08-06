@@ -6,18 +6,12 @@ import styles from '../../../pages/styles/managePage.module.scss';
 import { getManageState, setAddAction } from '../manageSlice';
 
 interface ManageTableProps<T> {
-    title: string;
     titles: TitleDisplay[];
     rows: T[];
     children: React.ReactElement;
 }
 
-function ManageTable<T>({
-    title,
-    titles,
-    rows,
-    children,
-}: ManageTableProps<T>) {
+function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
     const { addRowActionClicked } = useAppSelector(getManageState);
     const dispatch = useAppDispatch();
 
@@ -27,11 +21,10 @@ function ManageTable<T>({
 
     useEffect(() => {
         dispatch(setAddAction(false));
-    }, [title]);
+    }, [titles]);
 
     return (
-        <div>
-            <h1>{title}</h1>
+        <>
             <table>
                 <thead>
                     <tr>
@@ -53,7 +46,7 @@ function ManageTable<T>({
             <div className={styles.addRowButton} onClick={handleAddClick}>
                 {addRowActionClicked ? 'Cancel new row' : 'Add new row'}
             </div>
-        </div>
+        </>
     );
 }
 
