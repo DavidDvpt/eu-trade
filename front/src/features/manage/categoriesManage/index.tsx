@@ -10,7 +10,7 @@ const titles: TitleDisplay[] = [
 ];
 
 function CategoriesManage() {
-    const { data } = useGetCategoriesQuery(undefined, {
+    const { data, refetch } = useGetCategoriesQuery(undefined, {
         refetchOnMountOrArgChange: true,
     });
     return (
@@ -22,11 +22,15 @@ function CategoriesManage() {
                 rows={data ?? []}
                 addButton={
                     <RowProvider
+                        refetch={refetch}
                         row={<CategoryRow ctx={undefined as never} />}
                     />
                 }
             >
-                <RowProvider row={<CategoryRow ctx={undefined as never} />} />
+                <RowProvider
+                    refetch={refetch}
+                    row={<CategoryRow ctx={undefined as never} />}
+                />
             </ManageTable>
         </div>
     );

@@ -93,14 +93,18 @@ function getItemsByCategoryId(req: Request, res: Response, next: NextFunction) {
 function addOne(req: Request, res: Response, next: NextFunction) {
     try {
         const body = req.body;
-
+        console.log(body);
         if (isEmpty(body)) {
             res.status(422);
             next(new Error());
         } else {
             prisma.category
                 .create({
-                    data: body,
+                    data: {
+                        name: body.name,
+                        isActif: body.isActif,
+                        familyId: parseInt(body.familyId, 10),
+                    },
                 })
                 .then((result) => {
                     if (result) {
@@ -116,6 +120,7 @@ function addOne(req: Request, res: Response, next: NextFunction) {
                 });
         }
     } catch (error) {
+        console.log(error);
         res.status(500);
         next(new Error('Server Error'));
     }

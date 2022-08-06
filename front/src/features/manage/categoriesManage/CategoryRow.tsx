@@ -2,16 +2,19 @@ import { nanoid } from '@reduxjs/toolkit';
 import { delay } from 'lodash';
 import { ChangeEvent, useContext, useEffect } from 'react';
 
+import { useAppDispatch } from '../../../app/hooks';
 import styles from '../../../pages/styles/managePage.module.scss';
 import {
     useAddCategoryMutation,
     useUpdateCategoryMutation,
 } from '../../appApi/categoryApi';
 import { useGetFamiliesQuery } from '../../appApi/familyApi';
+import { setAddAction } from '../manageSlice';
 import ActionButton from '../manageTable/actionButton';
 
 interface ICategoryRowProps {
     datas?: Category | Partial<Category>;
+    refetch?: () => void;
     ctx: React.Context<{
         disabled: boolean;
         setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,14 +29,13 @@ interface ICategoryRowProps {
         ) => void;
     }>;
 }
-function CategoryRow({ datas, ctx }: ICategoryRowProps) {
+function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
     const { data } = useGetFamiliesQuery();
     const [updateCategory, updateResult] = useUpdateCategoryMutation();
     const [addCategory, addResult] = useAddCategoryMutation();
-
+    const dispatch = useAppDispatch();
     const { setData, contextData, disabled, setDisabled, handleDataChange } =
         useContext(ctx);
-
     useEffect(() => {
         if (datas) {
             setData(datas as Category);
@@ -48,6 +50,7 @@ function CategoryRow({ datas, ctx }: ICategoryRowProps) {
     useEffect(() => {
         if (updateResult.isSuccess) {
             setDisabled(true);
+            if (refetch) refetch();
         } else if (updateResult.isError) {
             alert('ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         }
@@ -56,6 +59,8 @@ function CategoryRow({ datas, ctx }: ICategoryRowProps) {
     useEffect(() => {
         if (addResult.isSuccess) {
             setDisabled(true);
+            if (refetch) refetch();
+            dispatch(setAddAction(false));
         } else if (addResult.isError) {
             alert('ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         }
