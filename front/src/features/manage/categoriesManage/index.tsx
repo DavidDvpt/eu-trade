@@ -14,25 +14,16 @@ function CategoriesManage() {
         refetchOnMountOrArgChange: true,
     });
     return (
-        <div>
-            <h1>Categories Manager</h1>
-
-            <ManageTable
-                titles={titles}
-                rows={data ?? []}
-                addButton={
-                    <RowProvider
-                        refetch={refetch}
-                        row={<CategoryRow ctx={undefined as never} />}
-                    />
-                }
-            >
-                <RowProvider
-                    refetch={refetch}
-                    row={<CategoryRow ctx={undefined as never} />}
-                />
-            </ManageTable>
-        </div>
+        <ManageTable
+            title="Categories Manager"
+            titles={titles}
+            rows={data ?? []}
+        >
+            <RowProvider
+                refetch={refetch}
+                row={<CategoryRow ctx={undefined as never} />}
+            />
+        </ManageTable>
     );
 }
 

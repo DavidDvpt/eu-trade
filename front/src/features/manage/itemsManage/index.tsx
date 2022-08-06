@@ -19,16 +19,12 @@ function ItemsManage() {
         refetchOnMountOrArgChange: true,
     });
     return (
-        <div>
-            <h1>Items Manager</h1>
-
-            <ManageTable titles={titles} rows={data ?? []}>
-                <RowProvider
-                    refetch={refetch}
-                    row={<ItemRow ctx={undefined as never} />}
-                />
-            </ManageTable>
-        </div>
+        <ManageTable title="Items Manager" titles={titles} rows={data ?? []}>
+            <RowProvider
+                refetch={refetch}
+                row={<ItemRow ctx={undefined as never} />}
+            />
+        </ManageTable>
     );
 }
 
