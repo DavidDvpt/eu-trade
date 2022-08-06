@@ -24,22 +24,27 @@
         }
 
         table {
-            margin: auto;
+            margin: 40px 20px 0 20px;
             margin-top: 40px;
-            // border: 1px solid $form-fielset-border-color;
             border-collapse: collapse;
 
             th,
             td {
-                width: 100px;
                 border: 1px solid $form-fielset-border-color;
                 border-collapse: collapse;
-                padding: 5px 10px;
+                height: 30px;
+            }
+
+            th {
+                font-weight: 600;
+                background-color: $form-fielset-border-color;
             }
 
             td {
                 input {
+                    width: 100%;
                     border: none;
+                    padding: 0;
                 }
 
                 select {
@@ -51,27 +56,34 @@
                 }
             }
 
-            .checkboxCell {
-                > div {
-                    height: 16px;
-                    @include flex-center-center;
-                    // margin-top: 2px;
+            .nameCell {
+                padding-left: 5px;
+                width: 40%;
+            }
 
-                    input {
-                        width: 16px;
-                        height: 16px;
-                        margin: 0;
-                    }
+            .checkboxCell {
+                text-align: center;
+                vertical-align: middle;
+                width: 10%;
+
+                input {
+                    width: 20px;
+                    height: 20px;
                 }
+            }
+
+            .actionCell {
+                width: 30%;
             }
         }
 
         .addRowButtonCell {
             border: none;
+
             .addRowButton {
                 @include button-base;
-
                 line-height: 25px;
+                width: 50%;
             }
         }
     }

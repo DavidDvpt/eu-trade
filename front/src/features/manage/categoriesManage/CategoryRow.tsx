@@ -1,8 +1,10 @@
-import { nanoid } from '@reduxjs/toolkit';
 import { delay } from 'lodash';
-import { ChangeEvent, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { useAppDispatch } from '../../../app/hooks';
+import TabCheckbox from '../../../components/tabFieldsComponents/TabCheckbox';
+import TabInput from '../../../components/tabFieldsComponents/TabInput';
+import TabSelect from '../../../components/tabFieldsComponents/TabSelect';
 import styles from '../../../pages/styles/managePage.module.scss';
 import {
     useAddCategoryMutation,
@@ -19,13 +21,12 @@ interface ICategoryRowProps {
         disabled: boolean;
         setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
         contextData: Category | Partial<Category>;
-        setData: React.Dispatch<
+        setContextData: React.Dispatch<
             React.SetStateAction<Category | Partial<Category>>
         >;
         handleDataChange: (
             name: string,
-            e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-            isCheckbox?: boolean,
+            value: string | boolean | number,
         ) => void;
     }>;
 }
@@ -34,13 +35,18 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
     const [updateCategory, updateResult] = useUpdateCategoryMutation();
     const [addCategory, addResult] = useAddCategoryMutation();
     const dispatch = useAppDispatch();
-    const { setData, contextData, disabled, setDisabled, handleDataChange } =
-        useContext(ctx);
+    const {
+        setContextData,
+        contextData,
+        disabled,
+        setDisabled,
+        handleDataChange,
+    } = useContext(ctx);
     useEffect(() => {
         if (datas) {
-            setData(datas as Category);
+            setContextData(datas as Category);
         } else {
-            setData({ name: '', isActif: false });
+            setContextData({ name: '', isActif: false });
             delay(() => {
                 setDisabled(false);
             }, 1);
@@ -76,38 +82,31 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
     return (
         <tr>
             <td>
-                <input
-                    type="text"
+                <TabInput
                     name="name"
                     value={contextData.name ?? ''}
-                    onChange={(e) => handleDataChange('name', e)}
+                    onChange={handleDataChange}
                     disabled={disabled}
                 />
             </td>
             <td>
-                <select
+                <TabSelect
                     name="familyId"
                     value={contextData.familyId ?? ''}
-                    onChange={(e) => handleDataChange('familyId', e)}
+                    onChange={handleDataChange}
                     disabled={disabled}
-                >
-                    {data?.map((f) => (
-                        <option key={nanoid()} value={f.id}>
-                            {f.name}
-                        </option>
-                    ))}
-                </select>
+                    options={
+                        data?.map((o) => ({ id: o.id, name: o.name })) || []
+                    }
+                />
             </td>
             <td className={styles.checkboxCell}>
-                <div>
-                    <input
-                        type="checkbox"
-                        name="isActif"
-                        checked={contextData.isActif ?? false}
-                        onChange={(e) => handleDataChange('isActif', e, true)}
-                        disabled={disabled}
-                    />
-                </div>
+                <TabCheckbox
+                    name="isActif"
+                    value={contextData.isActif ?? false}
+                    disabled={disabled}
+                    onChange={handleDataChange}
+                />
             </td>
             <td>
                 <ActionButton

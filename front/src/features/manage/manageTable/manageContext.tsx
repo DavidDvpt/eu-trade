@@ -1,51 +1,35 @@
-import { ChangeEvent, createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
 export interface ManageRowContext<T> {
     disabled: boolean;
     setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
     contextData: Family | Partial<Family>;
-    setData: React.Dispatch<React.SetStateAction<T | Partial<T>>>;
-    // handleUpdate: () => void;
-    // handleCancel: () => void;
-    // handleSave: () => void;
-    handleDataChange: (
-        name: string,
-        e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-        isCheckbox?: boolean,
-    ) => void;
+    setContextData: React.Dispatch<React.SetStateAction<T | Partial<T>>>;
+    handleDataChange: (name: string, value: string | boolean | number) => void;
 }
 export default function createManageRowContext<A>() {
     const defaultDisabledValue = true;
     const defaultContextDataValue = {} as A | Partial<A>;
     type UpdateDisabledType = React.Dispatch<React.SetStateAction<boolean>>;
-    type UpdateDataType = React.Dispatch<React.SetStateAction<A | Partial<A>>>;
-    // type HandleType = () => void;
-    type ChangeType = (
-        name: string,
-        e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-        isCheckbox?: boolean,
-    ) => void;
+    type UpdateSetContextDataType = React.Dispatch<
+        React.SetStateAction<A | Partial<A>>
+    >;
+    type ChangeType = (name: string, value: string | boolean | number) => void;
 
     const setDisabled: UpdateDisabledType = () => defaultDisabledValue;
-    const setDataType: UpdateDataType = () => defaultContextDataValue;
+    const setContextDataType: UpdateSetContextDataType = () =>
+        defaultContextDataValue;
 
-    // const handleUpdate: HandleType = () => {};
-    // const handleCancel: HandleType = () => {};
-    // const handleSave: HandleType = () => {};
     const handleDataChange: ChangeType = (
         name: string,
-        e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-        isCheckbox = false,
+        value: string | boolean | number,
     ) => {};
 
     const ctx = createContext({
         disabled: defaultDisabledValue,
         setDisabled: setDisabled,
         contextData: defaultContextDataValue,
-        setData: setDataType,
-        // handleUpdate,
-        // handleCancel,
-        // handleSave,
+        setContextData: setContextDataType,
         handleDataChange,
     });
 
@@ -53,31 +37,15 @@ export default function createManageRowContext<A>() {
         props: React.PropsWithChildren<Record<string, unknown>>,
     ) => {
         const [disabled, setDisabled] = useState<boolean>(defaultDisabledValue);
-        const [contextData, setData] = useState<A | Partial<A>>(
+        const [contextData, setContextData] = useState<A | Partial<A>>(
             defaultContextDataValue,
         );
 
-        // const handleUpdate = () => {
-        //     setDisabled(false);
-        // };
-
-        // const handleCancel = () => {
-        //     setDisabled(true);
-        // };
-
-        // const handleSave = () => {
-        //     setDisabled(true);
-        // };
-
         const handleDataChange = (
             name: string,
-            e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-            isCheckbox = false,
+            value: string | boolean | number,
         ) => {
-            const value = isCheckbox
-                ? (e as ChangeEvent<HTMLInputElement>).target.checked
-                : e.target.value;
-            setData({ ...contextData, [name]: value });
+            setContextData({ ...contextData, [name]: value });
         };
 
         return (
@@ -86,10 +54,7 @@ export default function createManageRowContext<A>() {
                     disabled,
                     setDisabled,
                     contextData,
-                    setData,
-                    // handleUpdate,
-                    // handleCancel,
-                    // handleSave,
+                    setContextData,
                     handleDataChange,
                 }}
                 {...props}

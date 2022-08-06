@@ -1,7 +1,9 @@
 import { delay } from 'lodash';
-import { ChangeEvent, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { useAppDispatch } from '../../../app/hooks';
+import TabCheckbox from '../../../components/tabFieldsComponents/TabCheckbox';
+import TabInput from '../../../components/tabFieldsComponents/TabInput';
 import styles from '../../../pages/styles/managePage.module.scss';
 import {
     useAddFamilyMutation,
@@ -17,11 +19,12 @@ interface IFamilyRowProps {
         disabled: boolean;
         setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
         contextData: Family | Partial<Family>;
-        setData: React.Dispatch<React.SetStateAction<Family | Partial<Family>>>;
+        setContextData: React.Dispatch<
+            React.SetStateAction<Family | Partial<Family>>
+        >;
         handleDataChange: (
             name: string,
-            e: ChangeEvent<HTMLInputElement>,
-            isCheckbox?: boolean,
+            value: string | boolean | number,
         ) => void;
     }>;
 }
@@ -30,14 +33,19 @@ function FamilyRow({ datas, ctx, refetch }: IFamilyRowProps) {
     const [updateFamily, updateResult] = useUpdateFamilyMutation();
     const [postFamily, addResult] = useAddFamilyMutation();
     const dispatch = useAppDispatch();
-    const { setData, contextData, disabled, setDisabled, handleDataChange } =
-        useContext(ctx);
+    const {
+        setContextData,
+        contextData,
+        disabled,
+        setDisabled,
+        handleDataChange,
+    } = useContext(ctx);
 
     useEffect(() => {
         if (datas) {
-            setData(datas as Family);
+            setContextData(datas as Family);
         } else {
-            setData({ name: '', isActif: false });
+            setContextData({ name: '', isActif: false });
             delay(() => {
                 setDisabled(false);
             }, 1);
@@ -75,27 +83,23 @@ function FamilyRow({ datas, ctx, refetch }: IFamilyRowProps) {
 
     return (
         <tr>
-            <td>
-                <input
-                    type="text"
+            <td className={styles.nameCell}>
+                <TabInput
                     name="name"
-                    value={contextData.name ?? ''}
-                    onChange={(e) => handleDataChange('name', e)}
                     disabled={disabled}
+                    value={contextData.name ?? ''}
+                    onChange={handleDataChange}
                 />
             </td>
             <td className={styles.checkboxCell}>
-                <div>
-                    <input
-                        type="checkbox"
-                        name="isActif"
-                        checked={contextData.isActif ?? false}
-                        onChange={(e) => handleDataChange('isActif', e, true)}
-                        disabled={disabled}
-                    />
-                </div>
+                <TabCheckbox
+                    name="isActif"
+                    value={contextData.isActif ?? false}
+                    disabled={disabled}
+                    onChange={handleDataChange}
+                />
             </td>
-            <td>
+            <td className={styles.actionCell}>
                 <ActionButton
                     disabled={disabled}
                     handleCancel={() => setDisabled(true)}
