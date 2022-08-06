@@ -46,8 +46,23 @@
             td {
                 input,
                 select {
+                    height: 30px;
                     width: 100%;
                     border: none;
+                    padding: 0;
+
+                    &:focus {
+                        outline: 1px solid $form-fielset-border-color-focus;
+                    }
+                }
+
+                input[type='checkbox']:focus {
+                    outline: none;
+                    cursor: pointer;
+                }
+
+                select {
+                    cursor: pointer;
                 }
 
                 &:last-child {
@@ -89,6 +104,11 @@
 
             .selectCell {
                 width: 160px;
+
+                .fieldError {
+                    border: $form-fielset-border-color-errors 1px solid;
+                    background-color: $form-fielset-background-color-errors;
+                }
             }
 
             .actionCell {
@@ -98,7 +118,7 @@
 
         .addRowButton {
             @include button-base;
-            line-height: 25px;
+            line-height: 30px;
             width: 50%;
             margin-left: 0;
         }

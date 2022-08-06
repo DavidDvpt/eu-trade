@@ -1,5 +1,5 @@
 import { delay } from 'lodash';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { useAppDispatch } from '../../../app/hooks';
 import TabCheckbox from '../../../components/tabFieldsComponents/TabCheckbox';
@@ -31,6 +31,9 @@ interface ICategoryRowProps {
     }>;
 }
 function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
+    const [formError, setFormError] = useState<{ familyId: boolean }>({
+        familyId: false,
+    });
     const { data } = useGetFamiliesQuery();
     const [updateCategory, updateResult] = useUpdateCategoryMutation();
     const [addCategory, addResult] = useAddCategoryMutation();
@@ -47,7 +50,7 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
         if (datas) {
             setContextData(datas as Category);
         } else {
-            setContextData({ name: '', isActif: false });
+            setContextData({ name: '', isActif: false, familyId: 0 });
             delay(() => {
                 setDisabled(false);
             }, 1);
@@ -77,7 +80,11 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
         if (contextData.id) {
             updateCategory(contextData as Category);
         } else {
-            addCategory(contextData);
+            if (contextData.familyId !== 0) {
+                addCategory(contextData);
+            } else {
+                setFormError({ familyId: true });
+            }
         }
     };
     return (
@@ -93,6 +100,7 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
             <td className={styles.selectCell}>
                 <TabSelect
                     name="familyId"
+                    className={formError.familyId ? styles.fieldError : ''}
                     value={contextData.familyId ?? ''}
                     onChange={handleDataChange}
                     disabled={disabled}
@@ -109,7 +117,7 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
                     onChange={handleDataChange}
                 />
             </td>
-            <td>
+            <td className={styles.actionCell}>
                 <ActionButton
                     disabled={disabled}
                     handleCancel={() => setDisabled(true)}

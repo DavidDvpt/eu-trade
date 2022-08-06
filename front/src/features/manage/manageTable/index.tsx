@@ -1,5 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit';
-import { cloneElement } from 'react';
+import { cloneElement, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import styles from '../../../pages/styles/managePage.module.scss';
@@ -24,6 +24,10 @@ function ManageTable<T>({
     const handleAddClick = () => {
         dispatch(setAddAction(!addRowActionClicked));
     };
+
+    useEffect(() => {
+        dispatch(setAddAction(false));
+    }, [title]);
 
     return (
         <div>

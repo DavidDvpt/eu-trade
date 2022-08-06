@@ -25,6 +25,7 @@ function TabSelect({
             onChange={(e) => onChange(name, e.target.value)}
             disabled={disabled}
         >
+            <option value="0">None</option>
             {options?.map((f) => (
                 <option key={nanoid()} value={f.id}>
                     {f.name}

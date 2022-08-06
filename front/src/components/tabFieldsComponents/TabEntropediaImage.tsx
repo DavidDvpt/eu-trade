@@ -6,10 +6,14 @@ interface TabEntropediaImage {
 
 function TabEntropediaImage({ imgId }: TabEntropediaImage) {
     return (
-        <img
-            src={imgId ? `${ENTROPEDIA_URL}/${imgId}Micro.jpg` : ''}
-            alt="item image"
-        />
+        <>
+            {imgId && (
+                <img
+                    src={`${ENTROPEDIA_URL}/${imgId}Micro.jpg`}
+                    alt="item image"
+                />
+            )}
+        </>
     );
 }
 
