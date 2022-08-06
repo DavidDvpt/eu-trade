@@ -1,21 +1,23 @@
 import { delay } from 'lodash';
 import { ChangeEvent, useContext, useEffect } from 'react';
 
+import { useAppDispatch } from '../../../app/hooks';
 import styles from '../../../pages/styles/managePage.module.scss';
 import {
     useAddFamilyMutation,
     useUpdateFamilyMutation,
 } from '../../appApi/familyApi';
+import { setAddAction } from '../manageSlice';
 import ActionButton from '../manageTable/actionButton';
 
 interface IFamilyRowProps {
     datas?: Family | Partial<Family>;
+    refetch?: () => void;
     ctx: React.Context<{
         disabled: boolean;
         setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
         contextData: Family | Partial<Family>;
         setData: React.Dispatch<React.SetStateAction<Family | Partial<Family>>>;
-
         handleDataChange: (
             name: string,
             e: ChangeEvent<HTMLInputElement>,
@@ -24,10 +26,10 @@ interface IFamilyRowProps {
     }>;
 }
 
-function FamilyRow({ datas, ctx }: IFamilyRowProps) {
+function FamilyRow({ datas, ctx, refetch }: IFamilyRowProps) {
     const [updateFamily, updateResult] = useUpdateFamilyMutation();
     const [postFamily, addResult] = useAddFamilyMutation();
-
+    const dispatch = useAppDispatch();
     const { setData, contextData, disabled, setDisabled, handleDataChange } =
         useContext(ctx);
 
@@ -45,6 +47,8 @@ function FamilyRow({ datas, ctx }: IFamilyRowProps) {
     useEffect(() => {
         if (updateResult.isSuccess) {
             setDisabled(true);
+
+            if (refetch) refetch();
         } else if (updateResult.isError) {
             alert('ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         }
@@ -53,6 +57,9 @@ function FamilyRow({ datas, ctx }: IFamilyRowProps) {
     useEffect(() => {
         if (addResult.isSuccess) {
             setDisabled(true);
+            dispatch(setAddAction(false));
+
+            if (refetch) refetch();
         } else if (addResult.isError) {
             alert('ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         }

@@ -9,7 +9,7 @@ const titles: TitleDisplay[] = [
 ];
 
 function FamiliesManage() {
-    const { data } = useGetFamiliesQuery(undefined, {
+    const { data, refetch } = useGetFamiliesQuery(undefined, {
         refetchOnMountOrArgChange: true,
     });
 
@@ -21,10 +21,16 @@ function FamiliesManage() {
                 titles={titles}
                 rows={data ?? []}
                 addButton={
-                    <RowProvider row={<FamilyRow ctx={undefined as never} />} />
+                    <RowProvider
+                        refetch={refetch}
+                        row={<FamilyRow ctx={undefined as never} />}
+                    />
                 }
             >
-                <RowProvider row={<FamilyRow ctx={undefined as never} />} />
+                <RowProvider
+                    refetch={refetch}
+                    row={<FamilyRow ctx={undefined as never} />}
+                />
             </ManageTable>
         </div>
     );
