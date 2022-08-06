@@ -22,16 +22,7 @@ function ItemsManage() {
         <div>
             <h1>Families Manager</h1>
 
-            <ManageTable
-                titles={titles}
-                rows={data ?? []}
-                addButton={
-                    <RowProvider
-                        refetch={refetch}
-                        row={<ItemRow ctx={undefined as never} />}
-                    />
-                }
-            >
+            <ManageTable titles={titles} rows={data ?? []}>
                 <RowProvider
                     refetch={refetch}
                     row={<ItemRow ctx={undefined as never} />}

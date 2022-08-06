@@ -4,6 +4,7 @@ interface TabInputProps {
     onChange: (name: string, value: string) => void;
     disabled: boolean;
     className?: string;
+    placeholder?: string;
 }
 
 function TabInput({
@@ -12,6 +13,7 @@ function TabInput({
     onChange,
     disabled,
     className,
+    placeholder,
 }: TabInputProps) {
     return (
         <input
@@ -21,6 +23,7 @@ function TabInput({
             value={value}
             onChange={(e) => onChange(name, e.target.value)}
             disabled={disabled}
+            placeholder={placeholder ?? ''}
         />
     );
 }

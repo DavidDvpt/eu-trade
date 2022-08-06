@@ -68,6 +68,10 @@
 
             .numberCell {
                 width: 80px;
+                input {
+                    text-align: right;
+                    padding-right: 5px;
+                }
             }
 
             .checkboxCell {
@@ -90,15 +94,11 @@
             }
         }
 
-        .addRowButtonCell {
-            border: none;
-
-            .addRowButton {
-                @include button-base;
-                line-height: 25px;
-                width: 50%;
-                margin-left: 0;
-            }
+        .addRowButton {
+            @include button-base;
+            line-height: 25px;
+            width: 50%;
+            margin-left: 0;
         }
     }
 }

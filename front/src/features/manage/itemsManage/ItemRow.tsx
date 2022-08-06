@@ -1,5 +1,5 @@
 import { delay } from 'lodash';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { useAppDispatch } from '../../../app/hooks';
 import TabCheckbox from '../../../components/tabFieldsComponents/TabCheckbox';
@@ -33,6 +33,7 @@ interface IItemRowProps {
 }
 
 function ItemRow({ datas, ctx, refetch }: IItemRowProps) {
+    const [isAdd, setIsAdd] = useState<boolean>(false);
     const { data } = useGetCategoriesQuery();
     const [addItem, addResult] = useAddItemMutation();
     const [updateItem, updateResult] = useUpdateItemMutation();
@@ -47,9 +48,19 @@ function ItemRow({ datas, ctx, refetch }: IItemRowProps) {
 
     useEffect(() => {
         if (datas) {
-            setContextData(datas as Category);
+            setContextData(datas as Item);
         } else {
-            setContextData({ name: '', isActif: false });
+            setIsAdd(true);
+            setContextData({
+                name: '',
+                value: 0,
+                ttMax: 0,
+                categoryId: 0,
+                isStackable: false,
+                isLimited: false,
+                isActif: false,
+                imageUrlId: '',
+            });
             delay(() => {
                 setDisabled(false);
             }, 1);
@@ -77,17 +88,29 @@ function ItemRow({ datas, ctx, refetch }: IItemRowProps) {
 
     const handleRowSave = () => {
         if (contextData.id) {
-            updateItem(contextData as Category);
+            updateItem(contextData as Item);
         } else {
-            addItem(contextData);
+            addItem(contextData as Partial<Item>);
         }
     };
 
     return (
         <tr>
-            <td className={styles.entropediaImgCell}>
-                <TabEntropediaImage imgId={contextData.imageUrlId || ''} />
-            </td>
+            {isAdd ? (
+                <td className={styles.nameCell}>
+                    <TabInput
+                        name="imageUrlId"
+                        value={contextData.imageUrlId ?? ''}
+                        onChange={handleDataChange}
+                        disabled={disabled}
+                        placeholder="id"
+                    />
+                </td>
+            ) : (
+                <td className={styles.entropediaImgCell}>
+                    <TabEntropediaImage imgId={contextData.imageUrlId || ''} />
+                </td>
+            )}
             <td className={styles.nameCell}>
                 <TabInput
                     name="name"
@@ -106,11 +129,11 @@ function ItemRow({ datas, ctx, refetch }: IItemRowProps) {
                         data?.map((o) => ({ id: o.id, name: o.name })) || []
                     }
                 />
-            </td>{' '}
+            </td>
             <td className={styles.numberCell}>
                 <TabInput
                     name="value"
-                    value={contextData.value ?? ''}
+                    value={contextData.value || 0}
                     onChange={handleDataChange}
                     disabled={disabled}
                 />
@@ -118,17 +141,9 @@ function ItemRow({ datas, ctx, refetch }: IItemRowProps) {
             <td className={styles.numberCell}>
                 <TabInput
                     name="ttMax"
-                    value={contextData.ttMax ?? ''}
+                    value={contextData.ttMax || 0}
                     onChange={handleDataChange}
                     disabled={disabled}
-                />
-            </td>
-            <td className={styles.checkboxCell}>
-                <TabCheckbox
-                    name="isActif"
-                    value={contextData.isActif ?? false}
-                    disabled={disabled}
-                    onChange={handleDataChange}
                 />
             </td>
             <td className={styles.checkboxCell}>
@@ -143,6 +158,14 @@ function ItemRow({ datas, ctx, refetch }: IItemRowProps) {
                 <TabCheckbox
                     name="isLimited"
                     value={contextData.isLimited ?? false}
+                    disabled={disabled}
+                    onChange={handleDataChange}
+                />
+            </td>
+            <td className={styles.checkboxCell}>
+                <TabCheckbox
+                    name="isActif"
+                    value={contextData.isActif ?? false}
                     disabled={disabled}
                     onChange={handleDataChange}
                 />

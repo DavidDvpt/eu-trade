@@ -19,7 +19,7 @@ function TabCheckbox({
             className={className}
             name={name}
             checked={value}
-            onChange={(e) => onChange('isActif', e.target.checked)}
+            onChange={(e) => onChange(name, e.target.checked)}
             disabled={disabled}
         />
     );

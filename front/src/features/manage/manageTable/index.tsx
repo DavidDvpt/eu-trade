@@ -9,7 +9,6 @@ interface ManageTableProps<T> {
     titles: TitleDisplay[];
     rows: T[];
     children: React.ReactElement;
-    addButton?: React.ReactNode;
 }
 
 function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
@@ -38,21 +37,11 @@ function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
 
                     {addRowActionClicked &&
                         cloneElement(children, { key: nanoid() })}
-
-                    <tr>
-                        <td className={styles.addRowButtonCell}>
-                            <div
-                                className={styles.addRowButton}
-                                onClick={handleAddClick}
-                            >
-                                {addRowActionClicked
-                                    ? 'Cancel new row'
-                                    : 'Add new row'}
-                            </div>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
+            <div className={styles.addRowButton} onClick={handleAddClick}>
+                {addRowActionClicked ? 'Cancel new row' : 'Add new row'}
+            </div>
         </>
     );
 }

@@ -68,7 +68,16 @@ function addOne(req: Request, res: Response, next: NextFunction) {
         } else {
             prisma.item
                 .create({
-                    data: body,
+                    data: {
+                        name: body.name,
+                        categoryId: parseInt(body.categoryId, 10),
+                        isStackable: body.isStackable,
+                        isLimited: body.isLimited,
+                        value: body.value,
+                        ttMax: body.ttMax,
+                        imageUrlId: body.imageUrlId,
+                        isActif: body.isActif,
+                    },
                 })
                 .then((result) => {
                     if (result) {
@@ -93,7 +102,7 @@ function update(req: Request, res: Response, next: NextFunction) {
     try {
         const id = req.params.id;
         const body = req.body;
-
+        console.log('ttttt', body);
         if (isEmpty(body)) {
             res.status(422);
             next(new Error());
@@ -103,7 +112,16 @@ function update(req: Request, res: Response, next: NextFunction) {
                     where: {
                         id: parseInt(id, 10),
                     },
-                    data: body,
+                    data: {
+                        name: body.name,
+                        categoryId: parseInt(body.categoryId, 10),
+                        isStackable: body.isStackable,
+                        isLimited: body.isLimited,
+                        value: body.value,
+                        ttMax: body.ttMax,
+                        imageUrlId: body.imgUrlId,
+                        isActif: body.isActif,
+                    },
                 })
                 .then((result) => {
                     if (result) {
