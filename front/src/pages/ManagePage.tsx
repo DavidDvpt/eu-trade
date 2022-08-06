@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import CategoriesManage from '../features/manage/categoriesManage';
 import FamiliesManage from '../features/manage/familiesManage';
+import ItemsManage from '../features/manage/itemsManage';
 import styles from './styles/managePage.module.scss';
 
 enum manageEnum {
@@ -36,6 +37,7 @@ function ManagePage() {
                 {manageSelected === manageEnum.CATEGORIES && (
                     <CategoriesManage />
                 )}
+                {manageSelected === manageEnum.ITEMS && <ItemsManage />}
             </div>
         </div>
     );

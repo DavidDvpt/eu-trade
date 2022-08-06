@@ -1,28 +1,29 @@
 import { delay } from 'lodash';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { useAppDispatch } from '../../../app/hooks';
 import TabCheckbox from '../../../components/tabFieldsComponents/TabCheckbox';
+import TabEntropediaImage from '../../../components/tabFieldsComponents/TabEntropediaImage';
 import TabInput from '../../../components/tabFieldsComponents/TabInput';
 import TabSelect from '../../../components/tabFieldsComponents/TabSelect';
 import styles from '../../../pages/styles/managePage.module.scss';
+import { useGetCategoriesQuery } from '../../appApi/categoryApi';
 import {
-    useAddCategoryMutation,
-    useUpdateCategoryMutation,
-} from '../../appApi/categoryApi';
-import { useGetFamiliesQuery } from '../../appApi/familyApi';
+    useAddItemMutation,
+    useUpdateItemMutation,
+} from '../../appApi/itemApi';
 import { setAddAction } from '../manageSlice';
 import ActionButton from '../manageTable/actionButton';
 
-interface ICategoryRowProps {
-    datas?: Category | Partial<Category>;
+interface IItemRowProps {
+    datas?: Item | Partial<Item>;
     refetch?: () => void;
     ctx: React.Context<{
         disabled: boolean;
         setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-        contextData: Category | Partial<Category>;
+        contextData: Item | Partial<Item>;
         setContextData: React.Dispatch<
-            React.SetStateAction<Category | Partial<Category>>
+            React.SetStateAction<Item | Partial<Item>>
         >;
         handleDataChange: (
             name: string,
@@ -30,10 +31,11 @@ interface ICategoryRowProps {
         ) => void;
     }>;
 }
-function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
-    const { data } = useGetFamiliesQuery();
-    const [updateCategory, updateResult] = useUpdateCategoryMutation();
-    const [addCategory, addResult] = useAddCategoryMutation();
+
+function ItemRow({ datas, ctx, refetch }: IItemRowProps) {
+    const { data } = useGetCategoriesQuery();
+    const [addItem, addResult] = useAddItemMutation();
+    const [updateItem, updateResult] = useUpdateItemMutation();
     const dispatch = useAppDispatch();
     const {
         setContextData,
@@ -75,13 +77,17 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
 
     const handleRowSave = () => {
         if (contextData.id) {
-            updateCategory(contextData as Category);
+            updateItem(contextData as Category);
         } else {
-            addCategory(contextData);
+            addItem(contextData);
         }
     };
+
     return (
         <tr>
+            <td className={styles.entropediaImgCell}>
+                <TabEntropediaImage imgId={contextData.imageUrlId || ''} />
+            </td>
             <td className={styles.nameCell}>
                 <TabInput
                     name="name"
@@ -92,13 +98,29 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
             </td>
             <td className={styles.selectCell}>
                 <TabSelect
-                    name="familyId"
-                    value={contextData.familyId ?? ''}
+                    name="categoryId"
+                    value={contextData.categoryId ?? ''}
                     onChange={handleDataChange}
                     disabled={disabled}
                     options={
                         data?.map((o) => ({ id: o.id, name: o.name })) || []
                     }
+                />
+            </td>{' '}
+            <td className={styles.numberCell}>
+                <TabInput
+                    name="value"
+                    value={contextData.value ?? ''}
+                    onChange={handleDataChange}
+                    disabled={disabled}
+                />
+            </td>{' '}
+            <td className={styles.numberCell}>
+                <TabInput
+                    name="ttMax"
+                    value={contextData.ttMax ?? ''}
+                    onChange={handleDataChange}
+                    disabled={disabled}
                 />
             </td>
             <td className={styles.checkboxCell}>
@@ -109,7 +131,23 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
                     onChange={handleDataChange}
                 />
             </td>
-            <td>
+            <td className={styles.checkboxCell}>
+                <TabCheckbox
+                    name="isStackable"
+                    value={contextData.isStackable ?? false}
+                    disabled={disabled}
+                    onChange={handleDataChange}
+                />
+            </td>
+            <td className={styles.checkboxCell}>
+                <TabCheckbox
+                    name="isLimited"
+                    value={contextData.isLimited ?? false}
+                    disabled={disabled}
+                    onChange={handleDataChange}
+                />
+            </td>
+            <td className={styles.actionCell}>
                 <ActionButton
                     disabled={disabled}
                     handleCancel={() => setDisabled(true)}
@@ -121,4 +159,4 @@ function CategoryRow({ datas, ctx, refetch }: ICategoryRowProps) {
     );
 }
 
-export default CategoryRow;
+export default ItemRow;
