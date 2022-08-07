@@ -52,11 +52,7 @@ function ItemsManage() {
             <ManageTable
                 titles={titles}
                 rows={
-                    data?.filter(
-                        (f) =>
-                            f.categoryId === selectedCategory ||
-                            selectedCategory === 0,
-                    ) ?? []
+                    data?.filter((f) => f.categoryId === selectedCategory) ?? []
                 }
             >
                 <RowProvider

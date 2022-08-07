@@ -137,7 +137,7 @@ function ItemRow({ datas, ctx, refetch }: IItemRowProps) {
                     onChange={handleDataChange}
                     disabled={disabled}
                 />
-            </td>{' '}
+            </td>
             <td className={styles.numberCell}>
                 <TabInput
                     name="ttMax"

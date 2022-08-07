@@ -1,4 +1,5 @@
-import { memo } from 'react';
+import { isEmpty } from 'lodash';
+import { memo, useEffect } from 'react';
 
 import TabSelect from '../../../components/tabFieldsComponents/TabSelect';
 import { useGetCategoriesQuery } from '../../appApi/categoryApi';
@@ -18,6 +19,14 @@ function CategorySelect({
     const handleChange = (name: string, value: string) => {
         onChange(value);
     };
+    useEffect(() => {
+        if (data) {
+            const val = data?.filter((f) => f.familyId === familyFilterValue);
+
+            onChange(isEmpty(val) ? '0' : val[0].id.toString());
+        }
+    }, [familyFilterValue, data]);
+
     return (
         <TabSelect
             name="CategorySelect"
@@ -25,6 +34,7 @@ function CategorySelect({
             value={selected}
             onChange={handleChange}
             noValueText="All"
+            noValue={false}
             options={
                 data
                     ?.filter((f) => f.familyId === familyFilterValue)

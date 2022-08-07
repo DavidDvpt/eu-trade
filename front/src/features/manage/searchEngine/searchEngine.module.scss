@@ -14,7 +14,7 @@
 
     select {
         border: $form-fielset-border-color 1px solid;
-        background-color: $color-white;
+        background-color: $color-white !important;
         border-radius: 6px;
         width: 200px;
         height: 40px;
