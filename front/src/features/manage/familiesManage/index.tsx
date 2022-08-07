@@ -14,12 +14,15 @@ function FamiliesManage() {
     });
 
     return (
-        <ManageTable title="Families Manager" titles={titles} rows={data ?? []}>
-            <RowProvider
-                refetch={refetch}
-                row={<FamilyRow ctx={undefined as never} />}
-            />
-        </ManageTable>
+        <>
+            <h1>Families Manager</h1>
+            <ManageTable titles={titles} rows={data ?? []}>
+                <RowProvider
+                    refetch={refetch}
+                    row={<FamilyRow ctx={undefined as never} />}
+                />
+            </ManageTable>
+        </>
     );
 }
 

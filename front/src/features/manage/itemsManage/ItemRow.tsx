@@ -45,7 +45,7 @@ function ItemRow({ datas, ctx, refetch }: IItemRowProps) {
         setDisabled,
         handleDataChange,
     } = useContext(ctx);
-
+    console.log(datas);
     useEffect(() => {
         if (datas) {
             setContextData(datas as Item);
