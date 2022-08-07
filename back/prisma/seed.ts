@@ -49,34 +49,41 @@ async function createFoundOn() {
 }
 
 async function createResources() {
-    const categories = await prisma.category.findMany({
-        where: {
-            familyId: 1,
-        },
-    });
+    prisma.category
+        .findMany()
+        .then((result) => {
+            const catId = (name: string) => {
+                const cat = result.find((f) => {
+                    return f.name === name;
+                });
 
-    const catId = (name: string) => categories.find((f) => f.name === name)?.id || 1;
+                return cat ? cat.id : 0;
+            };
 
-    const stackedItems = async (
-        tab: { name: string; value: number; imageUrlId: string }[],
-        catId: number
-    ) => {
-        await prisma.item.createMany({
-            data: tab.map((item) => ({
-                ...item,
-                value: item?.value * 10000,
-                categoryId: catId,
-                isStackable: true,
-            })),
-        });
-    };
+            const stackedItems = async (
+                tab: { name: string; value: number; imageUrlId: string }[],
+                catId: number
+            ) => {
+                if (catId !== 0) {
+                    await prisma.item.createMany({
+                        data: tab.map((item) => ({
+                            ...item,
+                            value: item?.value * 10000,
+                            categoryId: catId,
+                            isStackable: true,
+                        })),
+                    });
+                }
+            };
 
-    stackedItems(ores, catId('Ore'));
-    stackedItems(refinedOres, catId('Refined Ore'));
-    stackedItems(enmatters, catId('Ore'));
-    stackedItems(refinedEnmatters, catId('Refined Enmatter'));
-    stackedItems(treasures, catId('Ore'));
-    stackedItems(refinedTreasures, catId('Refined Treasure'));
+            stackedItems(ores, catId('Ore'));
+            stackedItems(refinedOres, catId('Refined Ore'));
+            stackedItems(enmatters, catId('Enmatter'));
+            stackedItems(refinedEnmatters, catId('Refined Enmatter'));
+            stackedItems(treasures, catId('Treasure'));
+            stackedItems(refinedTreasures, catId('Refined Treasure'));
+        })
+        .catch((err) => console.log(err));
 }
 
 createAdminUser();

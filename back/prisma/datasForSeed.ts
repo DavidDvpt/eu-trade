@@ -42,9 +42,9 @@ export const enmatters = [
 ];
 
 export const refinedEnmatters = [
-    { name: 'Root Acid', value: 0.64, imageUrlId: '1731' },
+    { name: 'Root Acid', value: 0.64, imageUrlId: '1276' },
     { name: 'Alicenies Gel', value: 0.1, imageUrlId: '1373' },
-    { name: 'Angelic Flakes', value: 1, imageUrlId: '1276' },
+    { name: 'Angelic Flakes', value: 1, imageUrlId: '364' },
 ];
 
 export const treasures = [
