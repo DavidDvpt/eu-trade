@@ -23,6 +23,39 @@ export const foundOns = [
     { name: 'Ancient Greece' },
 ];
 
+interface BasicResource {
+    unrefinedCat: string;
+    refinedCat: string;
+    datas: {
+        unrefined: { name: string; value: number; imageUrlId: string };
+        refined: { name: string; imageUrlId: string };
+        count: number;
+    }[];
+}
+export function basicOreAndRefined(): BasicResource {
+    return {
+        unrefinedCat: 'Ore',
+        refinedCat: 'Refined Ore',
+        datas: [
+            {
+                unrefined: { name: 'Adomasite Stone', value: 0.6, imageUrlId: '1818' },
+                refined: { name: 'Adomasite Ingot', imageUrlId: '1731' },
+                count: 3,
+            },
+            {
+                unrefined: { name: 'Alferix Stone', value: 0.95, imageUrlId: '1637' },
+                refined: { name: 'Alferix Ingot', imageUrlId: '1500' },
+                count: 3,
+            },
+            {
+                unrefined: { name: 'Alternative Rock', value: 0.01, imageUrlId: '3732' },
+                refined: { name: 'Alternative Ingot', imageUrlId: '4097' },
+                count: 3,
+            },
+        ],
+    };
+}
+
 export const ores = [
     { name: 'Adomasite Stone', value: 0.6, imageUrlId: '1818' },
     { name: 'Alferix Stone', value: 0.95, imageUrlId: '1637' },

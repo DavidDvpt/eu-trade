@@ -1,4 +1,5 @@
 import {
+    BasicResource,
     categoriesSeed,
     enmatters,
     familiesSeed,
@@ -58,6 +59,35 @@ async function createResources() {
                 });
 
                 return cat ? cat.id : 0;
+            };
+
+            const newStackedItems = async (line: BasicResource) => {
+                const refinedCat = catId(line.refinedCat);
+                const unrefinedCat = catId(line.unrefinedCat);
+
+                line.datas.forEach((item) => {
+                    if (refinedCat !== 0 && unrefinedCat !== 0) {
+                        prisma.item
+                            .create({
+                                data: {
+                                    ...item.unrefined,
+                                    value: item.unrefined.value * 10000,
+                                    categoryId: refinedCat,
+                                    isStackable: true,
+                                },
+                            })
+                            .then((resultUnrefined) => {
+                                prisma.item.create({
+                                    data: {
+                                        ...item.refined,
+                                        value: item.unrefined.value * 10000 * item.count,
+                                        categoryId: refinedCat,
+                                        isStackable: true,
+                                    },
+                                });
+                            });
+                    }
+                });
             };
 
             const stackedItems = async (
