@@ -51,7 +51,7 @@ async function createSimpleItem(item: Partial<item>) {
             categoryId: item.categoryId ?? 0,
             name: item.name ?? '',
             imageUrlId: item.imageUrlId ?? '',
-            value: item.value ?? 0,
+            value: item.value ? item.value * 10000 : 0,
         },
     });
 }

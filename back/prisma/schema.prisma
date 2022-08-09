@@ -68,6 +68,19 @@ model item {
   isLimited   Boolean  @default(false)
 
   itemOnFoundOn itemOnFoundOn[]
+
+  refinedItem   refineRelations[] @relation("refinedItem")
+  unrefinedItem refineRelations[] @relation("unrefinedItem")
+}
+
+model refineRelations {
+  refinedItem     item @relation("refinedItem", fields: [refinedItemId], references: [id])
+  refinedItemId   Int
+  unrefinedItem   item @relation("unrefinedItem", fields: [unrefinedItemId], references: [id])
+  unrefinedItemId Int
+  quantity        Int
+
+  @@id([refinedItemId, unrefinedItemId])
 }
 
 model itemOnFoundOn {
