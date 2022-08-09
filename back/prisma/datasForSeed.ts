@@ -32,43 +32,41 @@ export interface BasicResource {
         unrefinedCat: string;
     }[];
 }
-export function basicOreAndRefined(): BasicResource[] {
-    return [
-        {
-            refinedCat: 'Refined Ore',
-            refinedResource: { name: 'Adomasite Ingot', imageUrlId: '1731' },
-            unrefined: [
-                {
-                    data: { name: 'Adomasite Stone', value: 0.6, imageUrlId: '1818' },
-                    count: 3,
-                    unrefinedCat: 'Ore',
-                },
-            ],
-        },
-        {
-            refinedCat: 'Refined Ore',
-            refinedResource: { name: 'Alferix Ingot', imageUrlId: '1500' },
-            unrefined: [
-                {
-                    data: { name: 'Alferix Stone', value: 0.95, imageUrlId: '1637' },
-                    count: 3,
-                    unrefinedCat: 'Ore',
-                },
-            ],
-        },
-        {
-            refinedCat: 'Refined Ore',
-            refinedResource: { name: 'Alternative Ingot', imageUrlId: '4097' },
-            unrefined: [
-                {
-                    data: { name: 'Alternative Rock', value: 0.01, imageUrlId: '3732' },
-                    count: 3,
-                    unrefinedCat: 'Ore',
-                },
-            ],
-        },
-    ];
-}
+export const basicOreAndRefined: BasicResource[] = [
+    {
+        refinedCat: 'Refined Ore',
+        refinedResource: { name: 'Adomasite Ingot', imageUrlId: '1731' },
+        unrefined: [
+            {
+                data: { name: 'Adomasite Stone', value: 0.6, imageUrlId: '1818' },
+                count: 3,
+                unrefinedCat: 'Ore',
+            },
+        ],
+    },
+    {
+        refinedCat: 'Refined Ore',
+        refinedResource: { name: 'Alferix Ingot', imageUrlId: '1500' },
+        unrefined: [
+            {
+                data: { name: 'Alferix Stone', value: 0.95, imageUrlId: '1637' },
+                count: 3,
+                unrefinedCat: 'Ore',
+            },
+        ],
+    },
+    {
+        refinedCat: 'Refined Ore',
+        refinedResource: { name: 'Alternative Ingot', imageUrlId: '4097' },
+        unrefined: [
+            {
+                data: { name: 'Alternative Rock', value: 0.01, imageUrlId: '3732' },
+                count: 3,
+                unrefinedCat: 'Ore',
+            },
+        ],
+    },
+];
 
 export const ores = [
     { name: 'Adomasite Stone', value: 0.6, imageUrlId: '1818' },

@@ -1,4 +1,4 @@
-import { itemOnFoundOn } from '@prisma/client';
+import { item } from '@prisma/client';
 import {
     basicOreAndRefined,
     BasicResource,
@@ -45,8 +45,15 @@ async function createFoundOn() {
     });
 }
 
-async function createSimpleItem(item: itemOnFoundOn) {
-    await prisma.item.create({ data: item });
+async function createSimpleItem(item: Partial<item>) {
+    await prisma.item.create({
+        data: {
+            categoryId: item.categoryId ?? 0,
+            name: item.name ?? '',
+            imageUrlId: item.imageUrlId ?? '',
+            value: item.value ?? 0,
+        },
+    });
 }
 
 async function createResources() {
@@ -60,14 +67,23 @@ async function createResources() {
                 })?.id || 0;
 
             if (cat !== 0) {
-                const refinedValue = tuple.unrefined.reduce((acc, cur) => {
+                const refinedValue = tuple?.unrefined?.reduce((acc, cur) => {
                     return (acc += cur.data.value);
                 }, 0);
 
-                createSimpleItem({ ...tuple.refinedResource, categoryId: cat, value: refinedValue })
+                createSimpleItem({
+                    ...tuple.refinedResource,
+                    categoryId: cat,
+                    value: refinedValue ?? 0,
+                })
                     .then((result) => {
-                        tuple.unrefined.forEach((t) => {
-                            createSimpleItem({ ...t.data, categoryId: t.unrefinedCat }).then(
+                        tuple?.unrefined?.forEach((t) => {
+                            const uCat =
+                                categories.find((f) => {
+                                    return f.name === t.unrefinedCat;
+                                })?.id || 0;
+
+                            createSimpleItem({ ...t.data, categoryId: uCat }).then(
                                 (resultUnrefined) => {}
                             );
                         });
@@ -76,9 +92,9 @@ async function createResources() {
             }
         });
     };
-}
 
-newStackedItems(basicOreAndRefined);
+    newStackedItems(basicOreAndRefined);
+}
 
 // prisma.item
 //     .create({
