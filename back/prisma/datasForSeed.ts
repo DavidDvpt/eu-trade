@@ -32,6 +32,7 @@ export interface BasicResource {
         unrefinedCat: string;
     }[];
 }
+
 export const basicOreAndRefined: BasicResource[] = [
     {
         refinedCat: 'Refined Ore',
@@ -61,6 +62,61 @@ export const basicOreAndRefined: BasicResource[] = [
         unrefined: [
             {
                 data: { name: 'Alternative Rock', value: 0.01, imageUrlId: '3732' },
+                count: 3,
+                unrefinedCat: 'Ore',
+            },
+        ],
+    },
+    {
+        refinedCat: 'Refined Ore',
+        refinedResource: { name: 'Azzurdite Ingot', imageUrlId: '1501' },
+        unrefined: [
+            {
+                data: { name: 'Azzurdite Stone', value: 1.02, imageUrlId: '1381' },
+                count: 3,
+                unrefinedCat: 'Ore',
+            },
+        ],
+    },
+    {
+        refinedCat: 'Refined Ore',
+        refinedResource: { name: 'Belkar Ingot', imageUrlId: '1502' },
+        unrefined: [
+            {
+                data: { name: 'Belkar Stone', value: 0.02, imageUrlId: '1545' },
+                count: 3,
+                unrefinedCat: 'Ore',
+            },
+        ],
+    },
+    {
+        refinedCat: 'Refined Ore',
+        refinedResource: { name: 'Blausariam Ingot', imageUrlId: '1503' },
+        unrefined: [
+            {
+                data: { name: 'Blausariam Stone', value: 0.04, imageUrlId: '1546' },
+                count: 3,
+                unrefinedCat: 'Ore',
+            },
+        ],
+    },
+    {
+        refinedCat: 'Refined Ore',
+        refinedResource: { name: 'Caldorite Ingot', imageUrlId: '1504' },
+        unrefined: [
+            {
+                data: { name: 'Caldorite Stone', value: 0.04, imageUrlId: '1543' },
+                count: 3,
+                unrefinedCat: 'Ore',
+            },
+        ],
+    },
+    {
+        refinedCat: 'Refined Ore',
+        refinedResource: { name: 'Cobalt Ingot', imageUrlId: '1505' },
+        unrefined: [
+            {
+                data: { name: 'Cobalt Stone', value: 0.04, imageUrlId: '1638' },
                 count: 3,
                 unrefinedCat: 'Ore',
             },
