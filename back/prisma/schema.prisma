@@ -61,8 +61,8 @@ model item {
   isActif     Boolean  @default(true)
   category    category @relation(fields: [categoryId], references: [id])
   categoryId  Int
-  value       Int      @default(0)
-  ttMax       Int      @default(0)
+  value       Float    @default(0) @db.Float
+  ttMax       Float    @default(0) @db.Float
   imageUrlId  String?
   isStackable Boolean  @default(false)
   isLimited   Boolean  @default(false)
