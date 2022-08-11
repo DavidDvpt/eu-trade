@@ -76,6 +76,7 @@ async function createResources() {
                     ...tuple.refinedResource,
                     categoryId: cat,
                     value: refinedValue ?? 0,
+                    isStackable: true,
                 })
                     .then((result) => {
                         tuple?.unrefined?.forEach((t) => {
@@ -85,24 +86,26 @@ async function createResources() {
                                 })?.id || 0;
 
                             // CREATE UNREFINED ITEM
-                            createSimpleItem({ ...t.data, categoryId: uCat }).then(
-                                (resultUnrefined) => {
-                                    // CREATE REFINE RELATIONS
-                                    prisma.refineRelations
-                                        .create({
-                                            data: {
-                                                refinedItemId: result.id,
-                                                unrefinedItemId: resultUnrefined.id,
-                                                quantity: t.count,
-                                            },
-                                        })
-                                        .then((finalResult) => {
-                                            console.log(result);
-                                            console.log(resultUnrefined);
-                                            console.log(finalResult);
-                                        });
-                                }
-                            );
+                            createSimpleItem({
+                                ...t.data,
+                                categoryId: uCat,
+                                isStackable: true,
+                            }).then((resultUnrefined) => {
+                                // CREATE REFINE RELATIONS
+                                prisma.refineRelations
+                                    .create({
+                                        data: {
+                                            refinedItemId: result.id,
+                                            unrefinedItemId: resultUnrefined.id,
+                                            quantity: t.count,
+                                        },
+                                    })
+                                    .then((finalResult) => {
+                                        // console.log(result);
+                                        // console.log(resultUnrefined);
+                                        // console.log(finalResult);
+                                    });
+                            });
                         });
                     })
                     .catch((err) => console.log(err));
@@ -117,7 +120,6 @@ createAdminUser();
 createFoundOn();
 createFamiliesAndCategories()
     .then((response) => {
-        console.log('createFamiliesAndCategories', response);
         createResources();
     })
     .catch((error) => console.log(error));
