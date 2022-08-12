@@ -5,7 +5,7 @@ const itemApi = appApi.injectEndpoints({
         getItems: builder.query<Item[], void>({
             query: () => '/items',
             transformResponse: (response: Item[]) => {
-                return response.sort((a, b) => a.id - b.id);
+                return response;
             },
         }),
         addItem: builder.mutation<Item, Partial<Item>>({

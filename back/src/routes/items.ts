@@ -16,8 +16,13 @@ router.delete('/:id', jwtVerify(Role.ADMIN), deleteOne);
 function getAll(req: Request, res: Response, next: NextFunction) {
     try {
         prisma.item
-            .findMany()
+            .findMany({
+                orderBy: {
+                    name: 'asc',
+                },
+            })
             .then((result) => {
+                console.log(result);
                 res.status(200).json(result);
             })
             .catch((err) => {

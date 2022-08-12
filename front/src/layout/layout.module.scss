@@ -1,12 +1,26 @@
 @import '../scss/main';
 
 .layout {
+    position: relative;
     @include flex-center-center;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
+    overflow: hidden;
 
+    header {
+        // position: fixed;
+        // left: 0;
+        // top: 0;
+    }
     .main {
+        // position: absolute;
+        // top: 80px;
         width: 100%;
         flex-grow: 1;
+        overflow-y: scroll;
+    }
+
+    footer {
+        height: 50px;
     }
 }

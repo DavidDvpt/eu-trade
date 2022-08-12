@@ -1,8 +1,8 @@
 import { category, item } from '@prisma/client';
 import {
+    basicOreAndRefined,
     BasicResource,
     categoriesSeed,
-    ComplexeResource,
     familiesSeed,
     foundOns,
 } from './datasForSeed';
@@ -107,61 +107,61 @@ async function createResources() {
         });
     };
 
-    const newStackedItems = async (line: ComplexeResource[]) => {
-        line.forEach((tuple) => {
-            const cat =
-                categories.find((f) => {
-                    return f.name === tuple.refinedCat;
-                })?.id || 0;
+    // const newStackedItems = async (line: ComplexeResource[]) => {
+    //     line.forEach((tuple) => {
+    //         const cat =
+    //             categories.find((f) => {
+    //                 return f.name === tuple.refinedCat;
+    //             })?.id || 0;
 
-            if (cat !== 0) {
-                const refinedValue = tuple?.u?.reduce((acc, cur) => {
-                    return (acc += cur.data.value);
-                }, 0);
+    //         if (cat !== 0) {
+    //             const refinedValue = tuple?.u?.reduce((acc, cur) => {
+    //                 return (acc += cur.data.value);
+    //             }, 0);
 
-                // CREATE REFINED ITEM
-                createSimpleItem({
-                    ...tuple.r,
-                    categoryId: cat,
-                    value: refinedValue ?? 0,
-                    isStackable: true,
-                })
-                    .then((result) => {
-                        tuple?.u?.forEach((t) => {
-                            const uCat =
-                                categories.find((f) => {
-                                    return f.name === t.uCat;
-                                })?.id || 0;
+    //             // CREATE REFINED ITEM
+    //             createSimpleItem({
+    //                 ...tuple.r,
+    //                 categoryId: cat,
+    //                 value: refinedValue ?? 0,
+    //                 isStackable: true,
+    //             })
+    //                 .then((result) => {
+    //                     tuple?.u?.forEach((t) => {
+    //                         const uCat =
+    //                             categories.find((f) => {
+    //                                 return f.name === t.uCat;
+    //                             })?.id || 0;
 
-                            // CREATE UNREFINED ITEM
-                            createSimpleItem({
-                                ...t.data,
-                                categoryId: uCat,
-                                isStackable: true,
-                            }).then((resultUnrefined) => {
-                                // CREATE REFINE RELATIONS
-                                prisma.refineRelations
-                                    .create({
-                                        data: {
-                                            refinedItemId: result.id,
-                                            unrefinedItemId: resultUnrefined.id,
-                                            quantity: t.count,
-                                        },
-                                    })
-                                    .then((finalResult) => {
-                                        // console.log(result);
-                                        // console.log(resultUnrefined);
-                                        // console.log(finalResult);
-                                    });
-                            });
-                        });
-                    })
-                    .catch((err) => console.log(err));
-            }
-        });
-    };
+    //                         // CREATE UNREFINED ITEM
+    //                         createSimpleItem({
+    //                             ...t.data,
+    //                             categoryId: uCat,
+    //                             isStackable: true,
+    //                         }).then((resultUnrefined) => {
+    //                             // CREATE REFINE RELATIONS
+    //                             prisma.refineRelations
+    //                                 .create({
+    //                                     data: {
+    //                                         refinedItemId: result.id,
+    //                                         unrefinedItemId: resultUnrefined.id,
+    //                                         quantity: t.count,
+    //                                     },
+    //                                 })
+    //                                 .then((finalResult) => {
+    //                                     // console.log(result);
+    //                                     // console.log(resultUnrefined);
+    //                                     // console.log(finalResult);
+    //                                 });
+    //                         });
+    //                     });
+    //                 })
+    //                 .catch((err) => console.log(err));
+    //         }
+    //     });
+    // };
 
-    // basicStackedResource(basicOreAndRefined, 'Ore', 'Refined Ore', 3);
+    basicStackedResource(basicOreAndRefined, 'Ore', 'Refined Ore', 3);
 }
 
 createAdminUser();

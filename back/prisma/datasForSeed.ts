@@ -294,6 +294,142 @@ export const basicOreAndRefined: BasicResource[] = [
             imageUrlId: '1539',
         },
     },
+    {
+        r: { name: 'Megan Ingot', imageUrlId: '1524' },
+        u: {
+            name: 'Megan Stone',
+            value: 0.18,
+            imageUrlId: '1542',
+        },
+    },
+    {
+        r: { name: 'Morpheus Ingot', imageUrlId: '1967' },
+        u: {
+            name: 'Morpheus Stone',
+            value: 0.83,
+            imageUrlId: '1966',
+        },
+    },
+    {
+        r: { name: 'Narcanisum Ingot', imageUrlId: '1525' },
+        u: {
+            name: 'Narcanisum Stone',
+            value: 0.08,
+            imageUrlId: '1556',
+        },
+    },
+    {
+        r: { name: 'Niksarium Ingot', imageUrlId: '1526' },
+        u: {
+            name: 'Niksarium Stone',
+            value: 0.65,
+            imageUrlId: '1551',
+        },
+    },
+    {
+        r: { name: 'Petonium Ingot', imageUrlId: '1527' },
+        u: {
+            name: 'Petonium Stone',
+            value: 1.79,
+            imageUrlId: '1256',
+        },
+    },
+    {
+        r: { name: 'Platinum Ingot', imageUrlId: '1908' },
+        u: {
+            name: 'Platinum Stone',
+            value: 3,
+            imageUrlId: '1950',
+        },
+    },
+    {
+        r: { name: 'Pyrite Ingot', imageUrlId: '3236' },
+        u: {
+            name: 'Pyrite Stone',
+            value: 0.2,
+            imageUrlId: '3235',
+        },
+    },
+    {
+        r: { name: 'Quantium Ingot', imageUrlId: '1528' },
+        u: {
+            name: 'Quantium Stone',
+            value: 0.6,
+            imageUrlId: '1639',
+        },
+    },
+    {
+        r: { name: 'Redulite Ingot', imageUrlId: '2846' },
+        u: {
+            name: 'Redulite Ore',
+            value: 2.2,
+            imageUrlId: '2848',
+        },
+    },
+    {
+        r: { name: 'Rugaritz Ingot', imageUrlId: '1529' },
+        u: {
+            name: 'Rugaritz Ore',
+            value: 1.5,
+            imageUrlId: '3235',
+        },
+    },
+    {
+        r: { name: 'Terrudite Ingot', imageUrlId: '1530' },
+        u: {
+            name: 'Terrudite Stone',
+            value: 1.1,
+            imageUrlId: '1555',
+        },
+    },
+    {
+        r: { name: 'Tridenite Ingot', imageUrlId: '2309' },
+        u: {
+            name: 'Tridenite Ore',
+            value: 2,
+            imageUrlId: '2655',
+        },
+    },
+    {
+        r: { name: 'Valurite Ingot', imageUrlId: '1531' },
+        u: {
+            name: 'Valurite Stone',
+            value: 6,
+            imageUrlId: '1640',
+        },
+    },
+    {
+        r: { name: 'Vesperdite Ingot', imageUrlId: '2845' },
+        u: {
+            name: 'Vesperdite Ore',
+            value: 1.8,
+            imageUrlId: '2844',
+        },
+    },
+    {
+        r: { name: 'Xemerite Ingot', imageUrlId: '1909' },
+        u: {
+            name: 'Xemerite Ore',
+            value: 4,
+            imageUrlId: '2567',
+        },
+    },
+    {
+        r: { name: 'Zanderium Ingot', imageUrlId: '3050' },
+        u: {
+            name: 'Zanderium Ore',
+            value: 2.5,
+            imageUrlId: '2696',
+        },
+    },
+    {
+        r: { name: 'Zinc Ingot', imageUrlId: '1532' },
+        u: {
+            name: 'Zinc Stone',
+            value: 0.1,
+            imageUrlId: '1547',
+        },
+    },
 ];
 
 export const enmatters = [
