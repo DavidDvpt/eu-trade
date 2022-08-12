@@ -23,335 +23,276 @@ export const foundOns = [
     { name: 'Ancient Greece' },
 ];
 
-export interface BasicResource {
+export interface ComplexeResource {
     refinedCat: string;
-    refinedResource: { name: string; imageUrlId: string };
-    unrefined: {
+    r: { name: string; imageUrlId: string };
+    u: {
         data: { name: string; value: number; imageUrlId: string };
         count: number;
-        unrefinedCat: string;
+        uCat: string;
     }[];
+}
+
+export interface BasicResource {
+    r: { name: string; imageUrlId: string };
+    u: { name: string; value: number; imageUrlId: string };
 }
 
 export const basicOreAndRefined: BasicResource[] = [
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Adomasite Ingot', imageUrlId: '1731' },
-        unrefined: [
-            {
-                data: { name: 'Adomasite Stone', value: 0.6, imageUrlId: '1818' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Adomasite Ingot', imageUrlId: '1731' },
+        u: {
+            name: 'Adomasite Stone',
+            value: 0.6,
+            imageUrlId: '1818',
+        },
     },
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Alferix Ingot', imageUrlId: '1500' },
-        unrefined: [
-            {
-                data: { name: 'Alferix Stone', value: 0.95, imageUrlId: '1637' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Alferix Ingot', imageUrlId: '1500' },
+        u: { name: 'Alferix Stone', value: 0.95, imageUrlId: '1637' },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Alternative Ingot', imageUrlId: '4097' },
-        unrefined: [
-            {
-                data: { name: 'Alternative Rock', value: 0.01, imageUrlId: '3732' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Alternative Ingot', imageUrlId: '4097' },
+        u: {
+            name: 'Alternative Rock',
+            value: 0.01,
+            imageUrlId: '3732',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Azzurdite Ingot', imageUrlId: '1501' },
-        unrefined: [
-            {
-                data: { name: 'Azzurdite Stone', value: 1.02, imageUrlId: '1381' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Azzurdite Ingot', imageUrlId: '1501' },
+        u: {
+            name: 'Azzurdite Stone',
+            value: 1.02,
+            imageUrlId: '1381',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Belkar Ingot', imageUrlId: '1502' },
-        unrefined: [
-            {
-                data: { name: 'Belkar Stone', value: 0.02, imageUrlId: '1545' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Belkar Ingot', imageUrlId: '1502' },
+        u: {
+            name: 'Belkar Stone',
+            value: 0.02,
+            imageUrlId: '1545',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Blausariam Ingot', imageUrlId: '1503' },
-        unrefined: [
-            {
-                data: { name: 'Blausariam Stone', value: 0.04, imageUrlId: '1546' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Blausariam Ingot', imageUrlId: '1503' },
+        u: {
+            name: 'Blausariam Stone',
+            value: 0.04,
+            imageUrlId: '1546',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Caldorite Ingot', imageUrlId: '1504' },
-        unrefined: [
-            {
-                data: { name: 'Caldorite Stone', value: 0.17, imageUrlId: '1543' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Caldorite Ingot', imageUrlId: '1504' },
+        u: {
+            name: 'Caldorite Stone',
+            value: 0.17,
+            imageUrlId: '1543',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Cobalt Ingot', imageUrlId: '1505' },
-        unrefined: [
-            {
-                data: { name: 'Cobalt Stone', value: 0.2, imageUrlId: '1638' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Cobalt Ingot', imageUrlId: '1505' },
+        u: {
+            name: 'Cobalt Stone',
+            value: 0.2,
+            imageUrlId: '1638',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Copper Ingot', imageUrlId: '1506' },
-        unrefined: [
-            {
-                data: { name: 'Copper Stone', value: 0.16, imageUrlId: '1554' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Copper Ingot', imageUrlId: '1506' },
+        u: {
+            name: 'Copper Stone',
+            value: 0.16,
+            imageUrlId: '1554',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Cumbriz Ingot', imageUrlId: '1507' },
-        unrefined: [
-            {
-                data: { name: 'Cumbriz Stone', value: 0.15, imageUrlId: '1550' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Cumbriz Ingot', imageUrlId: '1507' },
+        u: {
+            name: 'Cumbriz Stone',
+            value: 0.15,
+            imageUrlId: '1550',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Dianum Ingot', imageUrlId: '1509' },
-        unrefined: [
-            {
-                data: { name: 'Dianum Ore', value: 1.25, imageUrlId: '1952' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Dianum Ingot', imageUrlId: '1509' },
+        u: {
+            name: 'Dianum Ore',
+            value: 1.25,
+            imageUrlId: '1952',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Durulium Ingot', imageUrlId: '1510' },
-        unrefined: [
-            {
-                data: { name: 'Durulium Stone', value: 0.8, imageUrlId: '1548' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Durulium Ingot', imageUrlId: '1510' },
+        u: {
+            name: 'Durulium Stone',
+            value: 0.8,
+            imageUrlId: '1548',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Erdorium Ingot', imageUrlId: '1511' },
-        unrefined: [
-            {
-                data: { name: 'Erdorium Stone', value: 0.4, imageUrlId: '1636' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Erdorium Ingot', imageUrlId: '1511' },
+        u: {
+            name: 'Erdorium Stone',
+            value: 0.4,
+            imageUrlId: '1636',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Erionite Ingot', imageUrlId: '3232' },
-        unrefined: [
-            {
-                data: { name: 'Erionite Stone', value: 0.2, imageUrlId: '3231' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Erionite Ingot', imageUrlId: '3232' },
+        u: {
+            name: 'Erionite Stone',
+            value: 0.2,
+            imageUrlId: '3231',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Frigulite Ingot', imageUrlId: '1512' },
-        unrefined: [
-            {
-                data: { name: 'Frigulite Stone', value: 0.12, imageUrlId: '1951' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Frigulite Ingot', imageUrlId: '1512' },
+        u: {
+            name: 'Frigulite Stone',
+            value: 0.12,
+            imageUrlId: '1951',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Ganganite Ingot', imageUrlId: '1513' },
-        unrefined: [
-            {
-                data: { name: 'Ganganite Stone', value: 0.12, imageUrlId: '1257' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Ganganite Ingot', imageUrlId: '1513' },
+        u: {
+            name: 'Ganganite Stone',
+            value: 0.12,
+            imageUrlId: '1257',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Gazzurdite Ingot', imageUrlId: '1514' },
-        unrefined: [
-            {
-                data: { name: 'Gazzurdite Stone', value: 0.25, imageUrlId: '1544' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Gazzurdite Ingot', imageUrlId: '1514' },
+        u: {
+            name: 'Gazzurdite Stone',
+            value: 0.25,
+            imageUrlId: '1544',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Gold Ingot', imageUrlId: '1515' },
-        unrefined: [
-            {
-                data: { name: 'Gold Stone', value: 1, imageUrlId: '1553' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Gold Ingot', imageUrlId: '1515' },
+        u: {
+            name: 'Gold Stone',
+            value: 1,
+            imageUrlId: '1553',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Hansidian Ingot', imageUrlId: '1720' },
-        unrefined: [
-            {
-                data: { name: 'Hansidian Rock', value: 0.01, imageUrlId: '1719' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Hansidian Ingot', imageUrlId: '1720' },
+        u: {
+            name: 'Hansidian Rock',
+            value: 0.01,
+            imageUrlId: '1719',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Himi Ingot', imageUrlId: '1949' },
-        unrefined: [
-            {
-                data: { name: 'Himi Rock', value: 0.142, imageUrlId: '2308' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Himi Ingot', imageUrlId: '1949' },
+        u: {
+            name: 'Himi Rock',
+            value: 0.142,
+            imageUrlId: '2308',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Ignisium Ingot', imageUrlId: '1516' },
-        unrefined: [
-            {
-                data: { name: 'Ignisium Stone', value: 0.7, imageUrlId: '1549' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Ignisium Ingot', imageUrlId: '1516' },
+        u: {
+            name: 'Ignisium Stone',
+            value: 0.7,
+            imageUrlId: '1549',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Iolite Ingot', imageUrlId: '3234' },
-        unrefined: [
-            {
-                data: { name: 'Iolite Stone', value: 0.2, imageUrlId: '3233' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Iolite Ingot', imageUrlId: '3234' },
+        u: {
+            name: 'Iolite Stone',
+            value: 0.2,
+            imageUrlId: '3233',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Iron Ingot', imageUrlId: '1517' },
-        unrefined: [
-            {
-                data: { name: 'Iron Stone', value: 0.13, imageUrlId: '1541' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Iron Ingot', imageUrlId: '1517' },
+        u: {
+            name: 'Iron Stone',
+            value: 0.13,
+            imageUrlId: '1541',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Kanerium Ingot', imageUrlId: '929' },
-        unrefined: [
-            {
-                data: { name: 'Kanerium Ore', value: 2.5, imageUrlId: '1541' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Kanerium Ingot', imageUrlId: '929' },
+        u: {
+            name: 'Kanerium Ore',
+            value: 2.5,
+            imageUrlId: '1541',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Kirtz Ingot', imageUrlId: '1519' },
-        unrefined: [
-            {
-                data: { name: 'Kirtz Stone', value: 5.6, imageUrlId: '1817' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Kirtz Ingot', imageUrlId: '1519' },
+        u: {
+            name: 'Kirtz Stone',
+            value: 5.6,
+            imageUrlId: '1817',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Langotz Ingot', imageUrlId: '1520' },
-        unrefined: [
-            {
-                data: { name: 'Langotz Stone', value: 0.9, imageUrlId: '1552' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Langotz Ingot', imageUrlId: '1520' },
+        u: {
+            name: 'Langotz Stone',
+            value: 0.9,
+            imageUrlId: '1552',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Lanorium Ingot', imageUrlId: '1521' },
-        unrefined: [
-            {
-                data: { name: 'Lanorium Stone', value: 0.22, imageUrlId: '1273' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Lanorium Ingot', imageUrlId: '1521' },
+        u: {
+            name: 'Lanorium Stone',
+            value: 0.22,
+            imageUrlId: '1273',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Lysterium Ingot', imageUrlId: '1522' },
-        unrefined: [
-            {
-                data: { name: 'Lysterium Stone', value: 0.01, imageUrlId: '1540' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Lysterium Ingot', imageUrlId: '1522' },
+        u: {
+            name: 'Lysterium Stone',
+            value: 0.01,
+            imageUrlId: '1540',
+        },
     },
+
     {
-        refinedCat: 'Refined Ore',
-        refinedResource: { name: 'Maganite Ingot', imageUrlId: '1523' },
-        unrefined: [
-            {
-                data: { name: 'Maganite Ore', value: 1.05, imageUrlId: '1539' },
-                count: 3,
-                unrefinedCat: 'Ore',
-            },
-        ],
+        r: { name: 'Maganite Ingot', imageUrlId: '1523' },
+        u: {
+            name: 'Maganite Ore',
+            value: 1.05,
+            imageUrlId: '1539',
+        },
     },
 ];
 

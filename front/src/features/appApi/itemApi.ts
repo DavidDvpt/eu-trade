@@ -5,11 +5,7 @@ const itemApi = appApi.injectEndpoints({
         getItems: builder.query<Item[], void>({
             query: () => '/items',
             transformResponse: (response: Item[]) => {
-                return response.map((item) => ({
-                    ...item,
-                    value: item.value / 10000,
-                    ttMax: item.ttMax / 10000,
-                }));
+                return response.sort((a, b) => a.id - b.id);
             },
         }),
         addItem: builder.mutation<Item, Partial<Item>>({
@@ -19,15 +15,11 @@ const itemApi = appApi.injectEndpoints({
                 body: {
                     ...body,
                     imageUrlId: body.imageUrlId,
-                    value: body.value ? body.value * 10000 : 0,
-                    ttMax: body.ttMax ? body.ttMax * 10000 : 0,
+                    value: body.value ? body.value : 0,
+                    ttMax: body.ttMax ? body.ttMax : 0,
                 },
             }),
-            transformResponse: (response: Item) => ({
-                ...response,
-                value: response.value / 10000,
-                ttMax: response.ttMax / 10000,
-            }),
+            transformResponse: (response: Item) => response,
         }),
         updateItem: builder.mutation<Item, Pick<Item, 'id'> & Partial<Item>>({
             query: ({ id, ...patch }) => ({
@@ -35,14 +27,14 @@ const itemApi = appApi.injectEndpoints({
                 method: 'PUT',
                 body: {
                     ...patch,
-                    value: patch.value ? patch.value * 10000 : 0,
-                    ttMax: patch.ttMax ? patch.ttMax * 10000 : 0,
+                    value: patch.value ? patch.value : 0,
+                    ttMax: patch.ttMax ? patch.ttMax : 0,
                 },
             }),
             transformResponse: (response: Item) => ({
                 ...response,
-                value: response.value / 10000,
-                ttMax: response.ttMax / 10000,
+                value: response.value,
+                ttMax: response.ttMax,
             }),
         }),
         deleteItem: builder.mutation<Item, Partial<Item>>({

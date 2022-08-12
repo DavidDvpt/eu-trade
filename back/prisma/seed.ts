@@ -1,8 +1,8 @@
-import { item } from '@prisma/client';
+import { category, item } from '@prisma/client';
 import {
-    basicOreAndRefined,
     BasicResource,
     categoriesSeed,
+    ComplexeResource,
     familiesSeed,
     foundOns,
 } from './datasForSeed';
@@ -45,6 +45,14 @@ async function createFoundOn() {
     });
 }
 
+const findCategoryId = (tab: category[], catName: string) => {
+    return (
+        tab.find((f) => {
+            return f.name === catName;
+        })?.id || 0
+    );
+};
+
 async function createSimpleItem(item: Partial<item>) {
     return await prisma.item.create({
         data: {
@@ -52,6 +60,7 @@ async function createSimpleItem(item: Partial<item>) {
             name: item.name ?? '',
             imageUrlId: item.imageUrlId ?? '',
             value: item.value ? item.value : 0,
+            isStackable: item.isStackable ?? false,
         },
     });
 }
@@ -59,7 +68,46 @@ async function createSimpleItem(item: Partial<item>) {
 async function createResources() {
     const categories = await prisma.category.findMany();
 
-    const newStackedItems = async (line: BasicResource[]) => {
+    const basicStackedResource = (
+        resources: BasicResource[],
+        uCat: string,
+        rCat: string,
+        count: number
+    ) => {
+        const rCatId = findCategoryId(categories, rCat);
+        const uCatId = findCategoryId(categories, uCat);
+
+        resources.forEach((tuple) => {
+            createSimpleItem({
+                ...tuple.r,
+                categoryId: rCatId,
+                value: tuple.u.value * 3,
+                isStackable: true,
+            }).then((resultR) => {
+                createSimpleItem({
+                    ...tuple.u,
+                    categoryId: uCatId,
+                    isStackable: true,
+                }).then((resultU) => {
+                    prisma.refineRelations
+                        .create({
+                            data: {
+                                refinedItemId: resultR.id,
+                                unrefinedItemId: resultU.id,
+                                quantity: count,
+                            },
+                        })
+                        .then((finalResult) => {
+                            console.log(resultR);
+                            console.log(resultU);
+                            console.log(finalResult);
+                        });
+                });
+            });
+        });
+    };
+
+    const newStackedItems = async (line: ComplexeResource[]) => {
         line.forEach((tuple) => {
             const cat =
                 categories.find((f) => {
@@ -67,22 +115,22 @@ async function createResources() {
                 })?.id || 0;
 
             if (cat !== 0) {
-                const refinedValue = tuple?.unrefined?.reduce((acc, cur) => {
+                const refinedValue = tuple?.u?.reduce((acc, cur) => {
                     return (acc += cur.data.value);
                 }, 0);
 
                 // CREATE REFINED ITEM
                 createSimpleItem({
-                    ...tuple.refinedResource,
+                    ...tuple.r,
                     categoryId: cat,
                     value: refinedValue ?? 0,
                     isStackable: true,
                 })
                     .then((result) => {
-                        tuple?.unrefined?.forEach((t) => {
+                        tuple?.u?.forEach((t) => {
                             const uCat =
                                 categories.find((f) => {
-                                    return f.name === t.unrefinedCat;
+                                    return f.name === t.uCat;
                                 })?.id || 0;
 
                             // CREATE UNREFINED ITEM
@@ -113,7 +161,7 @@ async function createResources() {
         });
     };
 
-    newStackedItems(basicOreAndRefined);
+    // basicStackedResource(basicOreAndRefined, 'Ore', 'Refined Ore', 3);
 }
 
 createAdminUser();
