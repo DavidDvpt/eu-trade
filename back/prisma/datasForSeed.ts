@@ -38,7 +38,7 @@ export interface BasicResource {
     u: { name: string; value: number; imageUrlId: string };
 }
 
-export const basicOreAndRefined: BasicResource[] = [
+export const basicOre: BasicResource[] = [
     {
         r: { name: 'Adomasite Ingot', imageUrlId: '1731' },
         u: {
@@ -432,16 +432,55 @@ export const basicOreAndRefined: BasicResource[] = [
     },
 ];
 
-export const enmatters = [
-    { name: 'Acid Root', value: 0.32, imageUrlId: '1271' },
-    { name: 'Alicenies Liquid', value: 0.05, imageUrlId: '368' },
-    { name: 'Angelic Grit', value: 0.5, imageUrlId: '707' },
-];
-
-export const refinedEnmatters = [
-    { name: 'Root Acid', value: 0.64, imageUrlId: '1276' },
-    { name: 'Alicenies Gel', value: 0.1, imageUrlId: '1373' },
-    { name: 'Angelic Flakes', value: 1, imageUrlId: '364' },
+export const basicEnmatter: BasicResource[] = [
+    {
+        r: { name: 'Root Acid', imageUrlId: '1276' },
+        u: {
+            name: 'Acid Root',
+            value: 0.64,
+            imageUrlId: '1271',
+        },
+    },
+    {
+        r: { name: 'Alicenies Gel', imageUrlId: '1373' },
+        u: {
+            name: 'Alicenies Liquid',
+            value: 0.05,
+            imageUrlId: '368',
+        },
+    },
+    {
+        r: { name: 'Angelic Flakes', imageUrlId: '364' },
+        u: {
+            name: 'Angelic Grit',
+            value: 0.5,
+            imageUrlId: '707',
+        },
+    },
+    {
+        r: { name: 'Light Mail', imageUrlId: '1902' },
+        u: {
+            name: 'Angel Scales',
+            value: 0.01,
+            imageUrlId: '1900',
+        },
+    },
+    {
+        r: { name: 'Ares Powder', imageUrlId: '1375' },
+        u: {
+            name: 'Ares Head',
+            value: 0.26,
+            imageUrlId: '708',
+        },
+    },
+    {
+        r: { name: 'Pearl Sand', imageUrlId: '1252' },
+        u: {
+            name: 'Azur Pearl',
+            value: 0.96,
+            imageUrlId: '1255',
+        },
+    },
 ];
 
 export const treasures = [

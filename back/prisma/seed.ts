@@ -1,6 +1,7 @@
 import { category, item } from '@prisma/client';
 import {
-    basicOreAndRefined,
+    basicEnmatter,
+    basicOre,
     BasicResource,
     categoriesSeed,
     familiesSeed,
@@ -81,7 +82,7 @@ async function createResources() {
             createSimpleItem({
                 ...tuple.r,
                 categoryId: rCatId,
-                value: tuple.u.value * 3,
+                value: tuple.u.value * count,
                 isStackable: true,
             }).then((resultR) => {
                 createSimpleItem({
@@ -161,7 +162,8 @@ async function createResources() {
     //     });
     // };
 
-    basicStackedResource(basicOreAndRefined, 'Ore', 'Refined Ore', 3);
+    basicStackedResource(basicOre, 'Ore', 'Refined Ore', 3);
+    basicStackedResource(basicEnmatter, 'Enmatter', 'Refined Enmatter', 2);
 }
 
 createAdminUser();
