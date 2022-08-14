@@ -5,7 +5,9 @@ import {
     BasicResource,
     categoriesSeed,
     familiesSeed,
+    foodDatas,
     foundOns,
+    naturalMaterialDatas,
 } from './datasForSeed';
 import prisma from './prismaClient';
 
@@ -40,6 +42,34 @@ function createFamiliesAndCategories() {
     return promise;
 }
 
+async function createSingleItem(item: Partial<item>, catId: number) {
+    await prisma.item.create({
+        data: {
+            name: item.name ?? '',
+            value: item.value ?? 0,
+            ttMax: item.ttMax ?? 0,
+            categoryId: catId,
+            isStackable: item.isStackable ?? false,
+            isLimited: item.isLimited ?? false,
+            isActif: item.isActif ?? false,
+        },
+    });
+}
+
+async function createMultipleItem(items: Partial<item>[], catId: number) {
+    await prisma.item.createMany({
+        data: items.map((i) => ({
+            name: i.name ?? '',
+            value: i.value ?? 0,
+            ttMax: i.ttMax ?? 0,
+            categoryId: catId,
+            isStackable: i.isStackable ?? false,
+            isLimited: i.isLimited ?? false,
+            isActif: i.isActif ?? false,
+        })),
+    });
+}
+
 async function createFoundOn() {
     await prisma.foundOn.createMany({
         data: foundOns.map((f, i) => ({ ...f, id: i + 1 })),
@@ -54,7 +84,7 @@ const findCategoryId = (tab: category[], catName: string) => {
     );
 };
 
-async function createSimpleItem(item: Partial<item>) {
+async function createSimpleRefinedResource(item: Partial<item>) {
     return await prisma.item.create({
         data: {
             categoryId: item.categoryId ?? 0,
@@ -69,6 +99,24 @@ async function createSimpleItem(item: Partial<item>) {
 async function createResources() {
     const categories = await prisma.category.findMany();
 
+    const naturalMaterials = () => {
+        const natMatCat = findCategoryId(categories, 'Natural Material');
+        prisma.item
+            .createMany({
+                data: naturalMaterialDatas.map((m) => ({ ...m, categoryId: natMatCat })),
+            })
+            .then((result) => console.log(result));
+    };
+
+    const foods = () => {
+        const natMatCat = findCategoryId(categories, 'Food');
+        prisma.item
+            .createMany({
+                data: foodDatas.map((m) => ({ ...m, categoryId: natMatCat })),
+            })
+            .then((result) => console.log(result));
+    };
+
     const basicStackedResource = (
         resources: BasicResource[],
         uCat: string,
@@ -79,13 +127,13 @@ async function createResources() {
         const uCatId = findCategoryId(categories, uCat);
 
         resources.forEach((tuple) => {
-            createSimpleItem({
+            createSimpleRefinedResource({
                 ...tuple.r,
                 categoryId: rCatId,
                 value: tuple.u.value * count,
                 isStackable: true,
             }).then((resultR) => {
-                createSimpleItem({
+                createSimpleRefinedResource({
                     ...tuple.u,
                     categoryId: uCatId,
                     isStackable: true,
@@ -99,32 +147,26 @@ async function createResources() {
                             },
                         })
                         .then((finalResult) => {
-                            console.log(resultR);
-                            console.log(resultU);
-                            console.log(finalResult);
+                            // console.log(resultR);
+                            // console.log(resultU);
+                            // console.log(finalResult);
                         });
                 });
             });
         });
     };
 
-    // const newStackedItems = async (line: ComplexeResource[]) => {
+    createSingleItem;
+
+    // const complexeStackedResource = async (line: ComplexeResource[]) => {
     //     line.forEach((tuple) => {
-    //         const cat =
-    //             categories.find((f) => {
-    //                 return f.name === tuple.refinedCat;
-    //             })?.id || 0;
+    //         const cat = findCategoryId(categories, 'Food');
 
     //         if (cat !== 0) {
-    //             const refinedValue = tuple?.u?.reduce((acc, cur) => {
-    //                 return (acc += cur.data.value);
-    //             }, 0);
-
     //             // CREATE REFINED ITEM
-    //             createSimpleItem({
+    //             createSimpleRefinedResource({
     //                 ...tuple.r,
     //                 categoryId: cat,
-    //                 value: refinedValue ?? 0,
     //                 isStackable: true,
     //             })
     //                 .then((result) => {
@@ -135,7 +177,7 @@ async function createResources() {
     //                             })?.id || 0;
 
     //                         // CREATE UNREFINED ITEM
-    //                         createSimpleItem({
+    //                         createSimpleRefinedResource({
     //                             ...t.data,
     //                             categoryId: uCat,
     //                             isStackable: true,
@@ -162,8 +204,11 @@ async function createResources() {
     //     });
     // };
 
+    foods();
+    naturalMaterials();
     basicStackedResource(basicOre, 'Ore', 'Refined Ore', 3);
     basicStackedResource(basicEnmatter, 'Enmatter', 'Refined Enmatter', 2);
+    // complexeStackedResource(basicEnmatter, 'Enmatter', 'Refined Enmatter', 2);
 }
 
 createAdminUser();

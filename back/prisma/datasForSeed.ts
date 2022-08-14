@@ -6,6 +6,8 @@ export const categoriesSeed = [
     { name: 'Refined Enmatter', family: 'Resources' },
     { name: 'Treasure', family: 'Resources' },
     { name: 'Refined Treasure', family: 'Resources' },
+    { name: 'Natural Material', family: 'Resources' },
+    { name: 'Food', family: 'Resources' },
 ];
 
 export const foundOns = [
@@ -23,9 +25,18 @@ export const foundOns = [
     { name: 'Ancient Greece' },
 ];
 
+export const naturalMaterialDatas = [{ name: 'Common Dung', value: 0.0001, imageUrlId: '387' }];
+export const foodDatas = [
+    { name: 'Bombardo', value: 0.00001, imageUrlId: '390' },
+    { name: 'Caroot', value: 0.00001, imageUrlId: '523' },
+    { name: 'Aimoros', value: 0.00001, imageUrlId: '946' },
+    { name: 'Papplon', value: 0.00001, imageUrlId: '389' },
+    { name: 'Nutrio Bar', value: 0.01, imageUrlId: '356' },
+];
+
 export interface ComplexeResource {
-    refinedCat: string;
-    r: { name: string; imageUrlId: string };
+    rCat: string;
+    r: { name: string; imageUrlId: string; value: number };
     u: {
         data: { name: string; value: number; imageUrlId: string };
         count: number;
@@ -432,6 +443,22 @@ export const basicOre: BasicResource[] = [
     },
 ];
 
+// export const complexeResourcesDatas: {
+//     rCat: 'Refined Enmatter';
+//     r: { name: 'Energized Fertilizer'; value: 0.47; imageUrlId: '1657' };
+//     u: [
+//         {
+//             data: { name: 'Bombardo'; value: 0.00001; imageUrlId: '390' };
+//             count: 1;
+//             uCat: 'Natural Material';
+//         },
+//         {
+//             data: { name: string; value: number; imageUrlId: string };
+//             count: 1;
+//             uCat: 'Natural Material';
+//         }
+//     ];
+// };
 export const basicEnmatter: BasicResource[] = [
     {
         r: { name: 'Root Acid', imageUrlId: '1276' },
@@ -479,6 +506,150 @@ export const basicEnmatter: BasicResource[] = [
             name: 'Azur Pearl',
             value: 0.96,
             imageUrlId: '1255',
+        },
+    },
+    {
+        r: { name: 'Binary Energy', imageUrlId: '1177' },
+        u: {
+            name: 'Binary Fluid',
+            value: 0.75,
+            imageUrlId: '1392',
+        },
+    },
+    {
+        r: { name: 'Medical Compress', imageUrlId: '1819' },
+        u: {
+            name: 'Blood Moss',
+            value: 0.09,
+            imageUrlId: '1820',
+        },
+    },
+    {
+        r: { name: 'Putty', imageUrlId: '1277' },
+        u: {
+            name: 'Cave Sap',
+            value: 0.39,
+            imageUrlId: '1270',
+        },
+    },
+    {
+        r: { name: 'Oil', imageUrlId: '371' },
+        u: {
+            name: 'Crude Oil',
+            value: 0.01,
+            imageUrlId: '395',
+        },
+    },
+    {
+        r: { name: 'Dianthus Crystal Powder', imageUrlId: '3205' },
+        u: {
+            name: 'Dianthus Liquid',
+            value: 0.3,
+            imageUrlId: '3202',
+        },
+    },
+    {
+        r: { name: 'Dunkel Plastix', imageUrlId: '1656' },
+        u: {
+            name: 'Dunkel Particle',
+            value: 0.55,
+            imageUrlId: '3526',
+        },
+    },
+    {
+        r: { name: 'Energized Crystal Cell', imageUrlId: '3206' },
+        u: {
+            name: 'Energized Crystal',
+            value: 0.3,
+            imageUrlId: '3203',
+        },
+    },
+    {
+        r: { name: 'Antimagnetic Oil', imageUrlId: '1903' },
+        u: {
+            name: 'Ferrum Nuts',
+            value: 1,
+            imageUrlId: '1965',
+        },
+    },
+    {
+        r: { name: 'File Root Pellet', imageUrlId: '3204' },
+        u: {
+            name: 'File Root Globule',
+            value: 0.3,
+            imageUrlId: '3230',
+        },
+    },
+    {
+        r: { name: 'Garcen Lubricant', imageUrlId: '1227' },
+        u: {
+            name: 'Garcen Grease',
+            value: 0.1,
+            imageUrlId: '699',
+        },
+    },
+    {
+        r: { name: 'Henren Cube', imageUrlId: '2693' },
+        u: {
+            name: 'Henren Stems',
+            value: 0.63,
+            imageUrlId: '2697',
+        },
+    },
+    {
+        r: { name: 'Light Liquid', imageUrlId: '1498' },
+        u: {
+            name: 'Lumis Leach',
+            value: 0.42,
+            imageUrlId: '1488',
+        },
+    },
+    {
+        r: { name: 'Lytairian Powder', imageUrlId: '950' },
+        u: {
+            name: 'Lytairian Dust',
+            value: 0.19,
+            imageUrlId: '949',
+        },
+    },
+    {
+        r: { name: 'Magerian Spray', imageUrlId: '1660' },
+        u: {
+            name: 'Magerian Mist',
+            value: 0.25,
+            imageUrlId: '526',
+        },
+    },
+    {
+        r: { name: 'Melchi Crystal', imageUrlId: '1904' },
+        u: {
+            name: 'Melchi Water',
+            value: 0.2,
+            imageUrlId: '706',
+        },
+    },
+    {
+        r: { name: 'Chalmon', imageUrlId: '1730' },
+        u: {
+            name: 'Solis Bean',
+            value: 0.78,
+            imageUrlId: '2044',
+        },
+    },
+    {
+        r: { name: 'Typonolic Gas', imageUrlId: '1662' },
+        u: {
+            name: 'Typonolic Steam',
+            value: 0.15,
+            imageUrlId: '1254',
+        },
+    },
+    {
+        r: { name: 'Inhaler', imageUrlId: '1901' },
+        u: {
+            name: 'Vegetation Spores',
+            value: 0.4,
+            imageUrlId: '2307',
         },
     },
 ];

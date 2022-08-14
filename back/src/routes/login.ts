@@ -25,6 +25,7 @@ router.post('/', (req, res, next) => {
         });
 
         user.then((response) => {
+            console.log(response);
             if (!body.email || !response) {
                 return res.status(400).json({ message: 'Error. user don t exist' });
             }
@@ -39,7 +40,8 @@ router.post('/', (req, res, next) => {
                     return res.status(400).json({ message: 'Error. bad password' });
                 }
             }
-        }).catch(() => {
+        }).catch((error) => {
+            console.log(error);
             res.status(500);
             next(new Error('database error'));
         });

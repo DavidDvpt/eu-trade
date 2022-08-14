@@ -10,8 +10,8 @@
         "test": "npm run prisma:reset && jest",
         "test:watchAll": "npm run prisma:reset && jest --watchAll",
         "prisma:generate": "npx prisma generate",
-        "prisma:reset": "npx prisma migrate reset --force",
-        "prisma:migrate": "npx prisma migrate dev"
+        "prisma:reset": "env-cmd -f ./config/.env.dev npx prisma migrate reset --force",
+        "prisma:migrate": "env-cmd -f ./config/.env.dev npx prisma migrate dev"
     },
     "prisma": {
         "seed": "ts-node prisma/seed.ts"
