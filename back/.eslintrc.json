@@ -11,5 +11,7 @@
         "sourceType": "module"
     },
     "plugins": ["@typescript-eslint", "jest"],
-    "rules": {}
+    "rules": {
+        "no-unused-vars": "warn"
+    }
 }

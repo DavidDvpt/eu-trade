@@ -1,4 +1,5 @@
 export const familiesSeed = [{ name: 'Resources' }, { name: 'Tools' }];
+
 export const categoriesSeed = [
     { name: 'Ore', family: 'Resources' },
     { name: 'Refined Ore', family: 'Resources' },
@@ -25,13 +26,34 @@ export const foundOns = [
     { name: 'Ancient Greece' },
 ];
 
-export const naturalMaterialDatas = [{ name: 'Common Dung', value: 0.0001, imageUrlId: '387' }];
-export const foodDatas = [
-    { name: 'Bombardo', value: 0.00001, imageUrlId: '390' },
-    { name: 'Caroot', value: 0.00001, imageUrlId: '523' },
-    { name: 'Aimoros', value: 0.00001, imageUrlId: '946' },
-    { name: 'Papplon', value: 0.00001, imageUrlId: '389' },
-    { name: 'Nutrio Bar', value: 0.01, imageUrlId: '356' },
+export const singleEnmatter = [
+    {
+        name: 'Growth Molecules',
+        value: 0.47,
+        imageUrlId: '1258',
+        stackable: true,
+    },
+    {
+        name: 'Energized Fertilizer',
+        value: 0.47,
+        imageUrlId: '1657',
+        stackable: true,
+    },
+    {
+        name: 'Sweetstuff',
+        value: 0.01,
+        imageUrlId: '372',
+        stackable: true,
+    },
+];
+
+export const singleRefinedEnmatter = [
+    {
+        name: 'Sweetstuff',
+        value: 0.01,
+        imageUrlId: '372',
+        stackable: true,
+    },
 ];
 
 export interface ComplexeResource {
@@ -443,22 +465,101 @@ export const basicOre: BasicResource[] = [
     },
 ];
 
-// export const complexeResourcesDatas: {
-//     rCat: 'Refined Enmatter';
-//     r: { name: 'Energized Fertilizer'; value: 0.47; imageUrlId: '1657' };
-//     u: [
-//         {
-//             data: { name: 'Bombardo'; value: 0.00001; imageUrlId: '390' };
-//             count: 1;
-//             uCat: 'Natural Material';
-//         },
-//         {
-//             data: { name: string; value: number; imageUrlId: string };
-//             count: 1;
-//             uCat: 'Natural Material';
-//         }
-//     ];
-// };
+export const complexeResourcesDatas = [
+    {
+        rCat: 'Food',
+        r: {
+            name: 'Nutrio Bar',
+            value: 0.01,
+            imageUrlId: '356',
+            isStackable: true,
+        },
+        u: [
+            {
+                data: {
+                    name: 'sweetstuff',
+                    value: 0.01,
+                    imageUrlId: '372',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+            {
+                data: {
+                    name: 'Bombardo',
+                    value: 0.00001,
+                    imageUrlId: '390',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+            {
+                data: {
+                    name: 'Caroot',
+                    value: 0.00001,
+                    imageUrlId: '523',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+            {
+                data: {
+                    name: 'Aimoros',
+                    value: 0.00001,
+                    imageUrlId: '946',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+            {
+                data: {
+                    name: 'Papplon',
+                    value: 0.00001,
+                    imageUrlId: '389',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+        ],
+    },
+    {
+        rCat: 'Refined Enmatter',
+        r: {
+            name: 'Energized Fertilizer',
+            value: 0.47,
+            imageUrlId: '1657',
+            isStackable: true,
+        },
+        u: [
+            {
+                data: {
+                    name: 'Growth Molecules',
+                    value: 0.47,
+                    imageUrlId: '1258',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Enmatter',
+            },
+            {
+                data: {
+                    name: 'Common Dung',
+                    value: 0.0001,
+                    imageUrlId: '387',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Natural Material',
+            },
+        ],
+    },
+];
+
 export const basicEnmatter: BasicResource[] = [
     {
         r: { name: 'Root Acid', imageUrlId: '1276' },
