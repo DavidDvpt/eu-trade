@@ -24,7 +24,7 @@ function CategoriesManage() {
     };
 
     return (
-        <div>
+        <>
             <h1>Categories Manager</h1>
 
             <SearchEngine>
@@ -42,7 +42,7 @@ function CategoriesManage() {
                     row={<CategoryRow ctx={undefined as never} />}
                 />
             </ManageTable>
-        </div>
+        </>
     );
 }
 
