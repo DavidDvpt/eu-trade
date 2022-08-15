@@ -8,16 +8,11 @@
     overflow: hidden;
 
     header {
-        // position: fixed;
-        // left: 0;
-        // top: 0;
     }
     .main {
-        // position: absolute;
-        // top: 80px;
         width: 100%;
         flex-grow: 1;
-        overflow-y: scroll;
+        overflow: hidden;
     }
 
     footer {

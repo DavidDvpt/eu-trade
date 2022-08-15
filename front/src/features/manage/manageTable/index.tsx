@@ -24,7 +24,7 @@ function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
     }, [titles]);
 
     return (
-        <>
+        <div className={styles.tableContainer}>
             <table>
                 <thead>
                     <tr>
@@ -46,7 +46,7 @@ function ManageTable<T>({ titles, rows, children }: ManageTableProps<T>) {
             <div className={styles.addRowButton} onClick={handleAddClick}>
                 {addRowActionClicked ? 'Cancel new row' : 'Add new row'}
             </div>
-        </>
+        </div>
     );
 }
 

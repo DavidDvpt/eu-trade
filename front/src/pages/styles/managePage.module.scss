@@ -17,106 +17,106 @@
 
     .manageContainer {
         flex-grow: 1;
+        @include flex-center-center;
+        flex-direction: column;
 
-        > div {
-            @include flex-center-center;
-            flex-direction: column;
-        }
-
-        table {
-            margin-top: 20px;
-            border-collapse: collapse;
-            border-radius: 6px;
-            box-shadow: 0px 0px 2px $form-fielset-border-color;
-            overflow: hidden;
+        .tableContainer {
+            overflow-y: scroll;
             width: 90%;
 
-            th,
-            td {
-                border: 1px solid $form-fielset-border-color;
+            table {
+                margin-top: 20px;
                 border-collapse: collapse;
-                vertical-align: middle;
-                height: 30px;
-            }
-
-            th {
-                font-weight: 600;
-                background-color: $form-fielset-border-color;
-            }
-
-            td {
-                input,
-                select {
+                border-radius: 6px;
+                box-shadow: 0px 0px 2px $form-fielset-border-color;
+                overflow: hidden;
+                width: 100%;
+                th,
+                td {
+                    border: 1px solid $form-fielset-border-color;
+                    border-collapse: collapse;
+                    vertical-align: middle;
                     height: 30px;
-                    width: 100%;
-                    border: none;
-                    padding: 0;
+                }
 
-                    &:focus {
-                        outline: 1px solid $form-fielset-border-color-focus;
+                th {
+                    font-weight: 600;
+                    background-color: $form-fielset-border-color;
+                }
+
+                td {
+                    input,
+                    select {
+                        height: 30px;
+                        width: 100%;
+                        border: none;
+                        padding: 0;
+
+                        &:focus {
+                            outline: 1px solid $form-fielset-border-color-focus;
+                        }
+                    }
+
+                    input[type='checkbox']:focus {
+                        outline: none;
+                        cursor: pointer;
+                    }
+
+                    select {
+                        cursor: pointer;
+                    }
+
+                    &:last-child {
+                        padding: 0;
                     }
                 }
 
-                input[type='checkbox']:focus {
-                    outline: none;
-                    cursor: pointer;
-                }
-
-                select {
-                    cursor: pointer;
-                }
-
-                &:last-child {
-                    padding: 0;
-                }
-            }
-
-            .entropediaImgCell {
-                text-align: center;
-                vertical-align: middle;
-                width: 20px;
-                height: 30px;
-            }
-
-            .nameCell {
-                input {
-                    padding-left: 5px;
-                }
-            }
-
-            .numberCell {
-                width: 80px;
-                input {
-                    text-align: right;
-                    padding-right: 5px;
-                }
-            }
-
-            .checkboxCell {
-                width: 80px;
-                text-align: center;
-                vertical-align: middle;
-
-                input {
+                .entropediaImgCell {
+                    text-align: center;
+                    vertical-align: middle;
                     width: 20px;
-                    height: 20px;
+                    height: 30px;
                 }
-            }
 
-            .selectCell {
-                width: 160px;
-
-                .fieldError {
-                    border: $form-fielset-border-color-errors 1px solid;
-                    background-color: $form-fielset-background-color-errors;
+                .nameCell {
+                    input {
+                        padding-left: 5px;
+                    }
                 }
-            }
 
-            .actionCell {
-                width: 160px;
+                .numberCell {
+                    width: 80px;
+                    input {
+                        text-align: right;
+                        padding-right: 5px;
+                    }
+                }
+
+                .checkboxCell {
+                    width: 80px;
+                    text-align: center;
+                    vertical-align: middle;
+
+                    input {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+
+                .selectCell {
+                    width: 160px;
+
+                    .fieldError {
+                        border: $form-fielset-border-color-errors 1px solid;
+                        background-color: $form-fielset-background-color-errors;
+                    }
+                }
+
+                .actionCell {
+                    width: 160px;
+                }
             }
         }
-
         .addRowButton {
             @include button-base;
             line-height: 30px;
