@@ -29,6 +29,15 @@ interface Family extends Category {
     categories: Category[];
 }
 
+interface Session {
+    id: number;
+    number: number;
+    type: string;
+    cost: number;
+    win: number;
+    open: boolean;
+}
+
 interface TitleDisplay {
     label: string;
     display: string;

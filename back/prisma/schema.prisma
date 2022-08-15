@@ -69,8 +69,10 @@ model item {
 
   itemOnFoundOn itemOnFoundOn[]
 
-  refinedItem   refineRelations[] @relation("refinedItem")
-  unrefinedItem refineRelations[] @relation("unrefinedItem")
+  refinedItem     refineRelations[] @relation("refinedItem")
+  unrefinedItem   refineRelations[] @relation("unrefinedItem")
+  sessionLineCost sessionLineCost[]
+  sessionLineWin  sessionLineWin[]
 }
 
 model refineRelations {
@@ -90,4 +92,35 @@ model itemOnFoundOn {
   foundOnId Int
 
   @@id([itemId, foundOnId])
+}
+
+model session {
+  id              Int               @id @default(autoincrement())
+  isOpen          Boolean           @default(true)
+  createdAt       DateTime          @default(now()) @db.Timestamp(6)
+  closedAt        DateTime          @db.Timestamp(6)
+  Clics           Int
+  ttCost          Float             @default(0) @db.Float
+  ttWin           Float             @default(0) @db.Float
+  sessionLineWin  sessionLineWin[]
+  sessionLineCost sessionLineCost[]
+}
+
+model sessionLineCost {
+  id        Int     @id @default(autoincrement())
+  item      item    @relation(fields: [itemId], references: [id])
+  itemId    Int
+  quantity  Int     @default(0)
+  session   session @relation(fields: [sessionId], references: [id])
+  sessionId Int
+}
+
+model sessionLineWin {
+  id              Int     @id @default(autoincrement())
+  item            item    @relation(fields: [itemId], references: [id])
+  itemId          Int
+  quantityStorage Int     @default(0)
+  quantityAvatar  Int     @default(0)
+  session         session @relation(fields: [sessionId], references: [id])
+  sessionId       Int
 }

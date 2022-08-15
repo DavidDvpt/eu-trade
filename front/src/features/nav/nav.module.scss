@@ -1,6 +1,12 @@
 @import '../../scss/main';
 
 .nav {
+    font-size: 1.1em;
+    a {
+        text-decoration: none;
+        color: $color-black;
+    }
+
     ul {
         list-style: none;
         @include flex-center-center;

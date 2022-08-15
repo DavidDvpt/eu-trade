@@ -1,9 +1,10 @@
 import { Route, Routes } from 'react-router';
 
-import { useAppSelector } from '../../app/hooks';
-import HomePage from '../../pages/HomePage';
-import ManagePage from '../../pages/ManagePage';
-import { getAuthState } from '../auth/authSlice';
+import { useAppSelector } from '../app/hooks';
+import { getAuthState } from '../features/auth/authSlice';
+import HomePage from '../pages/HomePage';
+import ManagePage from '../pages/ManagePage';
+import SessionPage from '../pages/SessionPage';
 
 function AppRouter() {
     const { isAdmin, isLogged } = useAppSelector(getAuthState);
@@ -17,6 +18,7 @@ function AppRouter() {
                             {/* <Route path="families" /> */}
                         </Route>
                     )}
+                    <Route path="sessions" element={<SessionPage />} />
                 </>
             )}
         </Routes>

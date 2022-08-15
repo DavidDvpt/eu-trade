@@ -1,3 +1,5 @@
+@import './main';
+
 body {
     max-width: 1920px;
     margin: auto;
@@ -21,5 +23,26 @@ body {
         background-color: inherit;
         font-size: inherit;
         font-family: inherit;
+    }
+
+    table {
+        margin-top: 20px;
+        border-collapse: collapse;
+        border-radius: 6px;
+        box-shadow: 0px 0px 2px $form-fielset-border-color;
+        overflow: hidden;
+        width: 100%;
+        th,
+        td {
+            border: 1px solid $form-fielset-border-color;
+            border-collapse: collapse;
+            vertical-align: middle;
+            height: 30px;
+        }
+
+        th {
+            font-weight: 600;
+            background-color: $form-fielset-border-color;
+        }
     }
 }

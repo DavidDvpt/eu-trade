@@ -12,8 +12,12 @@ function Nav() {
                 <li>
                     <Link to="/">Home</Link>
                 </li>
-                <li>Menu 2</li>
-                <li>Menu 3</li>
+                <li>
+                    <Link to="/sessions">Sessions</Link>
+                </li>
+                <li>Stock</li>
+                <li>Sells</li>
+                <li>Statisics</li>
                 {isAdmin && (
                     <li>
                         <Link to="/manage">Manage</Link>

@@ -1,8 +1,8 @@
 import { Navigate, Route } from 'react-router';
 
-import { useAppSelector } from '../../app/hooks';
-import ManagePage from '../../pages/ManagePage';
-import { getAuthState } from '../auth/authSlice';
+import { useAppSelector } from '../app/hooks';
+import { getAuthState } from '../features/auth/authSlice';
+import ManagePage from '../pages/ManagePage';
 
 function ProtectedRoutes() {
     const { isAdmin, isLogged } = useAppSelector(getAuthState);
