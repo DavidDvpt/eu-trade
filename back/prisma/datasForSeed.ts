@@ -1,3 +1,5 @@
+import { SessionType } from '@prisma/client';
+
 export const familiesSeed = [
     { name: 'Resources' },
     { name: 'Tools' },
@@ -1579,6 +1581,45 @@ export const excavatorEnhancers = [
         name: 'Mining Excavator Speed Enhancer 10',
         value: 0.2,
         imageUrlId: '4529',
+    },
+];
+
+export const mockSession = [
+    {
+        userId: 1,
+        number: 1,
+        type: SessionType.MINING,
+        clics: 1000,
+        isOpen: true,
+        ttCost: 123.25,
+        ttWin: 214.1,
+    },
+    {
+        userId: 1,
+        number: 2,
+        type: SessionType.TRADE,
+        clics: 1500,
+        isOpen: true,
+        ttCost: 112.54,
+        ttWin: 68.74,
+    },
+    {
+        userId: 1,
+        number: 3,
+        type: SessionType.MINING,
+        clics: 300,
+        isOpen: true,
+        ttCost: 421.32,
+        ttWin: 6574.21,
+    },
+    {
+        userId: 1,
+        number: 4,
+        type: SessionType.TRADE,
+        clics: 2000,
+        isOpen: true,
+        ttCost: 12.35,
+        ttWin: 24.54,
     },
 ];
 

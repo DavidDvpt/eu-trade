@@ -33,9 +33,9 @@ interface Session {
     id: number;
     number: number;
     type: string;
-    cost: number;
-    win: number;
-    open: boolean;
+    ttCost: number;
+    ttWin: number;
+    isOpen: boolean;
 }
 
 interface TitleDisplay {

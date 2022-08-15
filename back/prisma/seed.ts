@@ -13,6 +13,7 @@ import {
     finderEnhancers,
     finders,
     foundOns,
+    mockSession,
     refiners,
 } from './datasForSeed';
 import prisma from './prismaClient';
@@ -274,6 +275,10 @@ const createFindersEnhancers = async () => {
     // console.log(result);
 };
 
+const createTestSessions = async () => {
+    const sessions = await prisma.session.createMany({ data: mockSession });
+};
+
 const createExcavatorEnhancers = async () => {
     const categories = await prisma.category.findMany();
 
@@ -300,3 +305,6 @@ createFamiliesAndCategories()
         createExcavatorEnhancers();
     })
     .catch((error) => console.log(error));
+
+// mocks
+createTestSessions();
