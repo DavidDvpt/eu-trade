@@ -1,4 +1,8 @@
-export const familiesSeed = [{ name: 'Resources' }, { name: 'Tools' }];
+export const familiesSeed = [
+    { name: 'Resources' },
+    { name: 'Tools' },
+    { name: 'Attachments' },
+];
 
 export const categoriesSeed = [
     { name: 'Ore', family: 'Resources' },
@@ -9,6 +13,12 @@ export const categoriesSeed = [
     { name: 'Refined Treasure', family: 'Resources' },
     { name: 'Natural Material', family: 'Resources' },
     { name: 'Food', family: 'Resources' },
+    { name: 'Refiners', family: 'Tools' },
+    { name: 'Excavators', family: 'Tools' },
+    { name: 'Finders', family: 'Tools' },
+    { name: 'Finder Enhancers', family: 'Attachments' },
+    { name: 'Finder Amplifiers', family: 'Attachments' },
+    { name: 'Excavator Enhancers', family: 'Attachments' },
 ];
 
 export const foundOns = [
@@ -465,101 +475,6 @@ export const basicOre: BasicResource[] = [
     },
 ];
 
-export const complexeResourcesDatas = [
-    {
-        rCat: 'Food',
-        r: {
-            name: 'Nutrio Bar',
-            value: 0.01,
-            imageUrlId: '356',
-            isStackable: true,
-        },
-        u: [
-            {
-                data: {
-                    name: 'sweetstuff',
-                    value: 0.01,
-                    imageUrlId: '372',
-                    isStackable: true,
-                },
-                count: 1,
-                uCat: 'Food',
-            },
-            {
-                data: {
-                    name: 'Bombardo',
-                    value: 0.00001,
-                    imageUrlId: '390',
-                    isStackable: true,
-                },
-                count: 1,
-                uCat: 'Food',
-            },
-            {
-                data: {
-                    name: 'Caroot',
-                    value: 0.00001,
-                    imageUrlId: '523',
-                    isStackable: true,
-                },
-                count: 1,
-                uCat: 'Food',
-            },
-            {
-                data: {
-                    name: 'Aimoros',
-                    value: 0.00001,
-                    imageUrlId: '946',
-                    isStackable: true,
-                },
-                count: 1,
-                uCat: 'Food',
-            },
-            {
-                data: {
-                    name: 'Papplon',
-                    value: 0.00001,
-                    imageUrlId: '389',
-                    isStackable: true,
-                },
-                count: 1,
-                uCat: 'Food',
-            },
-        ],
-    },
-    {
-        rCat: 'Refined Enmatter',
-        r: {
-            name: 'Energized Fertilizer',
-            value: 0.47,
-            imageUrlId: '1657',
-            isStackable: true,
-        },
-        u: [
-            {
-                data: {
-                    name: 'Growth Molecules',
-                    value: 0.47,
-                    imageUrlId: '1258',
-                    isStackable: true,
-                },
-                count: 1,
-                uCat: 'Enmatter',
-            },
-            {
-                data: {
-                    name: 'Common Dung',
-                    value: 0.0001,
-                    imageUrlId: '387',
-                    isStackable: true,
-                },
-                count: 1,
-                uCat: 'Natural Material',
-            },
-        ],
-    },
-];
-
 export const basicEnmatter: BasicResource[] = [
     {
         r: { name: 'Root Acid', imageUrlId: '1276' },
@@ -752,6 +667,918 @@ export const basicEnmatter: BasicResource[] = [
             value: 0.4,
             imageUrlId: '2307',
         },
+    },
+];
+
+export const complexeResourcesDatas = [
+    {
+        rCat: 'Food',
+        r: {
+            name: 'Nutrio Bar',
+            value: 0.01,
+            imageUrlId: '356',
+            isStackable: true,
+        },
+        u: [
+            {
+                data: {
+                    name: 'sweetstuff',
+                    value: 0.01,
+                    imageUrlId: '372',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+            {
+                data: {
+                    name: 'Bombardo',
+                    value: 0.00001,
+                    imageUrlId: '390',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+            {
+                data: {
+                    name: 'Caroot',
+                    value: 0.00001,
+                    imageUrlId: '523',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+            {
+                data: {
+                    name: 'Aimoros',
+                    value: 0.00001,
+                    imageUrlId: '946',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+            {
+                data: {
+                    name: 'Papplon',
+                    value: 0.00001,
+                    imageUrlId: '389',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Food',
+            },
+        ],
+    },
+    {
+        rCat: 'Refined Enmatter',
+        r: {
+            name: 'Energized Fertilizer',
+            value: 0.47,
+            imageUrlId: '1657',
+            isStackable: true,
+        },
+        u: [
+            {
+                data: {
+                    name: 'Growth Molecules',
+                    value: 0.47,
+                    imageUrlId: '1258',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Enmatter',
+            },
+            {
+                data: {
+                    name: 'Common Dung',
+                    value: 0.0001,
+                    imageUrlId: '387',
+                    isStackable: true,
+                },
+                count: 1,
+                uCat: 'Natural Material',
+            },
+        ],
+    },
+];
+
+export const refiners = [
+    {
+        name: 'Chikara Refiner, Adjusted',
+        value: 0.015,
+        ttMax: 24,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Chikara Refiner, Modified',
+        value: 0.013,
+        ttMax: 41,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Chikara Refiner MR200',
+        value: 0.023,
+        ttMax: 16,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Chikara Refiner MR300',
+        value: 0.022,
+        ttMax: 35,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Chikara Refiner MR400',
+        value: 0.02,
+        ttMax: 48,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Demonic Refiner MK-1',
+        value: 0.03,
+        ttMax: 2,
+        imageUrlId: '7033',
+        isLimited: true,
+    },
+    {
+        name: 'Genesis Rookie OreRefiner',
+        value: 0.02,
+        ttMax: 48,
+        imageUrlId: '7033',
+        isLimited: true,
+    },
+    {
+        name: 'Genesis Star Basic Refiner',
+        value: 0.31,
+        ttMax: 2,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Imperium Resource Refiner 1A',
+        value: 0.03,
+        ttMax: 3,
+        imageUrlId: '7031',
+    },
+    {
+        name: 'Imperium Resource Refiner B1',
+        value: 0.022,
+        ttMax: 6,
+        imageUrlId: '7031',
+    },
+    {
+        name: "Initiate's Refiner",
+        value: 0.031,
+        ttMax: 2,
+        imageUrlId: '7031',
+    },
+    {
+        name: 'NI Basic Refiner',
+        value: 0.031,
+        ttMax: 2,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'NI Refiner New Settler Issue',
+        value: 0.31,
+        ttMax: 1,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'PTech Refiner 1',
+        value: 0.03,
+        ttMax: 2,
+        imageUrlId: '4848',
+    },
+    {
+        name: 'PTech Refiner TT',
+        value: 0.031,
+        ttMax: 2,
+        imageUrlId: '4848',
+    },
+    {
+        name: 'Punk Blender',
+        value: 0.031,
+        ttMax: 2,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Refiner MR100',
+        value: 0.031,
+        ttMax: 2,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Transformer T-101',
+        value: 0.03,
+        ttMax: 8,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Transformer T-102',
+        value: 0.028,
+        ttMax: 22.75,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Transformer T-103',
+        value: 0.026,
+        ttMax: 45.5,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Transformer T-104',
+        value: 0.023,
+        ttMax: 55.3,
+        imageUrlId: '7033',
+    },
+    {
+        name: 'Transformer T-105',
+        value: 0.21,
+        ttMax: 75,
+        imageUrlId: '7033',
+    },
+];
+
+export const excavators = [
+    {
+        name: 'Earth Excavator ME/01',
+        value: 0.3,
+        ttMax: 2.4,
+        imageUrlId: '409',
+    },
+    {
+        name: 'eMINE E',
+        value: 2.101,
+        ttMax: 85,
+        imageUrlId: '409',
+        isLimited: true,
+    },
+    {
+        name: 'Genesis Rookie Excavator',
+        value: 0,
+        ttMax: 0.01,
+        imageUrlId: '409',
+        isLimited: true,
+    },
+    {
+        name: 'Genesis Star Basic Excavator',
+        value: 0.3,
+        ttMax: 3,
+        imageUrlId: '409',
+        isLimited: true,
+    },
+    {
+        name: 'Genesis Star Earth Excavator ME/02',
+        value: 0.5,
+        ttMax: 8,
+        imageUrlId: '409',
+    },
+    {
+        name: 'Genesis Star Earth Excavator ME/03',
+        value: 0.75,
+        ttMax: 41,
+        imageUrlId: '409',
+    },
+    {
+        name: 'Genesis Star Earth Excavator ME/04',
+        value: 0.85,
+        ttMax: 55,
+        imageUrlId: '409',
+    },
+    {
+        name: 'Genesis Star Earth Excavator ME/05',
+        value: 1,
+        ttMax: 66,
+        imageUrlId: '409',
+    },
+    {
+        name: 'Genesis Star Earth Excavator ME/05, SGA Edition',
+        value: 0.8,
+        ttMax: 66,
+        imageUrlId: '409',
+    },
+    {
+        name: 'Genesis Star Excavator, Modified',
+        value: 3.212,
+        ttMax: 4362,
+        imageUrlId: '409',
+    },
+    {
+        name: 'Genesis Star Excavator, Adjusted',
+        value: 0.5,
+        ttMax: 18,
+        imageUrlId: '409',
+    },
+    {
+        name: 'Genesis Star Excavator, Improved',
+        value: 0.5,
+        ttMax: 27,
+        imageUrlId: '409',
+    },
+    {
+        name: 'Resource Extractor RE-101',
+        value: 0.6,
+        ttMax: 5.5,
+        imageUrlId: '407',
+    },
+    {
+        name: 'Resource Extractor RE-102',
+        value: 1.1,
+        ttMax: 12.6,
+        imageUrlId: '407',
+    },
+    {
+        name: 'Resource Extractor RE-103',
+        value: 1.5,
+        ttMax: 50,
+        imageUrlId: '407',
+    },
+    {
+        name: 'Resource Extractor RE-104',
+        value: 1.73,
+        ttMax: 50,
+        imageUrlId: '407',
+    },
+    {
+        name: 'Resource Extractor RE-105',
+        value: 2.22,
+        ttMax: 80,
+        imageUrlId: '407',
+    },
+    {
+        name: 'Resource Extractor RE-201',
+        value: 1.29,
+        ttMax: 89,
+        imageUrlId: '407',
+        isLimited: true,
+    },
+    {
+        name: 'Resource Extractor RE-202',
+        value: 1.6,
+        ttMax: 110,
+        imageUrlId: '407',
+        isLimited: true,
+    },
+    {
+        name: 'Resource Extractor RE-203',
+        value: 2.06,
+        ttMax: 185,
+        imageUrlId: '407',
+        isLimited: true,
+    },
+    {
+        name: 'Resource Extractor RE-204',
+        value: 2.331,
+        ttMax: 195,
+        imageUrlId: '407',
+        isLimited: true,
+    },
+    {
+        name: 'Resource Extractor RE-204 Adapted',
+        value: 2.331,
+        ttMax: 195,
+        imageUrlId: '407',
+        isLimited: true,
+    },
+    {
+        name: 'Resource Extractor RE-205',
+        value: 2.5,
+        ttMax: 83,
+        imageUrlId: '407',
+        isLimited: true,
+    },
+    {
+        name: 'Resource Extractor RE-301',
+        value: 2.503,
+        ttMax: 83,
+        imageUrlId: '407',
+        isLimited: true,
+    },
+];
+
+export const finders = [
+    {
+        name: 'Finder F-101',
+        value: 1,
+        ttMax: 5.5,
+        imageUrlId: '406',
+    },
+    {
+        name: 'Finder F-102',
+        value: 1.15,
+        ttMax: 30,
+        imageUrlId: '406',
+    },
+    {
+        name: 'Finder F-103',
+        value: 1.45,
+        ttMax: 55,
+        imageUrlId: '406',
+    },
+    {
+        name: 'Finder F-104',
+        value: 1.63,
+        ttMax: 66.6,
+        imageUrlId: '406',
+    },
+    {
+        name: 'Finder F-105',
+        value: 2.05,
+        ttMax: 82,
+        imageUrlId: '406',
+    },
+    {
+        name: 'Finder F-105 TEN Edition',
+        value: 2,
+        ttMax: 82,
+        imageUrlId: '406',
+    },
+    {
+        name: 'Finder F-106',
+        value: 1.799,
+        ttMax: 79.95,
+        imageUrlId: '406',
+    },
+    {
+        name: 'Omegaton Detectonator MD-1',
+        value: 0.239,
+        ttMax: 0.1,
+        imageUrlId: '406',
+        isLimited: true,
+    },
+    {
+        name: 'Omegaton Detectonator MD-10',
+        value: 1,
+        ttMax: 2.4,
+        imageUrlId: '408',
+    },
+    {
+        name: 'Omegaton Detectonator MD-20',
+        value: 2,
+        ttMax: 26,
+        imageUrlId: '408',
+    },
+    {
+        name: 'Omegaton Detectonator MD-30',
+        value: 1,
+        ttMax: 40,
+        imageUrlId: '408',
+    },
+    {
+        name: 'Omegaton Detectonator MD-40',
+        value: 0.83,
+        ttMax: 56,
+        imageUrlId: '408',
+    },
+    {
+        name: 'Omegaton Detectonator MD-50',
+        value: 0.8,
+        ttMax: 64,
+        imageUrlId: '408',
+    },
+    {
+        name: 'TerraMaster TT',
+        value: 0.239,
+        ttMax: 0.01,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster Trainer',
+        value: 0.75,
+        ttMax: 0.4,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster 1',
+        value: 1.5,
+        ttMax: 2.5,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster 2',
+        value: 2.2,
+        ttMax: 55,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster 3',
+        value: 3.225,
+        ttMax: 95,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster 3 Gold Rush',
+        value: 3.225,
+        ttMax: 95,
+        imageUrlId: '6914',
+    },
+    {
+        name: 'TerraMaster 4',
+        value: 3.72,
+        ttMax: 150,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster 5',
+        value: 4.125,
+        ttMax: 205,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster 6',
+        value: 4.372,
+        ttMax: 260,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster 7',
+        value: 4.552,
+        ttMax: 320,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster 8',
+        value: 4.89,
+        ttMax: 390,
+        imageUrlId: '4701',
+        isLimited: true,
+    },
+    {
+        name: 'TerraMaster 8 Gold Rush',
+        value: 4.89,
+        ttMax: 390,
+        imageUrlId: '4701',
+    },
+];
+
+export const finderAmplifiers = [
+    {
+        name: 'Level 1 Finder Amplifier',
+        value: 25,
+        ttMax: 78,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 1 Finder Amplifier Light',
+        value: 25,
+        ttMax: 30,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 2 Finder Amplifier',
+        value: 50,
+        ttMax: 100,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 2 Finder Amplifier Light',
+        value: 50,
+        ttMax: 50,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 3 Finder Amplifier',
+        value: 100,
+        ttMax: 114,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 3 Finder Amplifier Light',
+        value: 100,
+        ttMax: 75,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 4 Finder Amplifier',
+        value: 150,
+        ttMax: 150,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 5 Finder Amplifier',
+        value: 200,
+        ttMax: 200,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 6 Finder Amplifier',
+        value: 250,
+        ttMax: 250,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 7 Finder Amplifier',
+        value: 300,
+        ttMax: 120,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 8 Finder Amplifier',
+        value: 400,
+        ttMax: 160,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 9 Finder Amplifier',
+        value: 500,
+        ttMax: 260,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 10 Finder Amplifier',
+        value: 750,
+        ttMax: 300,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 11 Finder Amplifier',
+        value: 1000,
+        ttMax: 350,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 12 Finder Amplifier',
+        value: 1500,
+        ttMax: 255,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+    {
+        name: 'Level 13 Finder Amplifier',
+        value: 2000,
+        ttMax: 340,
+        imageUrlId: '919',
+        isLimited: true,
+    },
+];
+
+export const finderEnhancers = [
+    {
+        name: 'Mining Finder Depth Enhancer 1',
+        value: 0.8,
+        imageUrlId: '3286',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Depth Enhancer 2',
+        value: 0.8,
+        imageUrlId: '3305',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Depth Enhancer 3',
+        value: 0.8,
+        imageUrlId: '3317',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Depth Enhancer 4',
+        value: 0.8,
+        imageUrlId: '3306',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Depth Enhancer 5',
+        value: 0.8,
+        imageUrlId: '3341',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Depth Enhancer 6',
+        value: 0.8,
+        imageUrlId: '4113',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Depth Enhancer 7',
+        value: 0.8,
+        imageUrlId: '4112',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Depth Enhancer 8',
+        value: 0.8,
+        imageUrlId: '4114',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Depth Enhancer 9',
+        value: 0.8,
+        imageUrlId: '3307',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Depth Enhancer 10',
+        value: 0.8,
+        imageUrlId: '4529',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 1',
+        value: 1,
+        imageUrlId: '3286',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 2',
+        value: 1,
+        imageUrlId: '3305',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 3',
+        value: 1,
+        imageUrlId: '3317',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 4',
+        value: 1,
+        imageUrlId: '3306',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 5',
+        value: 1,
+        imageUrlId: '3341',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 6',
+        value: 1,
+        imageUrlId: '4113',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 7',
+        value: 1,
+        imageUrlId: '4112',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 8',
+        value: 1,
+        imageUrlId: '4114',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 9',
+        value: 1,
+        imageUrlId: '3307',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Range Enhancer 10',
+        value: 1,
+        imageUrlId: '4529',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 1',
+        value: 0.6,
+        imageUrlId: '3286',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 2',
+        value: 0.6,
+        imageUrlId: '3305',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 3',
+        value: 0.6,
+        imageUrlId: '3317',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 4',
+        value: 0.6,
+        imageUrlId: '3306',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 5',
+        value: 0.6,
+        imageUrlId: '3341',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 6',
+        value: 0.6,
+        imageUrlId: '4113',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 7',
+        value: 0.6,
+        imageUrlId: '4112',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 8',
+        value: 0.6,
+        imageUrlId: '4114',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 9',
+        value: 0.6,
+        imageUrlId: '3307',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Finder Skill Modification Enhancer 10',
+        value: 0.6,
+        imageUrlId: '4529',
+        isStackable: true,
+    },
+];
+
+export const excavatorEnhancers = [
+    {
+        name: 'Mining Excavator Speed Enhancer 1',
+        value: 0.8,
+        imageUrlId: '3286',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Excavator Speed Enhancer 2',
+        value: 0.8,
+        imageUrlId: '3305',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Excavator Speed Enhancer 3',
+        value: 0.2,
+        imageUrlId: '3317',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Excavator Speed Enhancer 4',
+        value: 0.2,
+        imageUrlId: '3306',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Excavator Speed Enhancer 5',
+        value: 0.2,
+        imageUrlId: '3341',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Excavator Speed Enhancer 6',
+        value: 0.2,
+        imageUrlId: '4113',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Excavator Speed Enhancer 7',
+        value: 0.2,
+        imageUrlId: '4112',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Excavator Speed Enhancer 8',
+        value: 0.2,
+        imageUrlId: '4114',
+        isStackable: true,
+    },
+    {
+        name: 'Mining Excavator Speed Enhancer 9',
+        value: 0.2,
+        imageUrlId: '3307',
+    },
+    {
+        name: 'Mining Excavator Speed Enhancer 10',
+        value: 0.2,
+        imageUrlId: '4529',
     },
 ];
 

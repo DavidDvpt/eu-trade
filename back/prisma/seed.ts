@@ -6,8 +6,14 @@ import {
     categoriesSeed,
     ComplexeResource,
     complexeResourcesDatas,
+    excavatorEnhancers,
+    excavators,
     familiesSeed,
+    finderAmplifiers,
+    finderEnhancers,
+    finders,
     foundOns,
+    refiners,
 } from './datasForSeed';
 import prisma from './prismaClient';
 
@@ -24,15 +30,14 @@ async function createAdminUser() {
 }
 
 function createFamiliesAndCategories() {
-    const familiesMap = familiesSeed.map((f, iFam) =>
+    const familiesMap = familiesSeed.map((f) =>
         prisma.family.create({
             data: {
-                id: iFam + 1,
                 name: f.name,
                 categories: {
                     create: categoriesSeed
                         .filter((c) => c.family === f.name)
-                        .map((m, iCat) => ({ id: iCat + 1, name: m.name })),
+                        .map((m) => ({ name: m.name })),
                 },
             },
         })
@@ -54,25 +59,25 @@ async function createFoundOn() {
 //     }})
 //  }
 
-async function createSingleItem(item: Partial<item>, catId: number) {
-    await prisma.item.create({
-        data: {
-            ...item,
-            name: item.name as string,
-            categoryId: catId,
-        },
-    });
-}
+// async function createSingleItem(item: Partial<item>, catId: number) {
+//     await prisma.item.create({
+//         data: {
+//             ...item,
+//             name: item.name as string,
+//             categoryId: catId,
+//         },
+//     });
+// }
 
-function createMultipleItem(items: Partial<item>[], catId: number) {
-    return prisma.item.createMany({
-        data: items.map((i) => ({
-            ...i,
-            name: i.name as string,
-            categoryId: catId,
-        })),
-    });
-}
+// function createMultipleItem(items: Partial<item>[], catId: number) {
+//     return prisma.item.createMany({
+//         data: items.map((i) => ({
+//             ...i,
+//             name: i.name as string,
+//             categoryId: catId,
+//         })),
+//     });
+// }
 
 const findCategoryId = (tab: category[], catName: string) => {
     return (
@@ -205,10 +210,93 @@ async function createResources() {
     complexeStackedResource(complexeResourcesDatas);
 }
 
+const createRefiners = async () => {
+    const categories = await prisma.category.findMany();
+    const cat = findCategoryId(categories, 'Refiners');
+    const result = await prisma.item.createMany({
+        data: refiners.map((r) => {
+            return { ...r, categoryId: cat };
+        }),
+    });
+
+    console.log(result);
+};
+
+const createExcavators = async () => {
+    const categories = await prisma.category.findMany();
+
+    const cat = findCategoryId(categories, 'Excavators');
+    const result = await prisma.item.createMany({
+        data: excavators.map((r) => {
+            return { ...r, categoryId: cat };
+        }),
+    });
+
+    console.log(result);
+};
+
+const createFinders = async () => {
+    const categories = await prisma.category.findMany();
+
+    const cat = findCategoryId(categories, 'Finders');
+    const result = await prisma.item.createMany({
+        data: finders.map((r) => {
+            return { ...r, categoryId: cat };
+        }),
+    });
+
+    console.log(result);
+};
+
+const createFindersAmplifiers = async () => {
+    const categories = await prisma.category.findMany();
+
+    const cat = findCategoryId(categories, 'Finder Amplifiers');
+    const result = await prisma.item.createMany({
+        data: finderAmplifiers.map((r) => {
+            return { ...r, categoryId: cat };
+        }),
+    });
+
+    console.log(result);
+};
+
+const createFindersEnhancers = async () => {
+    const categories = await prisma.category.findMany();
+
+    const cat = findCategoryId(categories, 'Finder Enhancers');
+    const result = await prisma.item.createMany({
+        data: finderEnhancers.map((r) => {
+            return { ...r, categoryId: cat };
+        }),
+    });
+
+    console.log(result);
+};
+
+const createExcavatorEnhancers = async () => {
+    const categories = await prisma.category.findMany();
+
+    const cat = findCategoryId(categories, 'Excavator Enhancers');
+    const result = await prisma.item.createMany({
+        data: excavatorEnhancers.map((r) => {
+            return { ...r, categoryId: cat };
+        }),
+    });
+
+    console.log(result);
+};
+
 createAdminUser();
 createFoundOn();
 createFamiliesAndCategories()
     .then((response) => {
         createResources();
+        createRefiners();
+        createExcavators();
+        createFinders();
+        createFindersAmplifiers();
+        createFindersEnhancers();
+        createExcavatorEnhancers();
     })
     .catch((error) => console.log(error));
