@@ -16,14 +16,21 @@ enum Role {
   ADMIN
 }
 
+enum SessionType {
+  TRADE
+  MINING
+}
+
 model user {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  pseudo    String
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  role      Role     @default(USER)
-  isActif   Boolean  @default(true)
+  id              Int               @id @default(autoincrement())
+  email           String            @unique
+  password        String
+  pseudo          String
+  createdAt       DateTime          @default(now()) @db.Timestamp(6)
+  role            Role              @default(USER)
+  isActif         Boolean           @default(true)
+  sessionLineCost sessionLineCost[]
+  session         session[]
 }
 
 model category {
@@ -96,10 +103,14 @@ model itemOnFoundOn {
 
 model session {
   id              Int               @id @default(autoincrement())
+  user            user              @relation(fields: [userId], references: [id])
+  userId          Int
+  number          Int
+  type            SessionType
   isOpen          Boolean           @default(true)
   createdAt       DateTime          @default(now()) @db.Timestamp(6)
-  closedAt        DateTime          @db.Timestamp(6)
-  Clics           Int
+  closedAt        DateTime?         @db.Timestamp(6)
+  clics           Int
   ttCost          Float             @default(0) @db.Float
   ttWin           Float             @default(0) @db.Float
   sessionLineWin  sessionLineWin[]
@@ -113,6 +124,8 @@ model sessionLineCost {
   quantity  Int     @default(0)
   session   session @relation(fields: [sessionId], references: [id])
   sessionId Int
+  user      user?   @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
 model sessionLineWin {

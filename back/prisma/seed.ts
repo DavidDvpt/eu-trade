@@ -193,7 +193,7 @@ async function createResources() {
                                     .then((finalResult) => {
                                         // console.log(result);
                                         // console.log(resultUnrefined);
-                                        console.log(finalResult);
+                                        // console.log(finalResult);
                                     });
                             });
                         });
@@ -219,7 +219,7 @@ const createRefiners = async () => {
         }),
     });
 
-    console.log(result);
+    // console.log(result);
 };
 
 const createExcavators = async () => {
@@ -232,7 +232,7 @@ const createExcavators = async () => {
         }),
     });
 
-    console.log(result);
+    // console.log(result);
 };
 
 const createFinders = async () => {
@@ -245,7 +245,7 @@ const createFinders = async () => {
         }),
     });
 
-    console.log(result);
+    // console.log(result);
 };
 
 const createFindersAmplifiers = async () => {
@@ -258,7 +258,7 @@ const createFindersAmplifiers = async () => {
         }),
     });
 
-    console.log(result);
+    // console.log(result);
 };
 
 const createFindersEnhancers = async () => {
@@ -271,7 +271,7 @@ const createFindersEnhancers = async () => {
         }),
     });
 
-    console.log(result);
+    // console.log(result);
 };
 
 const createExcavatorEnhancers = async () => {
@@ -284,7 +284,7 @@ const createExcavatorEnhancers = async () => {
         }),
     });
 
-    console.log(result);
+    // console.log(result);
 };
 
 createAdminUser();

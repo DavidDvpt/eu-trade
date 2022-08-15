@@ -1,28 +1,21 @@
-import { Role } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import prisma from '../../prisma/prismaClient';
-import { jwtVerify } from '../middlewares/jwtVerify';
 import prismaErrorHandler from '../middlewares/prismaErrorHandler';
 
 const router = express.Router();
 
 router.get('/', getAll);
 router.get('/:id', getById);
-router.put('/:id', jwtVerify(Role.MANAGER), update);
-router.post('/', jwtVerify(Role.MANAGER), addOne);
-router.delete('/:id', jwtVerify(Role.ADMIN), deleteOne);
+router.put('/:id', update);
+router.post('/', addOne);
+router.delete('/:id', deleteOne);
 
 function getAll(req: Request, res: Response, next: NextFunction) {
     try {
-        prisma.item
-            .findMany({
-                orderBy: {
-                    name: 'asc',
-                },
-            })
+        prisma.session
+            .findMany()
             .then((result) => {
-                // console.log(result);
                 res.status(200).json(result);
             })
             .catch((err) => {
@@ -39,7 +32,7 @@ function getById(req: Request, res: Response, next: NextFunction) {
     try {
         const id: string = req.params.id;
 
-        prisma.item
+        prisma.session
             .findUnique({
                 where: {
                     id: parseInt(id, 10),
@@ -71,17 +64,11 @@ function addOne(req: Request, res: Response, next: NextFunction) {
             res.status(422);
             next(new Error());
         } else {
-            prisma.item
+            prisma.session
                 .create({
                     data: {
-                        name: body.name,
-                        categoryId: parseInt(body.categoryId, 10),
-                        isStackable: body.isStackable,
-                        isLimited: body.isLimited,
-                        value: body.value,
-                        ttMax: body.ttMax,
-                        imageUrlId: body.imageUrlId,
-                        isActif: body.isActif,
+                        ...body,
+                        userId: parseInt(body.userId, 10),
                     },
                 })
                 .then((result) => {
@@ -93,11 +80,13 @@ function addOne(req: Request, res: Response, next: NextFunction) {
                     }
                 })
                 .catch((err) => {
+                    console.log(err);
                     res.status(prismaErrorHandler(err.meta?.cause));
                     next(new Error(err.meta?.cause));
                 });
         }
     } catch (error) {
+        console.log(error);
         res.status(500);
         next(new Error('Server Error'));
     }
@@ -112,20 +101,13 @@ function update(req: Request, res: Response, next: NextFunction) {
             res.status(422);
             next(new Error());
         } else {
-            prisma.item
+            prisma.session
                 .update({
                     where: {
                         id: parseInt(id, 10),
                     },
                     data: {
-                        name: body.name,
-                        categoryId: parseInt(body.categoryId, 10),
-                        isStackable: body.isStackable,
-                        isLimited: body.isLimited,
-                        value: body.value,
-                        ttMax: body.ttMax,
-                        imageUrlId: body.imgUrlId,
-                        isActif: body.isActif,
+                        ...body,
                     },
                 })
                 .then((result) => {
@@ -150,7 +132,7 @@ function update(req: Request, res: Response, next: NextFunction) {
 function deleteOne(req: Request, res: Response, next: NextFunction) {
     const id = req.params.id;
     try {
-        prisma.item
+        prisma.session
             .delete({
                 where: {
                     id: parseInt(id, 10),

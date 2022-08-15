@@ -5,6 +5,7 @@ import categoriesRoutes from './categories';
 import familiesRoutes from './families';
 import itemsRoutes from './items';
 import LoginRoute from './login';
+import sessionsRoutes from './sessions';
 import usersRoutes from './users';
 
 const router = express.Router();
@@ -20,6 +21,7 @@ router.use(jwtVerify(Role.USER));
 router.use('/families', familiesRoutes);
 router.use('/categories', categoriesRoutes);
 router.use('/items', itemsRoutes);
+router.use('/sessions', sessionsRoutes);
 
 router.use('/users', jwtVerify(Role.ADMIN), usersRoutes);
 

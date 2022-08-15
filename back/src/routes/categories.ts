@@ -93,7 +93,7 @@ function getItemsByCategoryId(req: Request, res: Response, next: NextFunction) {
 function addOne(req: Request, res: Response, next: NextFunction) {
     try {
         const body = req.body;
-        console.log(body);
+
         if (isEmpty(body)) {
             res.status(422);
             next(new Error());

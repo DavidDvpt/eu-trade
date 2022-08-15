@@ -25,9 +25,10 @@ router.post('/', (req, res, next) => {
         });
 
         user.then((response) => {
-            console.log(response);
             if (!body.email || !response) {
-                return res.status(400).json({ message: 'Error. user don t exist' });
+                return res
+                    .status(400)
+                    .json({ message: 'Error. user don t exist' });
             }
 
             if (!body.password) {
@@ -37,7 +38,9 @@ router.post('/', (req, res, next) => {
                     const token = genToken(response);
                     return res.status(200).json({ access_token: token });
                 } else {
-                    return res.status(400).json({ message: 'Error. bad password' });
+                    return res
+                        .status(400)
+                        .json({ message: 'Error. bad password' });
                 }
             }
         }).catch((error) => {
