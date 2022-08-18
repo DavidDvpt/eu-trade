@@ -113,6 +113,7 @@ model session {
   clics           Int
   ttCost          Float             @default(0) @db.Float
   ttWin           Float             @default(0) @db.Float
+  ttcWin          Float             @default(0) @db.Float
   sessionLineWin  sessionLineWin[]
   sessionLineCost sessionLineCost[]
 }

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `session` ADD COLUMN `ttcWin` FLOAT NOT NULL DEFAULT 0;

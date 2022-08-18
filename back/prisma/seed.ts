@@ -6,6 +6,7 @@ import {
     categoriesSeed,
     ComplexeResource,
     complexeResourcesDatas,
+    consumables,
     excavatorEnhancers,
     excavators,
     familiesSeed,
@@ -70,15 +71,15 @@ async function createFoundOn() {
 //     });
 // }
 
-// function createMultipleItem(items: Partial<item>[], catId: number) {
-//     return prisma.item.createMany({
-//         data: items.map((i) => ({
-//             ...i,
-//             name: i.name as string,
-//             categoryId: catId,
-//         })),
-//     });
-// }
+function createMultipleItem(items: Partial<item>[], catId: number) {
+    return prisma.item.createMany({
+        data: items.map((i) => ({
+            ...i,
+            name: i.name as string,
+            categoryId: catId,
+        })),
+    });
+}
 
 const findCategoryId = (tab: category[], catName: string) => {
     return (
@@ -209,6 +210,10 @@ async function createResources() {
     basicStackedResource(basicOre, 'Ore', 'Refined Ore', 3);
     basicStackedResource(basicEnmatter, 'Enmatter', 'Refined Enmatter', 2);
     complexeStackedResource(complexeResourcesDatas);
+    createMultipleItem(
+        consumables,
+        findCategoryId(categories, 'Consumables')
+    ).then((result) => console.log(result));
 }
 
 const createRefiners = async () => {

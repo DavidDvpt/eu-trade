@@ -14,6 +14,7 @@ export const categoriesSeed = [
     { name: 'Treasure', family: 'Resources' },
     { name: 'Refined Treasure', family: 'Resources' },
     { name: 'Natural Material', family: 'Resources' },
+    { name: 'Consumables', family: 'Resources' },
     { name: 'Food', family: 'Resources' },
     { name: 'Refiners', family: 'Tools' },
     { name: 'Excavators', family: 'Tools' },
@@ -43,19 +44,19 @@ export const singleEnmatter = [
         name: 'Growth Molecules',
         value: 0.47,
         imageUrlId: '1258',
-        stackable: true,
+        isStackable: true,
     },
     {
         name: 'Energized Fertilizer',
         value: 0.47,
         imageUrlId: '1657',
-        stackable: true,
+        isStackable: true,
     },
     {
         name: 'Sweetstuff',
         value: 0.01,
         imageUrlId: '372',
-        stackable: true,
+        isStackable: true,
     },
 ];
 
@@ -64,7 +65,22 @@ export const singleRefinedEnmatter = [
         name: 'Sweetstuff',
         value: 0.01,
         imageUrlId: '372',
-        stackable: true,
+        isStackable: true,
+    },
+];
+
+export const consumables = [
+    {
+        name: 'Survey Probe',
+        value: 0.05,
+        imageUrlId: '1239',
+        isStackable: true,
+    },
+    {
+        name: 'Universal Ammo',
+        value: 0.0001,
+        imageUrlId: '7285',
+        isStackable: true,
     },
 ];
 
