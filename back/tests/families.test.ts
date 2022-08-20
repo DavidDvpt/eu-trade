@@ -1,5 +1,6 @@
 import { Role } from '@prisma/client';
 import supertest from 'supertest';
+import { usersSeed } from '../prisma/datasForSeed';
 import app from '../src/app';
 import { genToken } from '../src/lib/authTools';
 
@@ -10,13 +11,7 @@ describe('FAMILY TESTS', () => {
         describe('should return 201', () => {
             let token = '';
             beforeAll(() => {
-                token = genToken({
-                    id: 1,
-                    pseudo: 'dudulAdmin',
-                    email: 'fgdsgf@dsf.sdf',
-                    password: 'ddd',
-                    role: 'ADMIN',
-                });
+                token = genToken(usersSeed[0]);
             });
             it('should return 201 (ok)', async () => {
                 const payload = {

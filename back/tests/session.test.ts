@@ -10,13 +10,7 @@ describe('SESSION TESTS', () => {
     describe('CREATE SESSION', () => {
         let token = '';
         beforeAll(() => {
-            token = genToken({
-                id: 1,
-                pseudo: 'dudul',
-                email: 'fgdsgf@dsf.sdf',
-                password: 'ddd',
-                role: Role.USER,
-            });
+            token = genToken(usersSeed[2]);
         });
 
         it('Should return 422 (no body)', async () => {
@@ -173,13 +167,7 @@ describe('SESSION TESTS', () => {
     describe('DELETE SESSION', () => {
         let token = '';
         beforeAll(() => {
-            token = genToken({
-                id: 1,
-                pseudo: 'dudulAdmin',
-                email: 'fgdsgf@dsf.sdf',
-                password: 'ddd',
-                role: Role.USER,
-            });
+            token = genToken(usersSeed[2]);
         });
 
         it('should return 204 (ok)', async () => {

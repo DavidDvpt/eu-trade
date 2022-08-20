@@ -31,7 +31,22 @@ export const usersSeed = [
         pseudo: 'user',
         role: Role.USER,
     },
+    {
+        id: 4,
+        email: 'lambda.user@gmail.com',
+        password:
+            '$2b$10$p753hUkr/wfM.plQPbLweemJQaxeykFgNb4Wd9bkIfjnbKSRg6JGa',
+        pseudo: 'lambdaUser',
+        role: Role.USER,
+    },
 ];
+
+export const globalUserDatas = [
+    { userId: 1, initialPedCardValue: 1254.24 },
+    { userId: 2, initialPedCardValue: 12454.17 },
+    { userId: 3, initialPedCardValue: 4554.94 },
+];
+
 export const categoriesSeed = [
     { name: 'Ore', family: 'Resources' },
     { name: 'Refined Ore', family: 'Resources' },

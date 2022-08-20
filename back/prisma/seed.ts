@@ -14,6 +14,7 @@ import {
     finderEnhancers,
     finders,
     foundOns,
+    globalUserDatas,
     mockSession,
     refiners,
     usersSeed,
@@ -208,7 +209,7 @@ async function createResources() {
     createMultipleItem(
         consumables,
         findCategoryId(categories, 'Consumables')
-    ).then((result) => console.log(result));
+    ).then((result) => {});
 }
 
 const createRefiners = async () => {
@@ -275,10 +276,6 @@ const createFindersEnhancers = async () => {
     // console.log(result);
 };
 
-const createTestSessions = async () => {
-    const sessions = await prisma.session.createMany({ data: mockSession });
-};
-
 const createExcavatorEnhancers = async () => {
     const categories = await prisma.category.findMany();
 
@@ -290,6 +287,15 @@ const createExcavatorEnhancers = async () => {
     });
 
     // console.log(result);
+};
+// **********************************************************************
+//         MOCKS
+// **********************************************************************
+const createTestSessions = async () => {
+    await prisma.session.createMany({ data: mockSession });
+};
+const createGlobalUSerDatas = async () => {
+    await prisma.globalUserData.createMany({ data: globalUserDatas });
 };
 
 createAdminUser().then((result) => {
@@ -308,4 +314,5 @@ createAdminUser().then((result) => {
 
     // mocks
     createTestSessions();
+    createGlobalUSerDatas();
 });

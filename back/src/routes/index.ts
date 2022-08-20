@@ -4,6 +4,7 @@ import { checkAuthMiddleware } from '../middlewares/checkAuthMiddleware';
 import { jwtVerify } from '../middlewares/jwtVerify';
 import categoriesRoutes from './categories';
 import familiesRoutes from './families';
+import globalUserDatas from './globalUserDatas';
 import itemsRoutes from './items';
 import LoginRoute from './login';
 import sessionsRoutes from './sessions';
@@ -24,6 +25,7 @@ router.use('/families', familiesRoutes);
 router.use('/categories', categoriesRoutes);
 router.use('/items', itemsRoutes);
 router.use('/sessions', sessionsRoutes);
+router.use('/global_user_datas', globalUserDatas);
 
 router.use('/users', usersRoutes);
 

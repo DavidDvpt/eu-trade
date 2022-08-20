@@ -22,7 +22,7 @@ describe('TEST USERS', () => {
                 .set({ Authorization: 'Bearer ' + token })
                 .expect(200)
                 .then((response) => {
-                    expect(response.body.length).toBe(3);
+                    expect(response.body.length).toBe(4);
                 });
         });
     });
@@ -40,7 +40,6 @@ describe('TEST USERS', () => {
                 .set({ Authorization: 'Bearer ' + token })
                 .expect(200)
                 .then((response) => {
-                    console.log(response.body);
                     expect(response.body.pseudo).toBe('user');
                 });
         });
@@ -73,6 +72,32 @@ describe('TEST USERS', () => {
         it('should return 403 (bad user)', async () => {
             await supertest(app)
                 .get('/api/v1/users/2/sessions')
+                .set({ Authorization: 'Bearer ' + token })
+                .expect(403);
+        });
+    });
+
+    describe('GET USER GLOBAL DATAS', () => {
+        let token = '';
+        beforeAll(() => {
+            token = genToken({
+                ...usersSeed[2],
+            });
+        });
+
+        it('should return 200 (good user)', async () => {
+            await supertest(app)
+                .get('/api/v1/users/3/global_datas')
+                .set({ Authorization: 'Bearer ' + token })
+                .expect(200)
+                .then((response) => {
+                    expect(response.body.initialPedCardValue).toBe(4554.94);
+                });
+        });
+
+        it('should return 403 (bad user)', async () => {
+            await supertest(app)
+                .get('/api/v1/users/2/global_datas')
                 .set({ Authorization: 'Bearer ' + token })
                 .expect(403);
         });

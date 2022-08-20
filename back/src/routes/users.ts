@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.get('/:userId', getById);
 router.get('/:userId/sessions', getUserSessions);
+router.get('/:userId/global_datas', getUserGlobalData);
 
 jwtVerify(Role.ADMIN);
 router.get('/', getAll);
@@ -47,6 +48,29 @@ function getUserSessions(req: Request, res: Response, next: NextFunction) {
         if (userId === req.auth?.userId || req.auth?.role === Role.ADMIN) {
             prisma.session
                 .findMany({ where: { userId } })
+                .then((result) => {
+                    res.status(200).json(result);
+                })
+                .catch((err) => {
+                    res.status(prismaErrorHandler(err.meta?.cause));
+                    next(new Error(err.meta?.cause));
+                });
+        } else {
+            res.status(403);
+            next(new Error());
+        }
+    } catch (error) {
+        res.status(500);
+        next(new Error('Server Error'));
+    }
+}
+
+function getUserGlobalData(req: Request, res: Response, next: NextFunction) {
+    try {
+        const userId = parseInt(req.params.userId, 10);
+        if (userId === req.auth?.userId || req.auth?.role === Role.ADMIN) {
+            prisma.globalUserData
+                .findUnique({ where: { userId } })
                 .then((result) => {
                     res.status(200).json(result);
                 })
