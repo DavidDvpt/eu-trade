@@ -23,16 +23,16 @@ enum SessionType {
 }
 
 model user {
-  id              Int               @id @default(autoincrement())
-  email           String            @unique
-  password        String
-  pseudo          String
-  createdAt       DateTime          @default(now()) @db.Timestamp(6)
-  role            Role              @default(USER)
-  isActif         Boolean           @default(true)
-  sessionLineCost sessionLineCost[]
-  session         session[]
-  globalUserData  globalUserData[]
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  pseudo    String
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  role      Role     @default(USER)
+  isActif   Boolean  @default(true)
+
+  session        session[]
+  globalUserData globalUserData[]
 }
 
 model globalUserData {
@@ -134,8 +134,6 @@ model sessionLineCost {
   quantity  Int     @default(0)
   session   session @relation(fields: [sessionId], references: [id])
   sessionId Int
-  user      user?   @relation(fields: [userId], references: [id])
-  userId    Int?
 }
 
 model sessionLineWin {

@@ -23,13 +23,20 @@ describe('SESSION TESTS', () => {
 
         it('Should return 201 (ok)', async () => {
             const payload = {
-                userId: 1,
-                number: 1,
-                type: SessionType.MINING,
-                clics: 1000,
-                isOpen: true,
-                ttCost: 0,
-                ttWin: 0,
+                session: {
+                    userId: 1,
+                    number: 1,
+                    type: SessionType.MINING,
+                    clics: 1000,
+                    isOpen: true,
+                    ttCost: 0,
+                    ttWin: 0,
+                },
+                cost: [
+                    { itemId: 57, quantity: 1 },
+                    { itemId: 67, quantity: 2 },
+                    { itemId: 5, quantity: 1000 },
+                ],
             };
 
             await supertest(app)

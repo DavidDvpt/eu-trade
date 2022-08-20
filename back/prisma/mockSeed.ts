@@ -3,6 +3,7 @@ import { SessionType } from '@prisma/client';
 export const mockSession = [
     {
         session: {
+            id: 1,
             userId: 3,
             number: 1,
             type: SessionType.MINING,
@@ -11,10 +12,15 @@ export const mockSession = [
             ttCost: 123.25,
             ttWin: 214.1,
         },
-        cost: [],
+        cost: [
+            { itemId: 57, quantity: 1 },
+            { itemId: 67, quantity: 1 },
+            { itemId: 5, quantity: 1000 },
+        ],
     },
     {
         session: {
+            id: 2,
             userId: 3,
             number: 1,
             type: SessionType.TRADE,
@@ -27,6 +33,7 @@ export const mockSession = [
     },
     {
         session: {
+            id: 3,
             userId: 3,
             number: 2,
             type: SessionType.MINING,
@@ -39,6 +46,7 @@ export const mockSession = [
     },
     {
         session: {
+            id: 4,
             userId: 3,
             number: 2,
             type: SessionType.TRADE,
@@ -51,6 +59,7 @@ export const mockSession = [
     },
     {
         session: {
+            id: 5,
             userId: 2,
             number: 1,
             type: SessionType.MINING,
@@ -63,6 +72,7 @@ export const mockSession = [
     },
     {
         session: {
+            id: 6,
             userId: 2,
             number: 1,
             type: SessionType.TRADE,

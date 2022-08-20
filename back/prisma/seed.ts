@@ -290,9 +290,24 @@ const createExcavatorEnhancers = async () => {
 // **********************************************************************
 //         MOCKS
 // **********************************************************************
-const createTestSessions = async () => {
-    await prisma.session.createMany({ data: mockSession });
+const createTestSessions = () => {
+    mockSession.map((ms) => {
+        return prisma.session
+            .create({
+                data: ms.session,
+            })
+            .then((result) => {
+                return prisma.sessionLineCost
+                    .createMany({
+                        data: ms.cost.map((c) => {
+                            return { ...c, sessionId: result.id };
+                        }),
+                    })
+                    .then((lines) => console.log(lines));
+            });
+    });
 };
+
 const createGlobalUSerDatas = async () => {
     await prisma.globalUserData.createMany({ data: mockGlobalUserDatas });
 };
@@ -308,10 +323,9 @@ createAdminUser().then((result) => {
             createFindersAmplifiers();
             createFindersEnhancers();
             createExcavatorEnhancers();
+            // mocks
+            createTestSessions();
+            createGlobalUSerDatas();
         })
         .catch((error) => console.log(error));
-
-    // mocks
-    createTestSessions();
-    createGlobalUSerDatas();
 });

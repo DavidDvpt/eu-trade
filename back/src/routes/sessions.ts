@@ -1,4 +1,4 @@
-import { Role } from '@prisma/client';
+import { Role, sessionLineCost } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import prisma from '../../prisma/prismaClient';
@@ -36,7 +36,13 @@ function getById(req: Request, res: Response, next: NextFunction) {
         const sessionId = parseInt(req.params.sessionId, 10);
 
         prisma.session
-            .findUnique({ where: { id: sessionId } })
+            .findUnique({
+                where: { id: sessionId },
+                include: {
+                    sessionLineCost: true,
+                    sessionLineWin: true,
+                },
+            })
             .then((result) => {
                 if (req.auth?.userId === result?.userId) {
                     res.status(200).json(result);
@@ -58,6 +64,7 @@ function getById(req: Request, res: Response, next: NextFunction) {
 function addOne(req: Request, res: Response, next: NextFunction) {
     try {
         const body = req.body;
+        console.log('sessionBody', body);
 
         if (isEmpty(body)) {
             res.status(422);
@@ -67,11 +74,15 @@ function addOne(req: Request, res: Response, next: NextFunction) {
                 .create({
                     data: {
                         ...body.session,
-                        userId: parseInt(body.userId, 10),
                     },
                 })
                 .then((result) => {
                     if (result) {
+                        prisma.sessionLineCost.createMany({
+                            data: body.cost.map((c: sessionLineCost) => {
+                                return { ...c, sessionId: result.id };
+                            }),
+                        });
                         res.status(201).json(result);
                     } else {
                         res.status(404);
