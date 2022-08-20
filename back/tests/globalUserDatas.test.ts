@@ -79,7 +79,27 @@ describe('GLOBAL USER DATA TESTS', () => {
                 });
         });
     });
-    describe('GET GLOBAL DATAS', () => {});
+
+    describe('GET GLOBAL DATAS', () => {
+        it('should return 403 (bad user)', async () => {
+            await supertest(app)
+                .get('/api/v1/users/547/global_datas')
+                .set({ Authorization: 'Bearer ' + genToken(usersSeed[2]) })
+
+                .expect(403);
+        });
+
+        it('should return 200 (ok)', async () => {
+            await supertest(app)
+                .get('/api/v1/users/4/global_datas')
+                .set({ Authorization: 'Bearer ' + genToken(usersSeed[3]) })
+
+                .expect(200)
+                .then((result) => {
+                    expect(result.body.initialPedCardValue).toBe(4000.51);
+                });
+        });
+    });
 
     describe('DELETE GLOBAL DATAS', () => {
         it('should return 403 (not admin)', async () => {
