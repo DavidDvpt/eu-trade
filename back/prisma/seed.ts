@@ -14,11 +14,10 @@ import {
     finderEnhancers,
     finders,
     foundOns,
-    globalUserDatas,
-    mockSession,
     refiners,
     usersSeed,
 } from './datasForSeed';
+import { mockGlobalUserDatas, mockSession } from './mockSeed';
 import prisma from './prismaClient';
 
 function createAdminUser() {
@@ -295,7 +294,7 @@ const createTestSessions = async () => {
     await prisma.session.createMany({ data: mockSession });
 };
 const createGlobalUSerDatas = async () => {
-    await prisma.globalUserData.createMany({ data: globalUserDatas });
+    await prisma.globalUserData.createMany({ data: mockGlobalUserDatas });
 };
 
 createAdminUser().then((result) => {

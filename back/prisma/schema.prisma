@@ -19,6 +19,7 @@ enum Role {
 enum SessionType {
   TRADE
   MINING
+  INIT_STOCK
 }
 
 model user {

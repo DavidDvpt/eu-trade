@@ -1,4 +1,4 @@
-import { Role, SessionType } from '@prisma/client';
+import { Role } from '@prisma/client';
 
 export const familiesSeed = [
     { name: 'Resources' },
@@ -39,12 +39,6 @@ export const usersSeed = [
         pseudo: 'lambdaUser',
         role: Role.USER,
     },
-];
-
-export const globalUserDatas = [
-    { userId: 1, initialPedCardValue: 1254.24 },
-    { userId: 2, initialPedCardValue: 12454.17 },
-    { userId: 3, initialPedCardValue: 4554.94 },
 ];
 
 export const categoriesSeed = [
@@ -1638,63 +1632,6 @@ export const excavatorEnhancers = [
         name: 'Mining Excavator Speed Enhancer 10',
         value: 0.2,
         imageUrlId: '4529',
-    },
-];
-
-export const mockSession = [
-    {
-        userId: 3,
-        number: 1,
-        type: SessionType.MINING,
-        clics: 1000,
-        isOpen: false,
-        ttCost: 123.25,
-        ttWin: 214.1,
-    },
-    {
-        userId: 3,
-        number: 1,
-        type: SessionType.TRADE,
-        clics: 1500,
-        isOpen: false,
-        ttCost: 112.54,
-        ttWin: 68.74,
-    },
-    {
-        userId: 3,
-        number: 2,
-        type: SessionType.MINING,
-        clics: 300,
-        isOpen: false,
-        ttCost: 421.32,
-        ttWin: 6574.21,
-    },
-    {
-        userId: 3,
-        number: 2,
-        type: SessionType.TRADE,
-        clics: 2000,
-        isOpen: true,
-        ttCost: 12.35,
-        ttWin: 24.54,
-    },
-    {
-        userId: 2,
-        number: 1,
-        type: SessionType.MINING,
-        clics: 300,
-        isOpen: false,
-        ttCost: 421.32,
-        ttWin: 6574.21,
-    },
-    {
-        userId: 2,
-        number: 1,
-        type: SessionType.TRADE,
-        clics: 2000,
-        isOpen: true,
-        ttCost: 12.35,
-        ttWin: 24.54,
     },
 ];
 

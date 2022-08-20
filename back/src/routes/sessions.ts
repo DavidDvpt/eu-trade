@@ -66,7 +66,7 @@ function addOne(req: Request, res: Response, next: NextFunction) {
             prisma.session
                 .create({
                     data: {
-                        ...body,
+                        ...body.session,
                         userId: parseInt(body.userId, 10),
                     },
                 })
