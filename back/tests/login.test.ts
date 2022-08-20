@@ -5,7 +5,7 @@ import { LoginRequest } from '../src/routes/login';
 describe('LOGIN', () => {
     it('shoud return a 200 (user)', () => {
         const payload: LoginRequest = {
-            email: 'david.mosca69@gmail.com',
+            email: 'david.admin@gmail.com',
             password: 'pwd',
         };
         supertest(app)
@@ -19,7 +19,7 @@ describe('LOGIN', () => {
 
     it('shoud return a 400 (user does not exist)', async () => {
         const payload: LoginRequest = {
-            email: 'david.mosca69@gmail.co',
+            email: 'david.admin@gmail.co',
             password: 'pwd',
         };
         await supertest(app).post('/api/v1/login').send(payload).expect(400, {
@@ -29,7 +29,7 @@ describe('LOGIN', () => {
 
     it('shoud return a 400 (bad paswword)', async () => {
         const payload: LoginRequest = {
-            email: 'david.mosca69@gmail.com',
+            email: 'david.admin@gmail.com',
             password: 'pwddd',
         };
         await supertest(app).post('/api/v1/login').send(payload).expect(400, {

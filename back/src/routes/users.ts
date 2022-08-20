@@ -1,9 +1,16 @@
+import { Role } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
 import prisma from '../../prisma/prismaClient';
+import { jwtVerify } from '../middlewares/jwtVerify';
+import prismaErrorHandler from '../middlewares/prismaErrorHandler';
+
 const router = express.Router();
 
+router.get('/:userId', getById);
+router.get('/:userId/sessions', getUserSessions);
+
+jwtVerify(Role.ADMIN);
 router.get('/', getAll);
-router.get('/:id', getById);
 
 async function getAll(req: Request, res: Response, next: NextFunction) {
     try {
@@ -13,17 +20,48 @@ async function getAll(req: Request, res: Response, next: NextFunction) {
     } catch (error) {}
 }
 
-async function getById(req: Request, res: Response, next: NextFunction) {
-    const id = req.params.id;
+function getById(req: Request, res: Response, next: NextFunction) {
     try {
-        const categories = await prisma.user.findUnique({
-            where: {
-                id: parseInt(id, 10),
-            },
-        });
+        const userId = parseInt(req.params.userId, 10);
 
-        return res.status(200).json(categories);
+        if (userId === req.auth?.userId || req.auth?.role === Role.ADMIN) {
+            prisma.user
+                .findUnique({
+                    where: {
+                        id: userId,
+                    },
+                })
+                .then((response) => {
+                    res.status(200).json(response);
+                });
+        } else {
+            res.status(403);
+            next(new Error());
+        }
     } catch (error) {}
+}
+
+function getUserSessions(req: Request, res: Response, next: NextFunction) {
+    try {
+        const userId = parseInt(req.params.userId, 10);
+        if (userId === req.auth?.userId || req.auth?.role === Role.ADMIN) {
+            prisma.session
+                .findMany({ where: { userId } })
+                .then((result) => {
+                    res.status(200).json(result);
+                })
+                .catch((err) => {
+                    res.status(prismaErrorHandler(err.meta?.cause));
+                    next(new Error(err.meta?.cause));
+                });
+        } else {
+            res.status(403);
+            next(new Error());
+        }
+    } catch (error) {
+        res.status(500);
+        next(new Error('Server Error'));
+    }
 }
 
 export default router;

@@ -1,17 +1,20 @@
+import { Role } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import prisma from '../../prisma/prismaClient';
+import { jwtVerify } from '../middlewares/jwtVerify';
 import prismaErrorHandler from '../middlewares/prismaErrorHandler';
 
 const router = express.Router();
 
-router.get('/', getAll);
-router.get('/:id', getById);
+router.get('/', jwtVerify(Role.ADMIN), getAll);
+router.get('/:sessionId', getById);
 router.put('/:id', update);
 router.post('/', addOne);
 router.delete('/:id', deleteOne);
 
 function getAll(req: Request, res: Response, next: NextFunction) {
+    // console.log(req.auth);
     try {
         prisma.session
             .findMany()
@@ -30,19 +33,15 @@ function getAll(req: Request, res: Response, next: NextFunction) {
 
 function getById(req: Request, res: Response, next: NextFunction) {
     try {
-        const id: string = req.params.id;
+        const sessionId = parseInt(req.params.sessionId, 10);
 
         prisma.session
-            .findUnique({
-                where: {
-                    id: parseInt(id, 10),
-                },
-            })
+            .findUnique({ where: { id: sessionId } })
             .then((result) => {
-                if (result) {
+                if (req.auth?.userId === result?.userId) {
                     res.status(200).json(result);
                 } else {
-                    res.status(404);
+                    res.status(403);
                     next(new Error());
                 }
             })

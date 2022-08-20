@@ -16,18 +16,13 @@ import {
     foundOns,
     mockSession,
     refiners,
+    usersSeed,
 } from './datasForSeed';
 import prisma from './prismaClient';
 
-async function createAdminUser() {
-    await prisma.user.create({
-        data: {
-            email: 'david.mosca69@gmail.com',
-            password:
-                '$2b$10$p753hUkr/wfM.plQPbLweemJQaxeykFgNb4Wd9bkIfjnbKSRg6JGa',
-            pseudo: 'admin',
-            role: 'ADMIN',
-        },
+function createAdminUser() {
+    return prisma.user.createMany({
+        data: usersSeed,
     });
 }
 
@@ -297,19 +292,20 @@ const createExcavatorEnhancers = async () => {
     // console.log(result);
 };
 
-createAdminUser();
-createFoundOn();
-createFamiliesAndCategories()
-    .then((response) => {
-        createResources();
-        createRefiners();
-        createExcavators();
-        createFinders();
-        createFindersAmplifiers();
-        createFindersEnhancers();
-        createExcavatorEnhancers();
-    })
-    .catch((error) => console.log(error));
+createAdminUser().then((result) => {
+    createFoundOn();
+    createFamiliesAndCategories()
+        .then((response) => {
+            createResources();
+            createRefiners();
+            createExcavators();
+            createFinders();
+            createFindersAmplifiers();
+            createFindersEnhancers();
+            createExcavatorEnhancers();
+        })
+        .catch((error) => console.log(error));
 
-// mocks
-createTestSessions();
+    // mocks
+    createTestSessions();
+});

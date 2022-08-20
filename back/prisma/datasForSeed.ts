@@ -1,4 +1,4 @@
-import { SessionType } from '@prisma/client';
+import { Role, SessionType } from '@prisma/client';
 
 export const familiesSeed = [
     { name: 'Resources' },
@@ -6,6 +6,32 @@ export const familiesSeed = [
     { name: 'Attachments' },
 ];
 
+export const usersSeed = [
+    {
+        id: 1,
+        email: 'david.admin@gmail.com',
+        password:
+            '$2b$10$p753hUkr/wfM.plQPbLweemJQaxeykFgNb4Wd9bkIfjnbKSRg6JGa',
+        pseudo: 'admin',
+        role: Role.ADMIN,
+    },
+    {
+        id: 2,
+        email: 'david.manager@gmail.com',
+        password:
+            '$2b$10$p753hUkr/wfM.plQPbLweemJQaxeykFgNb4Wd9bkIfjnbKSRg6JGa',
+        pseudo: 'manager',
+        role: Role.MANAGER,
+    },
+    {
+        id: 3,
+        email: 'david.user@gmail.com',
+        password:
+            '$2b$10$p753hUkr/wfM.plQPbLweemJQaxeykFgNb4Wd9bkIfjnbKSRg6JGa',
+        pseudo: 'user',
+        role: Role.USER,
+    },
+];
 export const categoriesSeed = [
     { name: 'Ore', family: 'Resources' },
     { name: 'Refined Ore', family: 'Resources' },
@@ -1602,35 +1628,53 @@ export const excavatorEnhancers = [
 
 export const mockSession = [
     {
-        userId: 1,
+        userId: 3,
         number: 1,
         type: SessionType.MINING,
         clics: 1000,
-        isOpen: true,
+        isOpen: false,
         ttCost: 123.25,
         ttWin: 214.1,
     },
     {
-        userId: 1,
-        number: 2,
+        userId: 3,
+        number: 1,
         type: SessionType.TRADE,
         clics: 1500,
-        isOpen: true,
+        isOpen: false,
         ttCost: 112.54,
         ttWin: 68.74,
     },
     {
-        userId: 1,
-        number: 3,
+        userId: 3,
+        number: 2,
         type: SessionType.MINING,
         clics: 300,
-        isOpen: true,
+        isOpen: false,
         ttCost: 421.32,
         ttWin: 6574.21,
     },
     {
-        userId: 1,
-        number: 4,
+        userId: 3,
+        number: 2,
+        type: SessionType.TRADE,
+        clics: 2000,
+        isOpen: true,
+        ttCost: 12.35,
+        ttWin: 24.54,
+    },
+    {
+        userId: 2,
+        number: 1,
+        type: SessionType.MINING,
+        clics: 300,
+        isOpen: false,
+        ttCost: 421.32,
+        ttWin: 6574.21,
+    },
+    {
+        userId: 2,
+        number: 1,
         type: SessionType.TRADE,
         clics: 2000,
         isOpen: true,

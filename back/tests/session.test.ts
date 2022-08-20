@@ -1,5 +1,6 @@
 import { Role, SessionType } from '@prisma/client';
 import supertest from 'supertest';
+import { usersSeed } from '../prisma/datasForSeed';
 import app from '../src/app';
 import { genToken } from '../src/lib/authTools';
 
@@ -102,22 +103,30 @@ describe('SESSION TESTS', () => {
     });
 
     describe('GET SESSIONS', () => {
-        let token = '';
-        beforeAll(() => {
-            token = genToken({
-                id: 1,
-                pseudo: 'dudul',
-                email: 'fgdsgf@dsf.sdf',
-                password: 'ddd',
-                role: Role.USER,
-            });
-        });
-
-        describe('Get all sessions', () => {
-            it('Should return 200', async () => {
+        describe('GET ALL SESSIONS', () => {
+            it('Should return 403 (only admin)', async () => {
                 await supertest(app)
                     .get('/api/v1/sessions')
-                    .set({ Authorization: 'Bearer ' + token })
+                    .set({
+                        Authorization:
+                            'Bearer ' +
+                            genToken({
+                                ...usersSeed[2],
+                            }),
+                    })
+                    .expect(403);
+            });
+
+            it('Should return 200 (ok)', async () => {
+                await supertest(app)
+                    .get('/api/v1/sessions')
+                    .set({
+                        Authorization:
+                            'Bearer ' +
+                            genToken({
+                                ...usersSeed[0],
+                            }),
+                    })
                     .expect(200)
                     .then((response) => {
                         expect(response.body.length).toBeGreaterThan(0);
@@ -125,25 +134,38 @@ describe('SESSION TESTS', () => {
             });
         });
 
-        describe('Get session by id', () => {
-            it('Should return 200', async () => {
+        describe('GET USER SESSION BY ID', () => {
+            let token = '';
+            beforeAll(() => {
+                token = genToken({
+                    ...usersSeed[2],
+                });
+            });
+            it('should return 200 (good user)', async () => {
                 await supertest(app)
-                    .get(`/api/v1/sessions/${createdId}`)
+                    .get('/api/v1/sessions/3')
                     .set({ Authorization: 'Bearer ' + token })
                     .expect(200)
                     .then((response) => {
-                        expect(response.body.number).toBe(10);
+                        expect(response.body.clics).toBe(300);
+                        expect(response.body.number).toBe(2);
+                        expect(response.body.ttCost).toBe(421.32);
+                        expect(response.body.ttWin).toBe(6574.21);
                     });
             });
 
-            it('Should return 404 (not found)', async () => {
+            it('should return 403 (bad user)', async () => {
                 await supertest(app)
-                    .get('/api/v1/sessions/1000000')
+                    .get('/api/v1/users/2/sessions')
                     .set({ Authorization: 'Bearer ' + token })
-                    .expect(404)
-                    .then((response) => {
-                        // expect(response.body.name).toBe('Resources');
-                    });
+                    .expect(403);
+            });
+
+            it('should return 404 (not exist)', async () => {
+                await supertest(app)
+                    .get('/api/v1/users/2/sessions/10000')
+                    .set({ Authorization: 'Bearer ' + token })
+                    .expect(404);
             });
         });
     });

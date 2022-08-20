@@ -1,5 +1,6 @@
 import { Role } from '@prisma/client';
 import express from 'express';
+import { checkAuthMiddleware } from '../middlewares/checkAuthMiddleware';
 import { jwtVerify } from '../middlewares/jwtVerify';
 import categoriesRoutes from './categories';
 import familiesRoutes from './families';
@@ -16,6 +17,7 @@ router.get('/', (req, res) => {
 
 router.use('/login', LoginRoute);
 
+router.use(checkAuthMiddleware);
 router.use(jwtVerify(Role.USER));
 
 router.use('/families', familiesRoutes);
@@ -23,6 +25,6 @@ router.use('/categories', categoriesRoutes);
 router.use('/items', itemsRoutes);
 router.use('/sessions', sessionsRoutes);
 
-router.use('/users', jwtVerify(Role.ADMIN), usersRoutes);
+router.use('/users', usersRoutes);
 
 export default router;
