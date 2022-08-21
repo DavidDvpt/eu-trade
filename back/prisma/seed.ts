@@ -6,7 +6,6 @@ import {
     categoriesSeed,
     ComplexeResource,
     complexeResourcesDatas,
-    consumables,
     excavatorEnhancers,
     excavators,
     familiesSeed,
@@ -45,37 +44,6 @@ function createFamiliesAndCategories() {
     return promise;
 }
 
-async function createFoundOn() {
-    await prisma.foundOn.createMany({
-        data: foundOns.map((f, i) => ({ ...f, id: i + 1 })),
-    });
-}
-//  async function createRefinerelation(rName: string, uName: {name: string, count: number}[]) {
-//     await prisma.refineRelations.create({data: {
-//         re
-//     }})
-//  }
-
-// async function createSingleItem(item: Partial<item>, catId: number) {
-//     await prisma.item.create({
-//         data: {
-//             ...item,
-//             name: item.name as string,
-//             categoryId: catId,
-//         },
-//     });
-// }
-
-function createMultipleItem(items: Partial<item>[], catId: number) {
-    return prisma.item.createMany({
-        data: items.map((i) => ({
-            ...i,
-            name: i.name as string,
-            categoryId: catId,
-        })),
-    });
-}
-
 const findCategoryId = (tab: category[], catName: string) => {
     return (
         tab.find((f) => {
@@ -84,9 +52,35 @@ const findCategoryId = (tab: category[], catName: string) => {
     );
 };
 
-function createSimpleRefinedResource(item: Partial<item>) {
+async function createFoundOn() {
+    await prisma.foundOn.createMany({
+        data: foundOns.map((f, i) => ({ ...f, id: i + 1 })),
+    });
+}
+
+let insertedItemId = 1;
+
+const createMultipleItem = async (items: Partial<item>[], catId: number) => {
+    items.forEach(async (it) => {
+        if (it.name) {
+            await prisma.item.create({
+                data: { ...it, name: it.name as string, categoryId: catId },
+            });
+        }
+    });
+    // return prisma.item.createMany({
+    //     data: items.map((i) => ({
+    //         ...i,
+    //         name: i.name as string,
+    //         categoryId: catId,
+    //     })),
+    // });
+};
+
+function createSimpleRefinedResource(item: Partial<item>, id: number) {
     return prisma.item.create({
         data: {
+            id,
             categoryId: item.categoryId ?? 0,
             name: item.name ?? '',
             imageUrlId: item.imageUrlId ?? '',
@@ -94,18 +88,6 @@ function createSimpleRefinedResource(item: Partial<item>) {
             isStackable: item.isStackable ?? false,
         },
     });
-}
-async function lastItemId() {
-    const lastId = await prisma.item.findFirst({
-        select: {
-            id: true,
-        },
-        orderBy: {
-            id: 'desc',
-        },
-    });
-
-    return lastId;
 }
 
 async function createResources() {
@@ -119,61 +101,87 @@ async function createResources() {
     ) => {
         const rCatId = findCategoryId(categories, rCat);
         const uCatId = findCategoryId(categories, uCat);
+        const promises: Promise<void>[] = [];
+        console.log('length', resources.length);
 
-        resources.forEach((tuple) => {
-            createSimpleRefinedResource({
-                ...tuple.r,
-                categoryId: rCatId,
-                value: tuple.u.value * count,
-                isStackable: true,
-            }).then((resultR) => {
-                createSimpleRefinedResource({
-                    ...tuple.u,
-                    categoryId: uCatId,
-                    isStackable: true,
-                }).then((resultU) => {
-                    prisma.refineRelations
-                        .create({
-                            data: {
-                                refinedItemId: resultR.id,
-                                unrefinedItemId: resultU.id,
-                                quantity: count,
-                            },
-                        })
-                        .then((finalResult) => {
-                            // console.log(resultR);
-                            // console.log(resultU);
-                            // console.log(finalResult);
-                        });
-                });
-            });
+        resources.forEach(async (tuple, i, tab) => {
+            promises.push(
+                createSimpleRefinedResource(
+                    {
+                        ...tuple.r,
+                        categoryId: rCatId,
+                        value: tuple.u.value * count,
+                        isStackable: true,
+                    },
+                    insertedItemId
+                ).then((resultR) => {
+                    createSimpleRefinedResource(
+                        {
+                            ...tuple.u,
+                            categoryId: uCatId,
+                            isStackable: true,
+                        },
+                        tab.length + resultR.id
+                    ).then((resultU) => {
+                        prisma.refineRelations
+                            .create({
+                                data: {
+                                    refinedItemId: resultR.id,
+                                    unrefinedItemId: resultU.id,
+                                    quantity: count,
+                                },
+                            })
+                            .then((finalResult) => {});
+                    });
+                })
+            );
+            insertedItemId += 1;
         });
+        insertedItemId += resources.length;
+        return promises;
     };
 
-    const complexeStackedResource = async (line: ComplexeResource[]) => {
-        line.forEach((tuple) => {
+    const complexeStackedResource = (line: ComplexeResource[]) => {
+        const promises: Promise<void>[] = [];
+
+        line.forEach(async (tuple, i, tab) => {
             const cat = findCategoryId(categories, tuple.rCat);
 
-            if (cat !== 0) {
-                // CREATE REFINED ITEM
-                createSimpleRefinedResource({
-                    ...tuple.r,
-                    categoryId: cat,
-                    isStackable: true,
-                })
+            // CREATE REFINED ITEM
+            promises.push(
+                createSimpleRefinedResource(
+                    {
+                        ...tuple.r,
+                        categoryId: cat,
+                        isStackable: true,
+                    },
+                    insertedItemId
+                )
                     .then((result) => {
-                        tuple?.u?.forEach((t) => {
+                        let subTab = 0;
+
+                        const uTuple = tuple?.u || [];
+                        uTuple.forEach((t, ind, uTab) => {
                             const uCat =
                                 categories.find((f) => {
                                     return f.name === t.uCat;
                                 })?.id || 0;
 
+                            console.log(
+                                tab.length,
+                                result.id,
+                                subTab,
+                                tab.length + result.id + subTab - ind
+                            );
                             // CREATE UNREFINED ITEM
-                            createSimpleRefinedResource({
-                                ...t.data,
-                                categoryId: uCat,
-                                isStackable: true,
-                            }).then((resultUnrefined) => {
+                            createSimpleRefinedResource(
+                                {
+                                    ...t.data,
+                                    categoryId: uCat,
+                                    isStackable: true,
+                                },
+                                tab.length + result.id + subTab + ind
+                            ).then((resultUnrefined) => {
                                 // CREATE REFINE RELATIONS
                                 prisma.refineRelations
                                     .create({
@@ -189,22 +197,38 @@ async function createResources() {
                                         // console.log(finalResult);
                                     });
                             });
+                            insertedItemId += uTab.length;
+                            subTab += uTuple.length;
                         });
                     })
-                    .catch((err) => console.log(err));
-            }
+                    .catch((err) => {
+                        console.log(err);
+                    })
+            );
+
+            // insertedItemId += 1;
         });
+        return promises;
     };
 
     // foods();
 
-    basicStackedResource(basicOre, 'Ore', 'Refined Ore', 3);
-    basicStackedResource(basicEnmatter, 'Enmatter', 'Refined Enmatter', 2);
-    complexeStackedResource(complexeResourcesDatas);
-    createMultipleItem(
-        consumables,
-        findCategoryId(categories, 'Consumables')
-    ).then((result) => {});
+    Promise.all(
+        basicStackedResource(basicOre, 'Ore', 'Refined Ore', 3).concat(
+            basicStackedResource(
+                basicEnmatter,
+                'Enmatter',
+                'Refined Enmatter',
+                2
+            ),
+            complexeStackedResource(complexeResourcesDatas)
+        )
+    ).then((result) => console.log('promise all', result, insertedItemId));
+
+    // createMultipleItem(
+    //     consumables,
+    //     findCategoryId(categories, 'Consumables')
+    // ).then((result) => {});
 }
 
 const createRefiners = async () => {
@@ -311,15 +335,15 @@ createAdminUser().then((result) => {
     createFamiliesAndCategories()
         .then((response) => {
             createResources();
-            createRefiners();
-            createExcavators();
-            createFinders();
-            createFindersAmplifiers();
-            createFindersEnhancers();
-            createExcavatorEnhancers();
+            // createRefiners();
+            // createExcavators();
+            // createFinders();
+            // createFindersAmplifiers();
+            // createFindersEnhancers();
+            // createExcavatorEnhancers();
             // mocks
-            createTestSessions();
-            createGlobalUSerDatas();
+            // createTestSessions();
+            // createGlobalUSerDatas();
         })
         .catch((error) => console.log(error));
 });
