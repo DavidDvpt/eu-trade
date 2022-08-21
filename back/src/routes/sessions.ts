@@ -39,8 +39,24 @@ function getById(req: Request, res: Response, next: NextFunction) {
             .findUnique({
                 where: { id: sessionId },
                 include: {
-                    sessionLineCost: true,
-                    sessionLineWin: true,
+                    sessionLineCost: {
+                        include: {
+                            item: {
+                                include: {
+                                    category: true,
+                                },
+                            },
+                        },
+                    },
+                    sessionLineWin: {
+                        include: {
+                            item: {
+                                include: {
+                                    category: true,
+                                },
+                            },
+                        },
+                    },
                 },
             })
             .then((result) => {
@@ -52,6 +68,7 @@ function getById(req: Request, res: Response, next: NextFunction) {
                 }
             })
             .catch((err) => {
+                console.log(err);
                 res.status(prismaErrorHandler(err.meta?.cause));
                 next(new Error(err.meta?.cause));
             });
@@ -64,7 +81,6 @@ function getById(req: Request, res: Response, next: NextFunction) {
 function addOne(req: Request, res: Response, next: NextFunction) {
     try {
         const body = req.body;
-        console.log('sessionBody', body);
 
         if (isEmpty(body)) {
             res.status(422);

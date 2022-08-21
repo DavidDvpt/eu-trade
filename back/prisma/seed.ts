@@ -84,36 +84,32 @@ const findCategoryId = (tab: category[], catName: string) => {
     );
 };
 
-async function createSimpleRefinedResource(item: Partial<item>) {
-    return await prisma.item.create({
+function createSimpleRefinedResource(item: Partial<item>) {
+    return prisma.item.create({
         data: {
             categoryId: item.categoryId ?? 0,
             name: item.name ?? '',
             imageUrlId: item.imageUrlId ?? '',
-            value: item.value ? item.value : 0,
+            ttMax: item.value ? item.value : 0,
             isStackable: item.isStackable ?? false,
         },
     });
 }
+async function lastItemId() {
+    const lastId = await prisma.item.findFirst({
+        select: {
+            id: true,
+        },
+        orderBy: {
+            id: 'desc',
+        },
+    });
+
+    return lastId;
+}
 
 async function createResources() {
     const categories = await prisma.category.findMany();
-
-    // const naturalMaterials = () => {
-    //     const natMatCat = findCategoryId(categories, 'Natural Material');
-
-    //     createMultipleItem(naturalMaterialDatas, natMatCat).then((result) =>
-    //         console.log(result)
-    //     );
-    // };
-
-    // const foods = () => {
-    //     const natMatCat = findCategoryId(categories, 'Food');
-
-    //     createMultipleItem(foodDatas, natMatCat).then((result) =>
-    //         console.log(result)
-    //     );
-    // };
 
     const basicStackedResource = (
         resources: BasicResource[],
@@ -297,13 +293,11 @@ const createTestSessions = () => {
                 data: ms.session,
             })
             .then((result) => {
-                return prisma.sessionLineCost
-                    .createMany({
-                        data: ms.cost.map((c) => {
-                            return { ...c, sessionId: result.id };
-                        }),
-                    })
-                    .then((lines) => console.log(lines));
+                return prisma.sessionLineCost.createMany({
+                    data: ms.cost.map((c) => {
+                        return { ...c, sessionId: result.id };
+                    }),
+                });
             });
     });
 };

@@ -12,11 +12,7 @@ export const mockSession = [
             ttCost: 123.25,
             ttWin: 214.1,
         },
-        cost: [
-            { itemId: 57, quantity: 1 },
-            { itemId: 67, quantity: 1 },
-            { itemId: 5, quantity: 1000 },
-        ],
+        cost: [],
     },
     {
         session: {
@@ -42,7 +38,11 @@ export const mockSession = [
             ttCost: 421.32,
             ttWin: 6574.21,
         },
-        cost: [],
+        cost: [
+            { itemId: 57, quantity: 1 },
+            { itemId: 67, quantity: 1 },
+            { itemId: 5, quantity: 1000 },
+        ],
     },
     {
         session: {

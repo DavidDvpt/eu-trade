@@ -116,6 +116,7 @@ model session {
   userId          Int
   number          Int
   type            SessionType
+  miningType      Int?
   isOpen          Boolean           @default(true)
   createdAt       DateTime          @default(now()) @db.Timestamp(6)
   closedAt        DateTime?         @db.Timestamp(6)
