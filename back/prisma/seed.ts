@@ -143,7 +143,16 @@ async function createResources() {
 
     const complexeStackedResource = (line: ComplexeResource[]) => {
         const promises: Promise<void>[] = [];
-        let subTab = 0;
+
+        const arrayLength: number[] = [];
+
+        line.forEach((l, i) => {
+            arrayLength.push(
+                i === 0 ? l.u.length : l.u.length + arrayLength[i - 1]
+            );
+        });
+
+        console.log(arrayLength);
 
         line.forEach(async (tuple, i, tab) => {
             const cat = findCategoryId(categories, tuple.rCat);
@@ -156,23 +165,17 @@ async function createResources() {
                         categoryId: cat,
                         isStackable: true,
                     },
-                    insertedItemId
+                    insertedItemId + i
                 )
                     .then((result) => {
                         const uTuple = tuple?.u || [];
 
-                        uTuple.forEach((t, ind, uTab) => {
+                        uTuple.forEach((t, ind) => {
                             const uCat =
                                 categories.find((f) => {
                                     return f.name === t.uCat;
                                 })?.id || 0;
-
-                            console.log(
-                                tab.length,
-                                result.id,
-                                subTab,
-                                result.id + subTab + uTab.length - ind
-                            );
+                            console.log(result.id + i + arrayLength[i] - ind);
                             // CREATE UNREFINED ITEM
                             createSimpleRefinedResource(
                                 {
@@ -181,7 +184,7 @@ async function createResources() {
                                     isStackable: true,
                                 },
 
-                                result.id + subTab + uTab.length - ind
+                                result.id + i + arrayLength[i] - ind
                             ).then((resultUnrefined) => {
                                 // CREATE REFINE RELATIONS
                                 prisma.refineRelations
@@ -200,7 +203,6 @@ async function createResources() {
                             });
                             // insertedItemId += uTab.length;
                         });
-                        subTab += uTuple.length;
                     })
                     .catch((err) => {
                         console.log(err);
