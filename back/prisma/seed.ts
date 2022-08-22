@@ -143,6 +143,7 @@ async function createResources() {
 
     const complexeStackedResource = (line: ComplexeResource[]) => {
         const promises: Promise<void>[] = [];
+        let subTab = 0;
 
         line.forEach(async (tuple, i, tab) => {
             const cat = findCategoryId(categories, tuple.rCat);
@@ -158,9 +159,8 @@ async function createResources() {
                     insertedItemId
                 )
                     .then((result) => {
-                        let subTab = 0;
-
                         const uTuple = tuple?.u || [];
+
                         uTuple.forEach((t, ind, uTab) => {
                             const uCat =
                                 categories.find((f) => {
@@ -171,7 +171,7 @@ async function createResources() {
                                 tab.length,
                                 result.id,
                                 subTab,
-                                tab.length + result.id + subTab - ind
+                                result.id + subTab + uTab.length - ind
                             );
                             // CREATE UNREFINED ITEM
                             createSimpleRefinedResource(
@@ -180,7 +180,8 @@ async function createResources() {
                                     categoryId: uCat,
                                     isStackable: true,
                                 },
-                                tab.length + result.id + subTab + ind
+
+                                result.id + subTab + uTab.length - ind
                             ).then((resultUnrefined) => {
                                 // CREATE REFINE RELATIONS
                                 prisma.refineRelations
@@ -197,9 +198,9 @@ async function createResources() {
                                         // console.log(finalResult);
                                     });
                             });
-                            insertedItemId += uTab.length;
-                            subTab += uTuple.length;
+                            // insertedItemId += uTab.length;
                         });
+                        subTab += uTuple.length;
                     })
                     .catch((err) => {
                         console.log(err);
