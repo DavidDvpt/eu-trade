@@ -58,8 +58,6 @@ async function createFoundOn() {
     });
 }
 
-let insertedItemId = 1;
-
 const createMultipleItem = async (items: Partial<item>[], catId: number) => {
     items.forEach(async (it) => {
         if (it.name) {
@@ -77,10 +75,9 @@ const createMultipleItem = async (items: Partial<item>[], catId: number) => {
     // });
 };
 
-function createSimpleRefinedResource(item: Partial<item>, id: number) {
+function createSimpleRefinedResource(item: Partial<item>) {
     return prisma.item.create({
         data: {
-            id,
             categoryId: item.categoryId ?? 0,
             name: item.name ?? '',
             imageUrlId: item.imageUrlId ?? '',
@@ -102,42 +99,31 @@ async function createResources() {
         const rCatId = findCategoryId(categories, rCat);
         const uCatId = findCategoryId(categories, uCat);
         const promises: Promise<void>[] = [];
-        console.log('length', resources.length);
 
-        resources.forEach(async (tuple, i, tab) => {
+        resources.forEach(async (tuple) => {
             promises.push(
-                createSimpleRefinedResource(
-                    {
-                        ...tuple.r,
-                        categoryId: rCatId,
-                        value: tuple.u.value * count,
+                createSimpleRefinedResource({
+                    ...tuple.r,
+                    categoryId: rCatId,
+                    value: tuple.u.value * count,
+                    isStackable: true,
+                }).then((resultR) => {
+                    createSimpleRefinedResource({
+                        ...tuple.u,
+                        categoryId: uCatId,
                         isStackable: true,
-                    },
-                    insertedItemId
-                ).then((resultR) => {
-                    createSimpleRefinedResource(
-                        {
-                            ...tuple.u,
-                            categoryId: uCatId,
-                            isStackable: true,
-                        },
-                        tab.length + resultR.id
-                    ).then((resultU) => {
-                        prisma.refineRelations
-                            .create({
-                                data: {
-                                    refinedItemId: resultR.id,
-                                    unrefinedItemId: resultU.id,
-                                    quantity: count,
-                                },
-                            })
-                            .then((finalResult) => {});
+                    }).then((resultU) => {
+                        prisma.refineRelations.create({
+                            data: {
+                                refinedItemId: resultR.id,
+                                unrefinedItemId: resultU.id,
+                                quantity: count,
+                            },
+                        });
                     });
                 })
             );
-            insertedItemId += 1;
         });
-        insertedItemId += resources.length;
         return promises;
     };
 
@@ -152,40 +138,30 @@ async function createResources() {
             );
         });
 
-        console.log(arrayLength);
-
-        line.forEach(async (tuple, i, tab) => {
+        line.forEach(async (tuple) => {
             const cat = findCategoryId(categories, tuple.rCat);
 
             // CREATE REFINED ITEM
             promises.push(
-                createSimpleRefinedResource(
-                    {
-                        ...tuple.r,
-                        categoryId: cat,
-                        isStackable: true,
-                    },
-                    insertedItemId + i
-                )
+                createSimpleRefinedResource({
+                    ...tuple.r,
+                    categoryId: cat,
+                    isStackable: true,
+                })
                     .then((result) => {
                         const uTuple = tuple?.u || [];
 
-                        uTuple.forEach((t, ind) => {
+                        uTuple.forEach((t) => {
                             const uCat =
                                 categories.find((f) => {
                                     return f.name === t.uCat;
                                 })?.id || 0;
-                            console.log(result.id + i + arrayLength[i] - ind);
                             // CREATE UNREFINED ITEM
-                            createSimpleRefinedResource(
-                                {
-                                    ...t.data,
-                                    categoryId: uCat,
-                                    isStackable: true,
-                                },
-
-                                result.id + i + arrayLength[i] - ind
-                            ).then((resultUnrefined) => {
+                            createSimpleRefinedResource({
+                                ...t.data,
+                                categoryId: uCat,
+                                isStackable: true,
+                            }).then((resultUnrefined) => {
                                 // CREATE REFINE RELATIONS
                                 prisma.refineRelations
                                     .create({
@@ -195,21 +171,14 @@ async function createResources() {
                                             quantity: t.count,
                                         },
                                     })
-                                    .then((finalResult) => {
-                                        // console.log(result);
-                                        // console.log(resultUnrefined);
-                                        // console.log(finalResult);
-                                    });
+                                    .then((finalResult) => {});
                             });
-                            // insertedItemId += uTab.length;
                         });
                     })
                     .catch((err) => {
                         console.log(err);
                     })
             );
-
-            // insertedItemId += 1;
         });
         return promises;
     };
@@ -226,7 +195,7 @@ async function createResources() {
             ),
             complexeStackedResource(complexeResourcesDatas)
         )
-    ).then((result) => console.log('promise all', result, insertedItemId));
+    ).then((result) => console.log('promise all', result));
 
     // createMultipleItem(
     //     consumables,
@@ -237,79 +206,68 @@ async function createResources() {
 const createRefiners = async () => {
     const categories = await prisma.category.findMany();
     const cat = findCategoryId(categories, 'Refiners');
-    const result = await prisma.item.createMany({
+    await prisma.item.createMany({
         data: refiners.map((r) => {
             return { ...r, categoryId: cat };
         }),
     });
-
-    // console.log(result);
 };
 
 const createExcavators = async () => {
     const categories = await prisma.category.findMany();
 
     const cat = findCategoryId(categories, 'Excavators');
-    const result = await prisma.item.createMany({
+    await prisma.item.createMany({
         data: excavators.map((r) => {
             return { ...r, categoryId: cat };
         }),
     });
-
-    // console.log(result);
 };
 
 const createFinders = async () => {
     const categories = await prisma.category.findMany();
 
     const cat = findCategoryId(categories, 'Finders');
-    const result = await prisma.item.createMany({
+    await prisma.item.createMany({
         data: finders.map((r) => {
             return { ...r, categoryId: cat };
         }),
     });
-
-    // console.log(result);
 };
 
 const createFindersAmplifiers = async () => {
     const categories = await prisma.category.findMany();
 
     const cat = findCategoryId(categories, 'Finder Amplifiers');
-    const result = await prisma.item.createMany({
+    await prisma.item.createMany({
         data: finderAmplifiers.map((r) => {
             return { ...r, categoryId: cat };
         }),
     });
-
-    // console.log(result);
 };
 
 const createFindersEnhancers = async () => {
     const categories = await prisma.category.findMany();
 
     const cat = findCategoryId(categories, 'Finder Enhancers');
-    const result = await prisma.item.createMany({
+    await prisma.item.createMany({
         data: finderEnhancers.map((r) => {
             return { ...r, categoryId: cat };
         }),
     });
-
-    // console.log(result);
 };
 
 const createExcavatorEnhancers = async () => {
     const categories = await prisma.category.findMany();
 
     const cat = findCategoryId(categories, 'Excavator Enhancers');
-    const result = await prisma.item.createMany({
+    await prisma.item.createMany({
         data: excavatorEnhancers.map((r) => {
             return { ...r, categoryId: cat };
         }),
     });
-
-    // console.log(result);
 };
+
 // **********************************************************************
 //         MOCKS
 // **********************************************************************
@@ -319,12 +277,54 @@ const createTestSessions = () => {
             .create({
                 data: ms.session,
             })
-            .then((result) => {
-                return prisma.sessionLineCost.createMany({
-                    data: ms.cost.map((c) => {
-                        return { ...c, sessionId: result.id };
-                    }),
-                });
+            .then(async (result) => {
+                const categories = await prisma.category.findMany();
+                const catId = findCategoryId(categories, 'Ore');
+                prisma.category
+                    .findUnique({
+                        where: { id: catId },
+                        select: {
+                            items: true,
+                        },
+                    })
+                    .then((response) => {
+                        if (response?.items) {
+                            prisma.sessionLineCost
+                                .createMany({
+                                    data: [
+                                        {
+                                            sessionId: result.id,
+                                            quantity: Math.ceil(
+                                                Math.random() * 1000
+                                            ),
+                                            itemId: response?.items[0].id,
+                                        },
+                                        {
+                                            sessionId: result.id,
+                                            quantity: Math.ceil(
+                                                Math.random() * 1000
+                                            ),
+                                            itemId: response?.items[1].id,
+                                        },
+                                        {
+                                            sessionId: result.id,
+                                            quantity: Math.ceil(
+                                                Math.random() * 1000
+                                            ),
+                                            itemId: response?.items[10].id,
+                                        },
+                                        {
+                                            sessionId: result.id,
+                                            quantity: Math.ceil(
+                                                Math.random() * 1000
+                                            ),
+                                            itemId: response?.items[13].id,
+                                        },
+                                    ],
+                                })
+                                .then((response) => console.log(response));
+                        }
+                    });
             });
     });
 };
@@ -338,15 +338,17 @@ createAdminUser().then((result) => {
     createFamiliesAndCategories()
         .then((response) => {
             createResources();
-            // createRefiners();
-            // createExcavators();
-            // createFinders();
-            // createFindersAmplifiers();
-            // createFindersEnhancers();
-            // createExcavatorEnhancers();
+            createRefiners();
+            createExcavators();
+            createFinders();
+            createFindersAmplifiers();
+            createFindersEnhancers();
+            createExcavatorEnhancers();
+        })
+        .then((response) => {
             // mocks
-            // createTestSessions();
-            // createGlobalUSerDatas();
+            createTestSessions();
+            createGlobalUSerDatas();
         })
         .catch((error) => console.log(error));
 });
