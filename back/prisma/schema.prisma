@@ -16,6 +16,11 @@ enum Role {
   ADMIN
 }
 
+enum ConsumableType {
+  PROBE
+  UNIVERSAL_AMMO
+}
+
 enum SessionType {
   TRADE
   MINING
@@ -89,6 +94,8 @@ model item {
   unrefinedItem   refineRelations[] @relation("unrefinedItem")
   sessionLineCost sessionLineCost[]
   sessionLineWin  sessionLineWin[]
+  findersSetup    setup[]           @relation("finder")
+  ampsSetup       setup[]           @relation("amp")
 }
 
 model refineRelations {
@@ -108,6 +115,18 @@ model itemOnFoundOn {
   foundOnId Int
 
   @@id([itemId, foundOnId])
+}
+
+model setup {
+  id             Int            @id @default(autoincrement())
+  finder         item           @relation("finder", fields: [finderId], references: [id])
+  finderId       Int
+  amp            item           @relation("amp", fields: [ampId], references: [id])
+  ampId          Int
+  depthEnhancer  Int            @default(0)
+  rangeEnhancer  Int            @default(0)
+  skillEnhancer  Int            @default(0)
+  consomableType ConsumableType
 }
 
 model session {
