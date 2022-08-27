@@ -6,13 +6,25 @@ import prismaErrorHandler from '../middlewares/prismaErrorHandler';
 
 const router = express.Router();
 
-// router.get('/', jwtVerify(Role.ADMIN), getAll);
+router.get('/', jwtVerify(Role.ADMIN), getAll);
 router.get('/:id', getById);
 router.post('/', addOne);
 router.put('/:userId', update);
 router.delete('/:userId', jwtVerify(Role.ADMIN), deleteOne);
 
-// function getAll(req: Request, res: Response, next: NextFunction) {}
+function getAll(req: Request, res: Response, next: NextFunction) {
+    prisma.globalUserData
+        .findMany()
+        .then((response) => {
+            console.log(response);
+            res.status(200).json(response);
+        })
+        .catch(() => {
+            res.status(500);
+            next(new Error());
+        });
+}
+
 function getById(req: Request, res: Response, next: NextFunction) {
     const id = parseInt(req.params.id, 10);
     if (req.auth?.userId === id || req.auth?.role === Role.ADMIN) {
@@ -26,8 +38,12 @@ function getById(req: Request, res: Response, next: NextFunction) {
                 console.log(response);
                 res.status(200).json(response);
             });
+    } else {
+        res.status(403);
+        next(new Error());
     }
 }
+
 function update(req: Request, res: Response, next: NextFunction) {
     const userId = parseInt(req.params.userId);
     const auth = req.auth;

@@ -3,6 +3,7 @@ import { SessionType } from '@prisma/client';
 export const mockSession = [
     {
         session: {
+            id: 1,
             userId: 3,
             number: 1,
             type: SessionType.MINING,
@@ -15,6 +16,7 @@ export const mockSession = [
     },
     {
         session: {
+            id: 2,
             userId: 3,
             number: 1,
             type: SessionType.TRADE,
@@ -26,6 +28,7 @@ export const mockSession = [
     },
     {
         session: {
+            id: 3,
             userId: 3,
             number: 2,
             type: SessionType.MINING,

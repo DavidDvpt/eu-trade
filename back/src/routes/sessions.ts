@@ -60,6 +60,7 @@ function getById(req: Request, res: Response, next: NextFunction) {
                 },
             })
             .then((result) => {
+                console.log('sessionById', result, req.auth?.userId);
                 if (req.auth?.userId === result?.userId) {
                     res.status(200).json(result);
                 } else {

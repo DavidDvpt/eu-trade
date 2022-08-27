@@ -195,7 +195,7 @@ async function createResources() {
             ),
             complexeStackedResource(complexeResourcesDatas)
         )
-    ).then((result) => console.log('promise all', result));
+    ).then((result) => {});
 
     // createMultipleItem(
     //     consumables,
