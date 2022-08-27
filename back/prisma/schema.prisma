@@ -41,7 +41,7 @@ model user {
 }
 
 model globalUserData {
-  id                  Int   @id @default(autoincrement())
+  id                  Int   @id
   user                user  @relation(fields: [userId], references: [id])
   userId              Int   @unique
   initialPedCardValue Float @default(0)
