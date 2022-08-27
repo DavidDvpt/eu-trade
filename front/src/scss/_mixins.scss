@@ -28,6 +28,12 @@
     align-items: flex-start;
 }
 
+@mixin flex-between-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 @mixin button-base {
     line-height: 45px;
     background-color: $form-fielset-background;
