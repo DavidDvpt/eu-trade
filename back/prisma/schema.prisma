@@ -37,7 +37,7 @@ model user {
   isActif   Boolean  @default(true)
 
   session        session[]
-  globalUserData globalUserData[]
+  globalUserData globalUserData?
 }
 
 model globalUserData {

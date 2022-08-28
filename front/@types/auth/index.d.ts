@@ -1,4 +1,4 @@
-interface IAuthState {
+interface AuthState {
     isLogged: boolean;
     token: string | null;
     isAdmin: boolean;

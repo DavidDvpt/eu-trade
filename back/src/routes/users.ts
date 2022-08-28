@@ -31,8 +31,23 @@ function getById(req: Request, res: Response, next: NextFunction) {
                     where: {
                         id: userId,
                     },
+                    include: {
+                        globalUserData: true,
+                    },
                 })
                 .then((response) => {
+                    if (response) {
+                        const parsed = {
+                            email: response.email,
+                            createdAt: response.createdAt,
+                            datas: {
+                                id: response?.id,
+                                initialPedCardValue:
+                                    response.globalUserData
+                                        ?.initialPedCardValue,
+                            },
+                        };
+                    }
                     res.status(200).json(response);
                 });
         } else {

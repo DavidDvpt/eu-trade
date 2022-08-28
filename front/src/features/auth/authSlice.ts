@@ -1,10 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import jwt_decode from 'jwt-decode';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/store';
-import { AxiosPublicInstance } from '../../services/AxiosService';
+import { loginRequest } from './authThunks';
 
-const initialState: IAuthState = {
+const initialState: AuthState = {
     token: null,
     isLogged: false,
     isAdmin: false,
@@ -12,30 +11,6 @@ const initialState: IAuthState = {
     userPseudo: null,
     loginModal: false,
 };
-
-export const loginRequest = createAsyncThunk(
-    'auth/login',
-    async (params: LoginRequest) => {
-        const request = AxiosPublicInstance().post<{ access_token: string }>(
-            '/login',
-            params,
-        );
-        return request
-            .then((response) => {
-                const decode: any = jwt_decode(response.data.access_token);
-
-                return {
-                    token: response.data.access_token,
-                    userId: decode.userId,
-                    userPseudo: decode.userPseudo,
-                };
-            })
-            .catch((error) => {
-                console.log(error);
-                throw new Error();
-            });
-    },
-);
 
 const authSlice = createSlice({
     name: 'auth',

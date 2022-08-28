@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAppDispatch } from '../../../../app/hooks';
 import InputCustom from '../../../../components/formComponents/inputCustom';
-import { loginRequest } from '../../authSlice';
+import { loginRequest } from '../../authThunks';
 import styles from './loginForm.module.scss';
 
 function LoginForm() {

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { AxiosPrivateInstance } from '../../services/AxiosService';
+import { AxiosPrivateInstance } from '../../services/AxiosPrivateService';
 
 const initialState: AccountState = {
     initialPedcardValue: 0,
@@ -10,13 +10,20 @@ export const fetchAccount = createAsyncThunk(
     'account/fetchAccount',
     async (userId: number) => {
         const request = AxiosPrivateInstance().get<AccountState>(
-            `/user/${userId}`,
+            `/users/${userId}`,
         );
-        return request.then((response) => {
-            return {
-                initialPedcardValue: response.data.initialPedcardValue,
-            };
-        });
+        return request.then(
+            (response) => {
+                console.log(response);
+                return {
+                    initialPedcardValue: response.data.initialPedcardValue,
+                };
+            },
+            (err) => {
+                console.log(err);
+                return null;
+            },
+        );
     },
 );
 const account = createSlice({
@@ -25,7 +32,9 @@ const account = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchAccount.fulfilled, (state, action) => {
-            state.initialPedcardValue = action.payload.initialPedcardValue;
+            if (action.payload) {
+                state.initialPedcardValue = action.payload?.initialPedcardValue;
+            }
         });
     },
 });
