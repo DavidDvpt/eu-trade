@@ -1,3 +1,14 @@
+interface User {
+    id: number;
+    email: string;
+    pseudo: string;
+    cratedAt: string;
+}
+interface GlobalUserData {
+    initialPedCardValue: number;
+}
 interface AccountState {
-    initialPedcardValue: number;
+    user: User | null;
+    globalUserData: GlobalUserData | null;
+    accountModal: boolean;
 }

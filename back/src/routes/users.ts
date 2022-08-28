@@ -40,6 +40,7 @@ function getById(req: Request, res: Response, next: NextFunction) {
                         const parsed = {
                             email: response.email,
                             createdAt: response.createdAt,
+                            pseudo: response.pseudo,
                             datas: {
                                 id: response?.id,
                                 initialPedCardValue:
@@ -47,8 +48,10 @@ function getById(req: Request, res: Response, next: NextFunction) {
                                         ?.initialPedCardValue,
                             },
                         };
+                        res.status(200).json(parsed);
+                    } else {
+                        res.status(200).json(null);
                     }
-                    res.status(200).json(response);
                 });
         } else {
             res.status(403);

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { fetchAccount } from '../../account/accountSlice';
+import { setAccountModal } from '../../account/accountSlice';
 import { getAuthState, logout, setLoginModal } from '../authSlice';
 import styles from './authHeader.module.scss';
 
@@ -14,7 +14,7 @@ function AuthHeader() {
 
     const handleAccountClick = () => {
         if (userId) {
-            dispatch(fetchAccount(userId));
+            dispatch(setAccountModal(true));
         }
     };
 

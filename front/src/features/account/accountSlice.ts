@@ -1,9 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { RootState } from '../../app/store';
 import { AxiosPrivateInstance } from '../../services/AxiosPrivateService';
 
 const initialState: AccountState = {
-    initialPedcardValue: 0,
+    user: null,
+    globalUserData: null,
+    accountModal: false,
 };
 
 export const fetchAccount = createAsyncThunk(
@@ -14,9 +17,9 @@ export const fetchAccount = createAsyncThunk(
         );
         return request.then(
             (response) => {
-                console.log(response);
                 return {
-                    initialPedcardValue: response.data.initialPedcardValue,
+                    user: response.data.user,
+                    globalUserData: response.data.globalUserData,
                 };
             },
             (err) => {
@@ -29,17 +32,22 @@ export const fetchAccount = createAsyncThunk(
 const account = createSlice({
     name: 'account',
     initialState,
-    reducers: {},
+    reducers: {
+        setAccountModal(state, action: PayloadAction<boolean>) {
+            state.accountModal = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchAccount.fulfilled, (state, action) => {
             if (action.payload) {
-                state.initialPedcardValue = action.payload?.initialPedcardValue;
+                state.user = action.payload?.user;
+                state.globalUserData = action.payload?.globalUserData;
             }
         });
     },
 });
 
-// export const {} = account.actions;
+export const { setAccountModal } = account.actions;
 export default account.reducer;
 
-// export const getAccountState = (state: RootState) => state.account;
+export const getAccountState = (state: RootState) => state.account;
