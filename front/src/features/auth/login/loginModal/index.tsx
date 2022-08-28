@@ -11,6 +11,7 @@ function LoginModal() {
     const handleClose = () => {
         dispatch(setLoginModal(false));
     };
+
     return (
         <>
             {loginModal && (

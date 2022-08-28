@@ -11,7 +11,6 @@ interface IGenericModalProps {
 
 function GenericModal({ title, children, onClose }: IGenericModalProps) {
     const handleCloseClick = () => {
-        console.log('dfgdsgsg');
         onClose();
     };
 

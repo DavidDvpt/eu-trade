@@ -7,7 +7,6 @@ function AccountModal() {
     const dispatch = useAppDispatch();
 
     const handleClose = () => {
-        console.log('close');
         dispatch(setAccountModal(false));
     };
 
