@@ -2,21 +2,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/store';
 
-interface ModalsState {
-  loginModal: boolean;
-}
-
 const initialState: ModalsState = {
-  loginModal: false,
+    loginModal: false,
+    accountModal: false,
 };
 const modalSlice = createSlice({
-  name: 'modals',
-  initialState,
-  reducers: {
-    setLoginModal(state, action: PayloadAction<boolean>) {
-      state.loginModal = action.payload;
+    name: 'modals',
+    initialState,
+    reducers: {
+        setLoginModal(state, action: PayloadAction<boolean>) {
+            state.loginModal = action.payload;
+        },
+        setAccountModal(state, action: PayloadAction<boolean>) {
+            state.accountModal = action.payload;
+        },
     },
-  },
 });
 
 export const { setLoginModal } = modalSlice.actions;

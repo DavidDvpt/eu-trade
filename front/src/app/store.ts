@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import accountReducer from '../features/account/accountSlice';
 import { appApi } from '../features/appApi';
 import authReducer from '../features/auth/authSlice';
 import manageReducer from '../features/manage/manageSlice';
@@ -10,6 +11,7 @@ export const store = configureStore({
         auth: authReducer,
         modals: modalsReducer,
         manage: manageReducer,
+        account: accountReducer,
         [appApi.reducerPath]: appApi.reducer,
     },
     // Adding the api middleware enables caching, invalidation, polling,

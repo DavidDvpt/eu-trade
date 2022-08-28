@@ -1,9 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { fetchAccount } from '../../account/accountSlice';
 import { getAuthState, logout, setLoginModal } from '../authSlice';
 import styles from './authHeader.module.scss';
 
 function AuthHeader() {
-    const { isLogged, userPseudo } = useAppSelector(getAuthState);
+    const { isLogged, userPseudo, userId } = useAppSelector(getAuthState);
 
     const dispatch = useAppDispatch();
 
@@ -11,7 +12,11 @@ function AuthHeader() {
         dispatch(setLoginModal(true));
     };
 
-    const handleAccountClick = () => {};
+    const handleAccountClick = () => {
+        if (userId) {
+            dispatch(fetchAccount(userId));
+        }
+    };
 
     const handleLogoutClick = () => {
         dispatch(logout());

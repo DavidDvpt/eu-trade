@@ -4,15 +4,6 @@ import jwt_decode from 'jwt-decode';
 import { RootState } from '../../app/store';
 import { AxiosPublicInstance } from '../../services/AxiosService';
 
-interface IAuthState {
-    isLogged: boolean;
-    token: string | null;
-    isAdmin: boolean;
-    userId: number | null;
-    userPseudo: string | null;
-    loginModal: boolean;
-}
-
 const initialState: IAuthState = {
     token: null,
     isLogged: false,

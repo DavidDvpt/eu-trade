@@ -1,10 +1,5 @@
 type InputType = 'text' | 'number' | 'email' | 'password';
 
-interface LoginRequest {
-    email: string;
-    password: string;
-}
-
 interface ObjectBase {
     id: number;
     name: string;
