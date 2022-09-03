@@ -41,10 +41,12 @@ model user {
 }
 
 model globalUserData {
-  id                  Int   @id @default(autoincrement())
-  user                user  @relation(fields: [userId], references: [id])
-  userId              Int   @unique
+  // id                  Int   @id @default(autoincrement())
+  id                  Int   @unique
+  user                user  @relation(fields: [id], references: [id])
   initialPedCardValue Float @default(0)
+
+  @@id(id)
 }
 
 model category {

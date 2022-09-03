@@ -16,7 +16,6 @@ function getAll(req: Request, res: Response, next: NextFunction) {
     prisma.globalUserData
         .findMany()
         .then((response) => {
-            console.log(response);
             res.status(200).json(response);
         })
         .catch(() => {
@@ -45,13 +44,13 @@ function getById(req: Request, res: Response, next: NextFunction) {
 }
 
 function update(req: Request, res: Response, next: NextFunction) {
-    const userId = parseInt(req.params.userId);
+    const id = parseInt(req.params.userId);
     const auth = req.auth;
 
-    if (userId === auth?.userId || auth?.role !== Role.USER) {
+    if (id === auth?.userId || auth?.role !== Role.USER) {
         prisma.globalUserData
             .update({
-                where: { userId },
+                where: { id },
                 data: {
                     initialPedCardValue: parseFloat(
                         req.body.initialPedCardValue
@@ -85,6 +84,7 @@ function addOne(req: Request, res: Response, next: NextFunction) {
         prisma.globalUserData
             .create({
                 data: {
+                    id: parseInt(body.userId, 10),
                     userId: parseInt(body.userId, 10),
                     initialPedCardValue: parseFloat(body.initialPedCardValue),
                 },

@@ -45,3 +45,25 @@ export const updateAuthUser = createAsyncThunk(
         );
     },
 );
+
+export const updateAuthUserGlobalDatas = createAsyncThunk(
+    'account/updateAuthUserGlobalDatas',
+    async (data: Partial<GlobalUserData>, { getState }) => {
+        const state = getState() as RootState;
+
+        const request = AxiosPrivateInstance().put<GlobalUserData>(
+            `/users/${state.account.globalUserData?.id}`,
+            data,
+        );
+
+        return request.then(
+            (response) => {
+                return response.data;
+            },
+            (err) => {
+                console.log(err);
+                return null;
+            },
+        );
+    },
+);

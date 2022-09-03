@@ -6,6 +6,7 @@ interface User {
     datas?: GlobalUserData;
 }
 interface GlobalUserData {
+    id: number;
     initialPedCardValue: number;
 }
 interface AccountState {
