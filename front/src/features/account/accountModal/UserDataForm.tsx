@@ -1,19 +1,29 @@
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { useAppDispatch } from '../../../app/hooks';
 import InputCustom from '../../../components/formComponents/inputCustom';
 import styles from './accountModal.module.scss';
+import { updateAuthUserGlobalDatas } from './thunks';
 
 interface IUserDataFormProps {
     globalDatas: GlobalUserData | null;
 }
 function UserDataForm({ globalDatas }: IUserDataFormProps) {
-    const { handleSubmit, register, setValue } =
-        useForm<Partial<GlobalUserData>>();
+    const dispatch = useAppDispatch();
+    const {
+        handleSubmit,
+        register,
+        setValue,
+        formState: { isDirty },
+    } = useForm<Partial<GlobalUserData>>();
+
     const submit: SubmitHandler<Partial<GlobalUserData>> = (
         datas: Partial<GlobalUserData>,
     ) => {
-        console.log(datas);
+        if (isDirty) {
+            dispatch(updateAuthUserGlobalDatas(datas));
+        }
     };
 
     useEffect(() => {
@@ -32,6 +42,7 @@ function UserDataForm({ globalDatas }: IUserDataFormProps) {
                     </label>
                     <InputCustom
                         type="number"
+                        step="0.01"
                         {...register('initialPedCardValue')}
                     />
                 </div>

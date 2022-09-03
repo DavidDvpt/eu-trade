@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/store';
-import { fetchAuthUser, updateAuthUser } from './accountModal/thunks';
+import {
+    fetchAuthUser,
+    updateAuthUser,
+    updateAuthUserGlobalDatas,
+} from './accountModal/thunks';
 
 const initialState: AccountState = {
     user: null,
@@ -30,6 +34,15 @@ const account = createSlice({
                         ...state.user,
                         pseudo: p.pseudo,
                         email: p.email,
+                    };
+                }
+            })
+            .addCase(updateAuthUserGlobalDatas.fulfilled, (state, action) => {
+                const p = action.payload;
+                if (p && p.initialPedCardValue && state.globalUserData) {
+                    state.globalUserData = {
+                        ...state.globalUserData,
+                        initialPedCardValue: p.initialPedCardValue,
                     };
                 }
             });

@@ -52,7 +52,7 @@ export const updateAuthUserGlobalDatas = createAsyncThunk(
         const state = getState() as RootState;
 
         const request = AxiosPrivateInstance().put<GlobalUserData>(
-            `/users/${state.account.globalUserData?.id}`,
+            `/global_user_datas/${state.auth.userId}`,
             data,
         );
 

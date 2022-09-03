@@ -6,13 +6,14 @@ import styles from './inputCustom.module.scss';
 
 interface IInputCustomProps {
     type: InputType;
+    step?: string;
     name: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     defaultValue?: string | number | readonly string[] | undefined;
     value?: string | number | readonly string[] | undefined;
 }
 function InputCustom(
-    { type, ...rest }: IInputCustomProps,
+    { type, step, ...rest }: IInputCustomProps,
     ref: LegacyRef<HTMLInputElement> | undefined,
 ) {
     const [isVisible, setIsVisible] = useState<boolean>(true);
@@ -32,7 +33,12 @@ function InputCustom(
             }`}
         >
             <fieldset>
-                <input ref={ref} type={isVisible ? 'text' : type} {...rest} />
+                <input
+                    ref={ref}
+                    type={isVisible ? 'text' : type}
+                    step={step ? step : ''}
+                    {...rest}
+                />
                 <div></div>
                 {type === 'password' && (
                     <FontAwesomeIcon
