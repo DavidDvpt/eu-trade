@@ -5,26 +5,30 @@ import { getAuthState } from '../auth/authSlice';
 import styles from './nav.module.scss';
 
 function Nav() {
-    const { isAdmin } = useAppSelector(getAuthState);
+    const { isAdmin, isLogged } = useAppSelector(getAuthState);
     return (
-        <nav className={styles.nav}>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/sessions">Sessions</Link>
-                </li>
-                <li>Stock</li>
-                <li>Sells</li>
-                <li>Statisics</li>
-                {isAdmin && (
-                    <li>
-                        <Link to="/manage">Manage</Link>
-                    </li>
+        <>
+            <nav className={styles.nav}>
+                {isLogged && (
+                    <ul>
+                        <li>
+                            <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                            <Link to="/sessions">Sessions</Link>
+                        </li>
+                        <li>Stock</li>
+                        <li>Sells</li>
+                        <li>Statisics</li>
+                        {isAdmin && (
+                            <li>
+                                <Link to="/manage">Manage</Link>
+                            </li>
+                        )}
+                    </ul>
                 )}
-            </ul>
-        </nav>
+            </nav>
+        </>
     );
 }
 
