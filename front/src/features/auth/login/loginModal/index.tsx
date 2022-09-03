@@ -1,11 +1,10 @@
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { useAppDispatch } from '../../../../app/hooks';
 import GenericModal from '../../../modals/genericModal';
-import { getModalsState, setLoginModal } from '../../../modals/modalSlice';
+import { setLoginModal } from '../../../modals/modalSlice';
 import LoginForm from '../loginForm';
 import styles from './loginModal.module.scss';
 
 function LoginModal() {
-    const { loginModal } = useAppSelector(getModalsState);
     const dispatch = useAppDispatch();
 
     const handleClose = () => {
@@ -13,15 +12,11 @@ function LoginModal() {
     };
 
     return (
-        <>
-            {loginModal && (
-                <GenericModal title="Login" onClose={handleClose}>
-                    <div className={styles.loginModal}>
-                        <LoginForm />
-                    </div>
-                </GenericModal>
-            )}
-        </>
+        <GenericModal title="Login" onClose={handleClose}>
+            <div className={styles.loginModal}>
+                <LoginForm />
+            </div>
+        </GenericModal>
     );
 }
 

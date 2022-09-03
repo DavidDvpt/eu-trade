@@ -22,6 +22,11 @@ const account = createSlice({
                 state.globalUserData = globalData ?? null;
             }
         });
+        // .addCase(updateAuthUser.fulfilled, (state, action) => {
+        //     // if (action.payload) {
+        //     //     console.log(action.payload);
+        //     // }
+        // });
     },
 });
 

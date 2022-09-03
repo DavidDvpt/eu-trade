@@ -1,32 +1,42 @@
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { useAppSelector } from '../../../app/hooks';
 import InputCustom from '../../../components/formComponents/inputCustom';
-import { getAccountState } from '../accountSlice';
+import styles from './accountModal.module.scss';
 
-function UserDataForm() {
-    const { globalUserData } = useAppSelector(getAccountState);
-
-    const { handleSubmit, register } = useForm<Partial<GlobalUserData>>({
-        defaultValues: {
-            initialPedCardValue: globalUserData?.initialPedCardValue,
-        },
-    });
+interface IUserDataFormProps {
+    globalDatas: GlobalUserData | null;
+}
+function UserDataForm({ globalDatas }: IUserDataFormProps) {
+    const { handleSubmit, register, setValue } =
+        useForm<Partial<GlobalUserData>>();
     const submit: SubmitHandler<Partial<GlobalUserData>> = (
         datas: Partial<GlobalUserData>,
     ) => {
         console.log(datas);
     };
+
+    useEffect(() => {
+        if (globalDatas) {
+            setValue('initialPedCardValue', globalDatas.initialPedCardValue);
+        }
+    }, [globalDatas]);
+
     return (
         <>
             <h3>User global datas</h3>
             <form method="post" onSubmit={handleSubmit(submit)}>
                 <div>
-                    <label htmlFor="pseudo">Pseudo :</label>
+                    <label htmlFor="initialPedCardValue">
+                        Initial Pedcard Amount :
+                    </label>
                     <InputCustom
                         type="number"
                         {...register('initialPedCardValue')}
                     />
+                </div>
+                <div className={styles.buttonContainer}>
+                    <button type="submit">Update User datas</button>
                 </div>
             </form>
         </>

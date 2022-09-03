@@ -1,4 +1,44 @@
 @import '../../../scss/main';
 
 .accountModal {
+    .modalContent {
+        width: 300px;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    form {
+        padding: 10px;
+
+        > div {
+            margin: 10px 0;
+            fieldset {
+                margin: auto;
+                margin-top: 10px;
+                width: 80%;
+
+                input {
+                    font-family: inherit;
+                    font-size: 1rem;
+                    height: 25px;
+                }
+            }
+        }
+
+        .buttonContainer {
+            @include flex-center-center;
+
+            button {
+                @include button-base;
+                line-height: 30px;
+                width: 70%;
+                font-family: inherit;
+            }
+        }
+    }
 }

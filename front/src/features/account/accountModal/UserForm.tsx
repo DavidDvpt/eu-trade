@@ -1,25 +1,37 @@
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch } from '../../../app/hooks';
 import InputCustom from '../../../components/formComponents/inputCustom';
-import { getAccountState } from '../accountSlice';
-import { fetchAuthUser } from './thunks';
+import styles from './accountModal.module.scss';
+import { updateAuthUser } from './thunks';
 
-function UserForm() {
-    const { user } = useAppSelector(getAccountState);
+interface IUserFormProps {
+    user: User | null;
+}
+
+function UserForm({ user }: IUserFormProps) {
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch(fetchAuthUser(null));
-    }, []);
+    const {
+        handleSubmit,
+        register,
+        setValue,
+        formState: { isDirty },
+    } = useForm<Partial<User>>();
 
-    const { handleSubmit, register } = useForm<Partial<User>>({
-        defaultValues: { email: user?.email, pseudo: user?.pseudo },
-    });
+    useEffect(() => {
+        if (user) {
+            setValue('email', user.email);
+            setValue('pseudo', user.pseudo);
+        }
+    }, [user]);
 
     const submit: SubmitHandler<Partial<User>> = (datas: Partial<User>) => {
-        console.log(datas);
+        if (isDirty) {
+            dispatch(updateAuthUser(datas));
+            console.log(datas);
+        }
     };
 
     return (
@@ -33,6 +45,9 @@ function UserForm() {
                 <div>
                     <label htmlFor="email">Email :</label>
                     <InputCustom type="email" {...register('email')} />
+                </div>
+                <div className={styles.buttonContainer}>
+                    <button type="submit">Update User</button>
                 </div>
             </form>
         </>
