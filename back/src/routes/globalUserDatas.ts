@@ -34,7 +34,6 @@ function getById(req: Request, res: Response, next: NextFunction) {
                 },
             })
             .then((response) => {
-                console.log(response);
                 res.status(200).json(response);
             });
     } else {
@@ -85,7 +84,6 @@ function addOne(req: Request, res: Response, next: NextFunction) {
             .create({
                 data: {
                     id: parseInt(body.userId, 10),
-                    userId: parseInt(body.userId, 10),
                     initialPedCardValue: parseFloat(body.initialPedCardValue),
                 },
             })
@@ -109,10 +107,10 @@ function addOne(req: Request, res: Response, next: NextFunction) {
 }
 
 function deleteOne(req: Request, res: Response, next: NextFunction) {
-    const userId = parseInt(req.params.userId, 10);
+    const id = parseInt(req.params.userId, 10);
 
     prisma.globalUserData
-        .delete({ where: { userId } })
+        .delete({ where: { id } })
         .then((result) => {
             res.status(204).json(result);
         })

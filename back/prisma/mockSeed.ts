@@ -77,7 +77,7 @@ export const mockSession = [
 ];
 
 export const mockGlobalUserDatas = [
-    { userId: 1, initialPedCardValue: 1254.24 },
-    { userId: 2, initialPedCardValue: 12454.17 },
-    { userId: 3, initialPedCardValue: 4554.94 },
+    { id: 1, initialPedCardValue: 1254.24 },
+    { id: 2, initialPedCardValue: 12454.17 },
+    { id: 3, initialPedCardValue: 4554.94 },
 ];

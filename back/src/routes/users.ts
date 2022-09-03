@@ -118,10 +118,10 @@ function getUserSessions(req: Request, res: Response, next: NextFunction) {
 
 function getUserGlobalData(req: Request, res: Response, next: NextFunction) {
     try {
-        const userId = parseInt(req.params.userId, 10);
-        if (userId === req.auth?.userId || req.auth?.role === Role.ADMIN) {
+        const id = parseInt(req.params.userId, 10);
+        if (id === req.auth?.userId || req.auth?.role === Role.ADMIN) {
             prisma.globalUserData
-                .findUnique({ where: { userId } })
+                .findUnique({ where: { id } })
                 .then((result) => {
                     res.status(200).json(result);
                 })
