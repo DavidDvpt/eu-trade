@@ -7,6 +7,7 @@ import prismaErrorHandler from '../middlewares/prismaErrorHandler';
 const router = express.Router();
 
 router.get('/:userId', getById);
+router.put('/:userId', updateUser);
 router.get('/:userId/sessions', getUserSessions);
 router.get('/:userId/global_datas', getUserGlobalData);
 
@@ -58,6 +59,38 @@ function getById(req: Request, res: Response, next: NextFunction) {
             next(new Error());
         }
     } catch (error) {}
+}
+
+function updateUser(req: Request, res: Response, next: NextFunction) {
+    try {
+        const id = parseInt(req.params.userId, 10);
+        const body = req.body;
+
+        console.log(id, body);
+
+        prisma.user
+            .update({
+                where: {
+                    id,
+                },
+                data: { email: body.email, pseudo: body.pseudo },
+            })
+            .then((response) => {
+                const parsed = {
+                    email: response.email,
+                    createdAt: response.createdAt,
+                    pseudo: response.pseudo,
+                };
+                res.status(200).json(parsed);
+            })
+            .catch(() => {
+                res.status(500);
+                next(new Error());
+            });
+    } catch (err) {
+        res.status(500);
+        next(new Error());
+    }
 }
 
 function getUserSessions(req: Request, res: Response, next: NextFunction) {

@@ -13,7 +13,9 @@ function AccountModal() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(fetchAuthUser(null));
+        if (!user) {
+            dispatch(fetchAuthUser(null));
+        }
     }, []);
 
     const handleClose = () => {

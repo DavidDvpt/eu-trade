@@ -28,14 +28,20 @@ export const updateAuthUser = createAsyncThunk(
     'account/updateAuthUser',
     async (data: Partial<User>, { getState }) => {
         const state = getState() as RootState;
-        const request = AxiosPrivateInstance().put<User>(
+
+        const request = AxiosPrivateInstance().put<Partial<User>>(
             `/users/${state.auth.userId}`,
             data,
         );
 
-        request.then((response) => {
-            console.log(response.data);
-            return response.data;
-        });
+        return request.then(
+            (response) => {
+                return response.data;
+            },
+            (err) => {
+                console.log(err);
+                return null;
+            },
+        );
     },
 );

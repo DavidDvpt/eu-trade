@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/store';
-import { fetchAuthUser } from './accountModal/thunks';
+import { fetchAuthUser, updateAuthUser } from './accountModal/thunks';
 
 const initialState: AccountState = {
     user: null,
@@ -13,20 +13,26 @@ const account = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchAuthUser.fulfilled, (state, action) => {
-            if (action.payload) {
-                const user = action.payload.user;
-                const globalData = user.datas;
-                delete user.datas;
-                state.user = user;
-                state.globalUserData = globalData ?? null;
-            }
-        });
-        // .addCase(updateAuthUser.fulfilled, (state, action) => {
-        //     // if (action.payload) {
-        //     //     console.log(action.payload);
-        //     // }
-        // });
+        builder
+            .addCase(fetchAuthUser.fulfilled, (state, action) => {
+                if (action.payload) {
+                    const user = action.payload.user;
+                    const globalData = user.datas;
+                    delete user.datas;
+                    state.user = user;
+                    state.globalUserData = globalData ?? null;
+                }
+            })
+            .addCase(updateAuthUser.fulfilled, (state, action) => {
+                const p = action.payload;
+                if (state.user && p?.pseudo && p?.email) {
+                    state.user = {
+                        ...state.user,
+                        pseudo: p.pseudo,
+                        email: p.email,
+                    };
+                }
+            });
     },
 });
 
