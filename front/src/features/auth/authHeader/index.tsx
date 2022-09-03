@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { setAccountModal } from '../../account/accountSlice';
-import { getAuthState, logout, setLoginModal } from '../authSlice';
+import { setAccountModal, setLoginModal } from '../../modals/modalSlice';
+import { getAuthState, logout } from '../authSlice';
 import styles from './authHeader.module.scss';
 
 function AuthHeader() {

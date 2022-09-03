@@ -9,7 +9,6 @@ const initialState: AuthState = {
     isAdmin: false,
     userId: null,
     userPseudo: null,
-    loginModal: false,
 };
 
 const authSlice = createSlice({
@@ -22,13 +21,9 @@ const authSlice = createSlice({
             state.isAdmin = false;
             state.userId = null;
             state.userPseudo = null;
-            state.loginModal = false;
         },
         setToken(state, action: PayloadAction<string>) {
             state.token = action.payload;
-        },
-        setLoginModal(state, action: PayloadAction<boolean>) {
-            state.loginModal = action.payload;
         },
         resetToken(state) {
             state.token = null;
@@ -43,7 +38,6 @@ const authSlice = createSlice({
                 state.userId = action.payload?.userId;
                 state.token = action.payload?.token ?? null;
                 state.userPseudo = action.payload?.userPseudo;
-                state.loginModal = false;
             })
             .addCase(loginRequest.pending, (state, action) => {
                 // console.log('pending');
@@ -54,8 +48,7 @@ const authSlice = createSlice({
     },
 });
 
-export const { setToken, resetToken, setLoginModal, logout } =
-    authSlice.actions;
+export const { setToken, resetToken, logout } = authSlice.actions;
 export default authSlice.reducer;
 
 export const getAuthState = (state: RootState) => state.auth;

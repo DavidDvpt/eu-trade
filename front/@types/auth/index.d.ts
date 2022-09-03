@@ -4,7 +4,6 @@ interface AuthState {
     isAdmin: boolean;
     userId: number | null;
     userPseudo: string | null;
-    loginModal: boolean;
 }
 
 interface LoginRequest {

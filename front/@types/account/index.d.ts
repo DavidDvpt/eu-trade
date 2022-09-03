@@ -3,6 +3,7 @@ interface User {
     email: string;
     pseudo: string;
     cratedAt: string;
+    datas?: GlobalUserData;
 }
 interface GlobalUserData {
     initialPedCardValue: number;
@@ -10,5 +11,4 @@ interface GlobalUserData {
 interface AccountState {
     user: User | null;
     globalUserData: GlobalUserData | null;
-    accountModal: boolean;
 }

@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import GenericModal from '../../../modals/genericModal';
-import { getAuthState, setLoginModal } from '../../authSlice';
+import { getModalsState, setLoginModal } from '../../../modals/modalSlice';
 import LoginForm from '../loginForm';
 import styles from './loginModal.module.scss';
 
 function LoginModal() {
-    const { loginModal } = useAppSelector(getAuthState);
+    const { loginModal } = useAppSelector(getModalsState);
     const dispatch = useAppDispatch();
 
     const handleClose = () => {

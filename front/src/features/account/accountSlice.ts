@@ -1,53 +1,31 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/store';
-import { AxiosPrivateInstance } from '../../services/AxiosPrivateService';
+import { fetchAuthUser } from './accountModal/thunks';
 
 const initialState: AccountState = {
     user: null,
     globalUserData: null,
-    accountModal: false,
 };
 
-export const fetchAccount = createAsyncThunk(
-    'account/fetchAccount',
-    async (userId: number) => {
-        const request = AxiosPrivateInstance().get<AccountState>(
-            `/users/${userId}`,
-        );
-        return request.then(
-            (response) => {
-                return {
-                    user: response.data.user,
-                    globalUserData: response.data.globalUserData,
-                };
-            },
-            (err) => {
-                console.log(err);
-                return null;
-            },
-        );
-    },
-);
 const account = createSlice({
     name: 'account',
     initialState,
-    reducers: {
-        setAccountModal(state, action: PayloadAction<boolean>) {
-            state.accountModal = action.payload;
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchAccount.fulfilled, (state, action) => {
+        builder.addCase(fetchAuthUser.fulfilled, (state, action) => {
             if (action.payload) {
-                state.user = action.payload?.user;
-                state.globalUserData = action.payload?.globalUserData;
+                const user = action.payload.user;
+                const globalData = user.datas;
+                delete user.datas;
+                state.user = user;
+                state.globalUserData = globalData ?? null;
             }
         });
     },
 });
 
-export const { setAccountModal } = account.actions;
+// export const {} = account.actions;
 export default account.reducer;
 
 export const getAccountState = (state: RootState) => state.account;
