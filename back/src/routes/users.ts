@@ -9,6 +9,8 @@ const router = express.Router();
 router.get('/:userId', getById);
 router.put('/:userId', updateUser);
 router.get('/:userId/sessions', getUserSessions);
+router.get('/:userId/setups', getUserSetups);
+router.get('/:userId/mining_zones', getUserMiningZones);
 router.get('/:userId/global_datas', getUserGlobalData);
 
 jwtVerify(Role.ADMIN);
@@ -137,6 +139,14 @@ function getUserGlobalData(req: Request, res: Response, next: NextFunction) {
         res.status(500);
         next(new Error('Server Error'));
     }
+}
+
+function getUserSetups(req: Request, res: Response, next: NextFunction) {
+    res.status(200).json('get user setups');
+}
+
+function getUserMiningZones(req: Request, res: Response, next: NextFunction) {
+    res.status(200).json('get user mining zones');
 }
 
 export default router;

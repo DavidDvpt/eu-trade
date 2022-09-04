@@ -13,6 +13,15 @@ CREATE TABLE `user` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `globalUserData` (
+    `id` INTEGER NOT NULL,
+    `initialPedCardValue` DOUBLE NOT NULL DEFAULT 0,
+
+    UNIQUE INDEX `globalUserData_id_key`(`id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `category` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
@@ -81,17 +90,45 @@ CREATE TABLE `itemOnFoundOn` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `miningZone` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `userId` INTEGER NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+
+    UNIQUE INDEX `miningZone_name_key`(`name`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `setup` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `finderId` INTEGER NOT NULL,
+    `ampId` INTEGER NOT NULL,
+    `depthEnhancer` INTEGER NOT NULL DEFAULT 0,
+    `rangeEnhancer` INTEGER NOT NULL DEFAULT 0,
+    `skillEnhancer` INTEGER NOT NULL DEFAULT 0,
+    `consomableType` ENUM('PROBE', 'UNIVERSAL_AMMO') NOT NULL,
+    `clicCost` DOUBLE NOT NULL,
+    `miningZoneId` INTEGER NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `session` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `userId` INTEGER NOT NULL,
     `number` INTEGER NOT NULL,
-    `type` ENUM('TRADE', 'MINING') NOT NULL,
+    `type` ENUM('TRADE', 'MINING', 'INIT_STOCK') NOT NULL,
+    `miningType` INTEGER NULL,
     `isOpen` BOOLEAN NOT NULL DEFAULT true,
     `createdAt` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `closedAt` TIMESTAMP(6) NULL,
     `clics` INTEGER NOT NULL,
     `ttCost` FLOAT NOT NULL DEFAULT 0,
     `ttWin` FLOAT NOT NULL DEFAULT 0,
+    `ttcWin` FLOAT NOT NULL DEFAULT 0,
+    `setupId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -101,8 +138,8 @@ CREATE TABLE `sessionLineCost` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `itemId` INTEGER NOT NULL,
     `quantity` INTEGER NOT NULL DEFAULT 0,
+    `setupId` INTEGER NOT NULL,
     `sessionId` INTEGER NOT NULL,
-    `userId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -117,6 +154,9 @@ CREATE TABLE `sessionLineWin` (
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `globalUserData` ADD CONSTRAINT `globalUserData_id_fkey` FOREIGN KEY (`id`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `category` ADD CONSTRAINT `category_familyId_fkey` FOREIGN KEY (`familyId`) REFERENCES `family`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -137,16 +177,31 @@ ALTER TABLE `itemOnFoundOn` ADD CONSTRAINT `itemOnFoundOn_itemId_fkey` FOREIGN K
 ALTER TABLE `itemOnFoundOn` ADD CONSTRAINT `itemOnFoundOn_foundOnId_fkey` FOREIGN KEY (`foundOnId`) REFERENCES `foundOn`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `miningZone` ADD CONSTRAINT `miningZone_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `setup` ADD CONSTRAINT `setup_finderId_fkey` FOREIGN KEY (`finderId`) REFERENCES `item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `setup` ADD CONSTRAINT `setup_ampId_fkey` FOREIGN KEY (`ampId`) REFERENCES `item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `setup` ADD CONSTRAINT `setup_miningZoneId_fkey` FOREIGN KEY (`miningZoneId`) REFERENCES `miningZone`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `session` ADD CONSTRAINT `session_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `session` ADD CONSTRAINT `session_setupId_fkey` FOREIGN KEY (`setupId`) REFERENCES `setup`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `sessionLineCost` ADD CONSTRAINT `sessionLineCost_itemId_fkey` FOREIGN KEY (`itemId`) REFERENCES `item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `sessionLineCost` ADD CONSTRAINT `sessionLineCost_sessionId_fkey` FOREIGN KEY (`sessionId`) REFERENCES `session`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `sessionLineCost` ADD CONSTRAINT `sessionLineCost_setupId_fkey` FOREIGN KEY (`setupId`) REFERENCES `setup`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `sessionLineCost` ADD CONSTRAINT `sessionLineCost_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `sessionLineCost` ADD CONSTRAINT `sessionLineCost_sessionId_fkey` FOREIGN KEY (`sessionId`) REFERENCES `session`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `sessionLineWin` ADD CONSTRAINT `sessionLineWin_itemId_fkey` FOREIGN KEY (`itemId`) REFERENCES `item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
