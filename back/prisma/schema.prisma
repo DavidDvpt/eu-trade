@@ -38,6 +38,7 @@ model user {
 
   session        session[]
   globalUserData globalUserData?
+  miningZone     miningZone[]
 }
 
 model globalUserData {
@@ -119,16 +120,29 @@ model itemOnFoundOn {
   @@id([itemId, foundOnId])
 }
 
+model miningZone {
+  id     Int     @id @default(autoincrement())
+  user   user    @relation(fields: [userId], references: [id])
+  userId Int
+  name   String  @unique
+  setup  setup[]
+}
+
 model setup {
-  id             Int            @id @default(autoincrement())
-  finder         item           @relation("finder", fields: [finderId], references: [id])
-  finderId       Int
-  amp            item           @relation("amp", fields: [ampId], references: [id])
-  ampId          Int
-  depthEnhancer  Int            @default(0)
-  rangeEnhancer  Int            @default(0)
-  skillEnhancer  Int            @default(0)
-  consomableType ConsumableType
+  id              Int               @id @default(autoincrement())
+  finder          item              @relation("finder", fields: [finderId], references: [id])
+  finderId        Int
+  amp             item              @relation("amp", fields: [ampId], references: [id])
+  ampId           Int
+  depthEnhancer   Int               @default(0)
+  rangeEnhancer   Int               @default(0)
+  skillEnhancer   Int               @default(0)
+  consomableType  ConsumableType
+  clicCost        Float
+  miningZoneId    Int?
+  miningZone      miningZone?       @relation(fields: [miningZoneId], references: [id])
+  sessionLineCost sessionLineCost[]
+  session         session[]
 }
 
 model session {
@@ -147,6 +161,8 @@ model session {
   ttcWin          Float             @default(0) @db.Float
   sessionLineWin  sessionLineWin[]
   sessionLineCost sessionLineCost[]
+  setup           setup?            @relation(fields: [setupId], references: [id])
+  setupId         Int?
 }
 
 model sessionLineCost {
@@ -154,6 +170,8 @@ model sessionLineCost {
   item      item    @relation(fields: [itemId], references: [id])
   itemId    Int
   quantity  Int     @default(0)
+  setup     setup   @relation(fields: [setupId], references: [id])
+  setupId   Int
   session   session @relation(fields: [sessionId], references: [id])
   sessionId Int
 }

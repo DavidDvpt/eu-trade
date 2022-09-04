@@ -7,6 +7,7 @@ import familiesRoutes from './families';
 import globalUserDatas from './globalUserDatas';
 import itemsRoutes from './items';
 import LoginRoute from './login';
+import miningZonesRoutes from './miningZones';
 import sessionsRoutes from './sessions';
 import setupRoutes from './setups';
 import usersRoutes from './users';
@@ -26,8 +27,9 @@ router.use('/families', familiesRoutes);
 router.use('/categories', categoriesRoutes);
 router.use('/items', itemsRoutes);
 router.use('/sessions', sessionsRoutes);
-router.use('setup', setupRoutes);
+router.use('/setups', setupRoutes);
 router.use('/global_user_datas', globalUserDatas);
+router.use('/mining_zones', miningZonesRoutes);
 
 router.use('/users', usersRoutes);
 
