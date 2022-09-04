@@ -142,7 +142,26 @@ function getUserGlobalData(req: Request, res: Response, next: NextFunction) {
 }
 
 function getUserSetups(req: Request, res: Response, next: NextFunction) {
-    res.status(200).json('get user setups');
+    try {
+        const id = parseInt(req.params.userId, 10);
+        if (id === req.auth?.userId || req.auth?.role === Role.ADMIN) {
+            prisma.setup
+                .findMany({
+                    where: {
+                        userId: id,
+                    },
+                })
+                .then((response) => {
+                    res.status(200).json(response);
+                });
+        } else {
+            res.status(500);
+            next(new Error('Server Error'));
+        }
+    } catch (error) {
+        res.status(500);
+        next(new Error('Server Error'));
+    }
 }
 
 function getUserMiningZones(req: Request, res: Response, next: NextFunction) {

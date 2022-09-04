@@ -39,6 +39,7 @@ model user {
   session        session[]
   globalUserData globalUserData?
   miningZone     miningZone[]
+  setup          setup[]
 }
 
 model globalUserData {
@@ -130,6 +131,8 @@ model miningZone {
 
 model setup {
   id              Int               @id @default(autoincrement())
+  user            user              @relation(fields: [userId], references: [id])
+  userId          Int
   finder          item              @relation("finder", fields: [finderId], references: [id])
   finderId        Int
   amp             item              @relation("amp", fields: [ampId], references: [id])
