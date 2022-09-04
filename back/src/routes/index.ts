@@ -8,6 +8,7 @@ import globalUserDatas from './globalUserDatas';
 import itemsRoutes from './items';
 import LoginRoute from './login';
 import sessionsRoutes from './sessions';
+import setupRoutes from './setups';
 import usersRoutes from './users';
 
 const router = express.Router();
@@ -25,6 +26,7 @@ router.use('/families', familiesRoutes);
 router.use('/categories', categoriesRoutes);
 router.use('/items', itemsRoutes);
 router.use('/sessions', sessionsRoutes);
+router.use('setup', setupRoutes);
 router.use('/global_user_datas', globalUserDatas);
 
 router.use('/users', usersRoutes);
