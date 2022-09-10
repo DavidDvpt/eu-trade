@@ -92,7 +92,10 @@ const update = (
     if (id === userId) {
         if (name && userId) {
             prisma.miningZone
-                .create({
+                .update({
+                    where: {
+                        id,
+                    },
                     data: {
                         userId,
                         name,
